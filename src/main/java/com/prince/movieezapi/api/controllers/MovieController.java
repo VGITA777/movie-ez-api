@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movie/{movieId}")
 public class MovieController {
 
     private final MoviesRequests moviesRequests;
@@ -17,27 +17,27 @@ public class MovieController {
         this.moviesRequests = httpServiceProxyFactory.createClient(MoviesRequests.class);
     }
 
-    @GetMapping("/alternative-titles/{movieId}")
+    @GetMapping("/alternative-titles")
     public ResponseEntity<?> getMovieAlternativeTitles(@PathVariable long movieId, @RequestParam(required = false) Country country) {
         return ResponseEntity.ok(moviesRequests.getMovieAlternativeTitles(movieId, (country == null) ? "" : country.getIsoCode()));
     }
 
-    @GetMapping("/credits/{movieId}")
+    @GetMapping("/credits")
     public ResponseEntity<?> getMovieCredits(@PathVariable long movieId) {
         return ResponseEntity.ok(moviesRequests.getMovieCredits(movieId));
     }
 
-    @GetMapping("/details/{movieId}")
+    @GetMapping("/details")
     public ResponseEntity<?> getMovieDetails(@PathVariable long movieId, @RequestParam(defaultValue = "en", required = false) Language language) {
         return ResponseEntity.ok(moviesRequests.getMovieDetails(movieId, language.getIsoCode()));
     }
 
-    @GetMapping("/images/{movieId}")
+    @GetMapping("/images")
     public ResponseEntity<?> getMovieImages(@PathVariable long movieId, @RequestParam Language language) {
         return ResponseEntity.ok(moviesRequests.getMovieDetails(movieId, language.getIsoCode()));
     }
 
-    @GetMapping("/keywords/{movieId}")
+    @GetMapping("/keywords")
     public ResponseEntity<?> getMovieKeywords(@PathVariable long movieId) {
         return ResponseEntity.ok(moviesRequests.getMovieKeywords(movieId));
     }
