@@ -1,0 +1,16 @@
+package com.prince.movieezapi;
+
+import com.prince.movieezapi.api.resource.TMDBSettings;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+@EnableConfigurationProperties({TMDBSettings.class})
+@SpringBootApplication
+public class MovieEzApiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MovieEzApiApplication.class, args);
+    }
+
+}
