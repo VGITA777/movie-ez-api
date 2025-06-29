@@ -23,8 +23,8 @@ public class MovieController {
     }
 
     @GetMapping("/credits")
-    public ResponseEntity<?> getMovieCredits(@PathVariable long movieId) {
-        return ResponseEntity.ok(moviesRequests.getMovieCredits(movieId));
+    public ResponseEntity<?> getMovieCredits(@PathVariable long movieId, @RequestParam(defaultValue = "en", required = false) Language language) {
+        return ResponseEntity.ok(moviesRequests.getMovieCredits(movieId, language.getIsoCode()));
     }
 
     @GetMapping("/details")
@@ -33,8 +33,8 @@ public class MovieController {
     }
 
     @GetMapping("/images")
-    public ResponseEntity<?> getMovieImages(@PathVariable long movieId, @RequestParam Language language) {
-        return ResponseEntity.ok(moviesRequests.getMovieDetails(movieId, language.getIsoCode()));
+    public ResponseEntity<?> getMovieImages(@PathVariable long movieId, @RequestParam(required = false) Language language) {
+        return ResponseEntity.ok(moviesRequests.getMovieImages(movieId, (language == null) ? "" : language.getIsoCode()));
     }
 
     @GetMapping("/keywords")

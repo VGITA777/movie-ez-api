@@ -16,13 +16,13 @@ public interface MoviesRequests {
     MovieAlternativeTitlesResponse getMovieAlternativeTitles(@PathVariable("movieId") long movieId, @RequestParam("country") String language);
 
     @GetExchange("/credits")
-    MovieCreditsResponse getMovieCredits(@PathVariable("movieId") long movieId);
+    MovieCreditsResponse getMovieCredits(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange
     MovieDetailsResponse getMovieDetails(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange("/images")
-    MovieImagesResponse getMovieImages(@PathVariable("movieId") long movieId);
+    MovieImagesResponse getMovieImages(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange("/keywords")
     MovieAlternativeTitlesResponse getMovieKeywords(@PathVariable("movieId") long movieId);
