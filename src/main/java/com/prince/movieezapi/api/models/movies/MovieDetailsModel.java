@@ -11,7 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  */
 @Data
-public class MovieDetailsResponse {
+public class MovieDetailsModel {
     private boolean adult;
     private String backdrop_path;
     private BelongsToCollection belongs_to_collection;

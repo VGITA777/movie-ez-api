@@ -11,7 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie Credits API Reference</a>
  */
 @Data
-public class MovieCreditsResponse {
+public class MovieCreditsModel {
     private long id;
     private List<Cast> cast;
     private List<Crew> crew;

@@ -10,7 +10,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-keywords">TMDB Movie Keywords API</a>
  */
 @Data
-public class MovieKeywordsResponse {
+public class MovieKeywordsModel {
     private long id;
     private List<Keyword> keywords;
 

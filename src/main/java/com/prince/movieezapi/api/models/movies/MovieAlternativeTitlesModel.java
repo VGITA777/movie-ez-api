@@ -11,7 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-alternative-titles">Movie Alternative Titles API Reference</a>
  */
 @Data
-public class MovieAlternativeTitlesResponse {
+public class MovieAlternativeTitlesModel {
 
     private long id;
     private List<AlternativeTitle> titles;

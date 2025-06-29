@@ -11,7 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-images">Movie Images API Reference</a>
  */
 @Data
-public class MovieImagesResponse {
+public class MovieImagesModel {
     private long id;
     private List<ImageData> backdrops;
     private List<ImageData> posters;
