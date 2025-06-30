@@ -1,5 +1,6 @@
 package com.prince.movieezapi.api.models.movies;
 
+import com.prince.movieezapi.api.models.shared.Image;
 import lombok.Data;
 
 import java.util.List;
@@ -13,18 +14,7 @@ import java.util.List;
 @Data
 public class MovieImagesModel {
     private long id;
-    private List<ImageData> backdrops;
-    private List<ImageData> posters;
-    private List<ImageData> logos;
-
-    @Data
-    public static class ImageData {
-        private double aspect_ratio;
-        private String file_path;
-        private int height;
-        private String iso_639_1;
-        private double vote_average;
-        private int vote_count;
-        private int width;
-    }
+    private List<Image> backdrops;
+    private List<Image> posters;
+    private List<Image> logos;
 }

@@ -1,5 +1,6 @@
 package com.prince.movieezapi.api.models.movies;
 
+import com.prince.movieezapi.api.models.shared.Keyword;
 import lombok.Data;
 
 import java.util.List;
@@ -13,10 +14,4 @@ import java.util.List;
 public class MovieKeywordsModel {
     private long id;
     private List<Keyword> keywords;
-
-    @Data
-    public static class Keyword {
-        private long id;
-        private String name;
-    }
 }
