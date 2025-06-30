@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * Response model for The Movie Database (TMDB) API's TV series details endpoint.
  * Contains detailed information about a specific TV series including its basic info, production details, and statistics.
+ *
+ * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -8,6 +8,12 @@ import com.prince.movieezapi.api.models.enums.MediaType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Response model for The Movie Database (TMDB) API's TV series endpoints that return short details with media type.
+ * Extends TvSeriesShortDetailsModel and adds media type information.
+ *
+ * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series API Reference</a>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TvSeriesShortDetailsModelWithMediaTypeModel extends TvSeriesShortDetailsModel {

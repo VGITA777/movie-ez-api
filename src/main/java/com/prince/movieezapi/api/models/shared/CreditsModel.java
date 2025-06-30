@@ -5,10 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Response model for The Movie Database (TMDB) API's movie credits endpoint.
- * Contains a list of cast and crew members for a specific movie.
+ * Response model for The Movie Database (TMDB) API's credits endpoints.
+ * Contains a list of cast and crew members for a specific movie or TV series.
  *
- * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie CreditsModel API Reference</a>
+ * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie Credits API Reference</a>
+ * @see <a href="https://developer.themoviedb.org/reference/tv-series-credits">TV Series Credits API Reference</a>
  */
 @Data
 public class CreditsModel {

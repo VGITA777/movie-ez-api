@@ -4,6 +4,13 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Base model for short details of media (movies and TV series) containing common properties.
+ * This model serves as a parent class for both MovieShortDetailsModel and TvSeriesShortDetailsModel.
+ *
+ * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
+ * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
+ */
 @Data
 public class MediaShortDetailsModel {
     private boolean adult;

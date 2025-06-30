@@ -7,6 +7,9 @@ import java.util.List;
 /**
  * Base model for media details (movies and TV series) containing common properties.
  * This model serves as a parent class for both MovieDetailsModel and TvSeriesDetailsModel.
+ *
+ * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
+ * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
 @Data
 public class MediaDetailsModel {
