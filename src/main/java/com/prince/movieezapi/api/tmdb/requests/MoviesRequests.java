@@ -1,6 +1,9 @@
 package com.prince.movieezapi.api.tmdb.requests;
 
 import com.prince.movieezapi.api.models.movies.*;
+import com.prince.movieezapi.api.models.shared.CreditsModel;
+import com.prince.movieezapi.api.models.shared.ImagesModel;
+import com.prince.movieezapi.api.models.shared.VideosModel;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
@@ -13,16 +16,16 @@ public interface MoviesRequests {
     MovieAlternativeTitlesModel getMovieAlternativeTitles(@PathVariable("movieId") long movieId, @RequestParam("country") String language);
 
     @GetExchange("/{movieId}/credits")
-    MovieCreditsModel getMovieCredits(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+    CreditsModel getMovieCredits(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange("/{movieId}")
     MovieDetailsModel getMovieDetails(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange("/{movieId}/images")
-    MovieImagesModel getMovieImages(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+    ImagesModel getMovieImages(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 
     @GetExchange("/{movieId}/keywords")
-    MovieAlternativeTitlesModel getMovieKeywords(@PathVariable("movieId") long movieId);
+    MovieKeywordsModel getMovieKeywords(@PathVariable("movieId") long movieId);
 
     @GetExchange("/latest")
     MovieLatestModel getLatest();
@@ -34,5 +37,5 @@ public interface MoviesRequests {
     MovieSimilarModel getMovieSimilar(@PathVariable("movieId") long movieId, @RequestParam("language") String language, @RequestParam("page") int page);
 
     @GetExchange("/{movieId}/videos")
-    MovieVideosModel getMovieVideos(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+    VideosModel getMovieVideos(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
 }

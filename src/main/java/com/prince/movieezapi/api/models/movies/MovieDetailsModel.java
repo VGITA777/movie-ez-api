@@ -1,5 +1,10 @@
 package com.prince.movieezapi.api.models.movies;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prince.movieezapi.api.jsondeserializers.StringToMediaTypeDeserializer;
+import com.prince.movieezapi.api.jsonserializer.MediaTypeToStringSerializer;
+import com.prince.movieezapi.api.models.enums.MediaType;
 import com.prince.movieezapi.api.models.shared.MediaDetailsModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +27,9 @@ public class MovieDetailsModel extends MediaDetailsModel {
     private int runtime;
     private String title;
     private boolean video;
+    @JsonDeserialize(using = StringToMediaTypeDeserializer.class)
+    @JsonSerialize(using = MediaTypeToStringSerializer.class)
+    private MediaType media_type = MediaType.MOVIE;
 
     @Data
     public static class BelongsToCollection {

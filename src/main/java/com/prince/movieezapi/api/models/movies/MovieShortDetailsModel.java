@@ -1,23 +1,14 @@
 package com.prince.movieezapi.api.models.movies;
 
+import com.prince.movieezapi.api.models.shared.MediaShortDetailsModel;
 import lombok.Data;
-
-import java.util.List;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class MovieShortDetailsModel {
-    private boolean adult;
-    private String backdrop_path;
-    private long id;
+@EqualsAndHashCode(callSuper = true)
+public class MovieShortDetailsModel extends MediaShortDetailsModel {
     private String title;
     private String original_title;
-    private String overview;
-    private String poster_path;
-    private String original_language;
-    private List<Integer> genre_ids;
-    private double popularity;
     private String release_date;
     private boolean video;
-    private double vote_average;
-    private int vote_count;
 }

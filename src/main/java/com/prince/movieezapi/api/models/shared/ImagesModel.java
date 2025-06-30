@@ -1,6 +1,5 @@
-package com.prince.movieezapi.api.models.movies;
+package com.prince.movieezapi.api.models.shared;
 
-import com.prince.movieezapi.api.models.shared.Image;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-images">Movie Images API Reference</a>
  */
 @Data
-public class MovieImagesModel {
+public class ImagesModel {
     private long id;
     private List<Image> backdrops;
     private List<Image> posters;

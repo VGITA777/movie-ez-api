@@ -1,9 +1,8 @@
 package com.prince.movieezapi.api.models.movies;
 
-import com.prince.movieezapi.api.models.shared.Keyword;
+import com.prince.movieezapi.api.models.shared.Keywords;
 import lombok.Data;
-
-import java.util.List;
+import lombok.EqualsAndHashCode;
 
 /**
  * Response model for movie keywords from TMDB API.
@@ -11,7 +10,6 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-keywords">TMDB Movie Keywords API</a>
  */
 @Data
-public class MovieKeywordsModel {
-    private long id;
-    private List<Keyword> keywords;
+@EqualsAndHashCode(callSuper = true)
+public class MovieKeywordsModel extends Keywords {
 }

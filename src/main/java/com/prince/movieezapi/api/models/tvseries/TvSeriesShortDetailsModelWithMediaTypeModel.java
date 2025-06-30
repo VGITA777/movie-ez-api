@@ -1,4 +1,4 @@
-package com.prince.movieezapi.api.models.movies;
+package com.prince.movieezapi.api.models.tvseries;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MovieShortDetailsWithMediaTypeModel extends MovieShortDetailsModel {
+public class TvSeriesShortDetailsModelWithMediaTypeModel extends TvSeriesShortDetailsModel {
     @JsonDeserialize(using = StringToMediaTypeDeserializer.class)
     @JsonSerialize(using = MediaTypeToStringSerializer.class)
-    private MediaType media_type = MediaType.MOVIE;
+    private MediaType media_type = MediaType.TV;
 }

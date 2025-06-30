@@ -1,4 +1,4 @@
-package com.prince.movieezapi.api.models.movies;
+package com.prince.movieezapi.api.models.shared;
 
 import lombok.Data;
 
@@ -8,10 +8,10 @@ import java.util.List;
  * Response model for The Movie Database (TMDB) API's movie credits endpoint.
  * Contains a list of cast and crew members for a specific movie.
  *
- * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie Credits API Reference</a>
+ * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie CreditsModel API Reference</a>
  */
 @Data
-public class MovieCreditsModel {
+public class CreditsModel {
     private long id;
     private List<Cast> cast;
     private List<Crew> crew;
