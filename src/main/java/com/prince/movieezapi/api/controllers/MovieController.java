@@ -1,6 +1,6 @@
 package com.prince.movieezapi.api.controllers;
 
-import com.prince.movieezapi.api.http.requests.MoviesRequests;
+import com.prince.movieezapi.api.tmdb.requests.MoviesRequests;
 import com.prince.movieezapi.api.models.enums.Country;
 import com.prince.movieezapi.api.models.enums.Language;
 import org.springframework.http.ResponseEntity;

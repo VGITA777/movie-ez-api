@@ -1,4 +1,4 @@
-package com.prince.movieezapi.api.http.requests;
+package com.prince.movieezapi.api.tmdb.requests;
 
 import com.prince.movieezapi.api.models.movies.*;
 import org.springframework.web.bind.annotation.PathVariable;

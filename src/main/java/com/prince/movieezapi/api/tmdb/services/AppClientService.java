@@ -1,4 +1,4 @@
-package com.prince.movieezapi.api.http;
+package com.prince.movieezapi.api.tmdb.services;
 
 import com.prince.movieezapi.api.resource.TMDBSettings;
 import org.springframework.context.annotation.Bean;
