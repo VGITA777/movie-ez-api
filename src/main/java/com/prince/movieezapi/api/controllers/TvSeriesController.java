@@ -1,5 +1,6 @@
 package com.prince.movieezapi.api.controllers;
 
+import com.prince.movieezapi.api.models.enums.Language;
 import com.prince.movieezapi.api.tmdb.requests.TvSeriesRequests;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,21 +46,21 @@ public class TvSeriesController {
 
     @GetMapping("/{seriesId}/recommendations")
     public ResponseEntity<?> getTvSeriesRecommendations(@PathVariable long seriesId,
-                                                        @RequestParam(defaultValue = "en", required = false) String language,
+                                                        @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                         @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesRecommendations(seriesId, language, page));
+        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/similar")
     public ResponseEntity<?> getTvSeriesSimilar(@PathVariable long seriesId,
-                                                @RequestParam(defaultValue = "en", required = false) String language,
+                                                @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                 @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesSimilar(seriesId, language, page));
+        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/videos")
     public ResponseEntity<?> getTvSeriesVideos(@PathVariable long seriesId,
-                                               @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesVideos(seriesId, language));
+                                               @RequestParam(value = "language", defaultValue = "en", required = false) Language language) {
+        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesVideos(seriesId, language.getIsoCode()));
     }
 }
