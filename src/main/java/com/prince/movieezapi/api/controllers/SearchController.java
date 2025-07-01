@@ -1,21 +1,22 @@
 package com.prince.movieezapi.api.controllers;
 
 import com.prince.movieezapi.api.models.enums.Language;
-import com.prince.movieezapi.api.tmdb.requests.SearchRequests;
+import com.prince.movieezapi.api.tmdb.services.SearchRequestsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @RestController
 @RequestMapping("/v1/search")
 public class SearchController {
-    private final SearchRequests searchRequests;
+    private final SearchRequestsService searchRequestsService;
 
-    public SearchController(HttpServiceProxyFactory httpServiceProxyFactory) {
-        this.searchRequests = httpServiceProxyFactory.createClient(SearchRequests.class);
+    @Autowired
+    public SearchController(SearchRequestsService searchRequestsService) {
+        this.searchRequestsService = searchRequestsService;
     }
 
     @GetMapping("/movie")
@@ -26,7 +27,7 @@ public class SearchController {
                                          @RequestParam(value = "page", defaultValue = "1", required = false) int page,
                                          @RequestParam(value = "region", required = false) String region,
                                          @RequestParam(value = "year", required = false) Integer year) {
-        return ResponseEntity.ok(searchRequests.searchMovies(query, includeAdult, language.getIsoCode(), primaryReleaseYear, page, region, year));
+        return ResponseEntity.ok(searchRequestsService.searchMovies(query, includeAdult, language.getIsoCode(), primaryReleaseYear, page, region, year));
     }
 
     @GetMapping("/tv")
@@ -36,7 +37,7 @@ public class SearchController {
                                             @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
                                             @RequestParam(value = "year", required = false) Integer year) {
-        return ResponseEntity.ok(searchRequests.searchTvSeries(query, firstAirDateYear, includeAdult, language.getIsoCode(), page, year));
+        return ResponseEntity.ok(searchRequestsService.searchTvSeries(query, firstAirDateYear, includeAdult, language.getIsoCode(), page, year));
     }
 
     @GetMapping("/multi")
@@ -44,6 +45,6 @@ public class SearchController {
                                          @RequestParam(value = "include_adult", defaultValue = "false", required = false) boolean includeAdult,
                                          @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                          @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(searchRequests.searchMulti(query, includeAdult, language.getIsoCode(), page));
+        return ResponseEntity.ok(searchRequestsService.searchMulti(query, includeAdult, language.getIsoCode(), page));
     }
 }

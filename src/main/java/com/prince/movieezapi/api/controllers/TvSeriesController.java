@@ -1,66 +1,67 @@
 package com.prince.movieezapi.api.controllers;
 
 import com.prince.movieezapi.api.models.enums.Language;
-import com.prince.movieezapi.api.tmdb.requests.TvSeriesRequests;
+import com.prince.movieezapi.api.tmdb.services.TvSeriesRequestsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @RestController
 @RequestMapping("/v1/tv-series")
 public class TvSeriesController {
-    private final TvSeriesRequests tvSeriesRequests;
+    private final TvSeriesRequestsService tvSeriesRequestsService;
 
-    public TvSeriesController(HttpServiceProxyFactory httpServiceProxyFactory) {
-        this.tvSeriesRequests = httpServiceProxyFactory.createClient(TvSeriesRequests.class);
+    @Autowired
+    public TvSeriesController(TvSeriesRequestsService tvSeriesRequestsService) {
+        this.tvSeriesRequestsService = tvSeriesRequestsService;
     }
 
     @GetMapping("/{seriesId}/credits")
     public ResponseEntity<?> getTvSeriesCredits(@PathVariable long seriesId,
                                                 @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesCredits(seriesId, language));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesCredits(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/details")
     public ResponseEntity<?> getTvSeriesDetails(@PathVariable long seriesId,
                                                 @RequestParam(defaultValue = "en", required = false) String language) {
 
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesDetails(seriesId, language));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesDetails(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/images")
     public ResponseEntity<?> getTvSeriesImages(@PathVariable long seriesId,
                                                @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesImages(seriesId, language));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesImages(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/keywords")
     public ResponseEntity<?> getTvSeriesKeywords(@PathVariable long seriesId) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesKeywords(seriesId));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesKeywords(seriesId));
     }
 
     @GetMapping("/latest")
     public ResponseEntity<?> getLatestTvSeries() {
-        return ResponseEntity.ok(tvSeriesRequests.getLatestTvSeries());
+        return ResponseEntity.ok(tvSeriesRequestsService.getLatestTvSeries());
     }
 
     @GetMapping("/{seriesId}/recommendations")
     public ResponseEntity<?> getTvSeriesRecommendations(@PathVariable long seriesId,
                                                         @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                         @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/similar")
     public ResponseEntity<?> getTvSeriesSimilar(@PathVariable long seriesId,
                                                 @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                 @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/videos")
     public ResponseEntity<?> getTvSeriesVideos(@PathVariable long seriesId,
                                                @RequestParam(value = "language", defaultValue = "en", required = false) Language language) {
-        return ResponseEntity.ok(tvSeriesRequests.getTvSeriesVideos(seriesId, language.getIsoCode()));
+        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesVideos(seriesId, language.getIsoCode()));
     }
 }
