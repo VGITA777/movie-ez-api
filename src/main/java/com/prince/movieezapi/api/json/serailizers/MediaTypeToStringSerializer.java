@@ -1,4 +1,4 @@
-package com.prince.movieezapi.api.jsonserializer;
+package com.prince.movieezapi.api.json.serailizers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

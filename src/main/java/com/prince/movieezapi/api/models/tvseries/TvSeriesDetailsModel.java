@@ -2,8 +2,8 @@ package com.prince.movieezapi.api.models.tvseries;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.prince.movieezapi.api.jsondeserializers.StringToMediaTypeDeserializer;
-import com.prince.movieezapi.api.jsonserializer.MediaTypeToStringSerializer;
+import com.prince.movieezapi.api.json.deserializers.StringToMediaTypeDeserializer;
+import com.prince.movieezapi.api.json.serailizers.MediaTypeToStringSerializer;
 import com.prince.movieezapi.api.models.enums.MediaType;
 import com.prince.movieezapi.api.models.shared.MediaDetailsModel;
 import lombok.Data;
