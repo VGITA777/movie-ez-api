@@ -2,6 +2,7 @@ package com.prince.movieezapi.api.controllers;
 
 import com.prince.movieezapi.api.models.enums.Language;
 import com.prince.movieezapi.api.tmdb.services.TvSeriesRequestsService;
+import com.prince.movieezapi.api.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +20,25 @@ public class TvSeriesController {
     @GetMapping("/{seriesId}/credits")
     public ResponseEntity<?> getTvSeriesCredits(@PathVariable long seriesId,
                                                 @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesCredits(seriesId, language));
+        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesCredits(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/details")
     public ResponseEntity<?> getTvSeriesDetails(@PathVariable long seriesId,
                                                 @RequestParam(defaultValue = "en", required = false) String language) {
 
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesDetails(seriesId, language));
+        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesDetails(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/images")
     public ResponseEntity<?> getTvSeriesImages(@PathVariable long seriesId,
                                                @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesImages(seriesId, language));
+        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesImages(seriesId, language));
     }
 
     @GetMapping("/{seriesId}/keywords")
     public ResponseEntity<?> getTvSeriesKeywords(@PathVariable long seriesId) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesKeywords(seriesId));
+        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesKeywords(seriesId));
     }
 
     @GetMapping("/latest")
@@ -49,19 +50,19 @@ public class TvSeriesController {
     public ResponseEntity<?> getTvSeriesRecommendations(@PathVariable long seriesId,
                                                         @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                         @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
+        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/similar")
     public ResponseEntity<?> getTvSeriesSimilar(@PathVariable long seriesId,
                                                 @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
                                                 @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
+        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
     }
 
     @GetMapping("/{seriesId}/videos")
     public ResponseEntity<?> getTvSeriesVideos(@PathVariable long seriesId,
                                                @RequestParam(value = "language", defaultValue = "en", required = false) Language language) {
-        return ResponseEntity.ok(tvSeriesRequestsService.getTvSeriesVideos(seriesId, language.getIsoCode()));
+        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesVideos(seriesId, language.getIsoCode()));
     }
 }
