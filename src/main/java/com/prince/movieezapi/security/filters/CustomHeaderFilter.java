@@ -31,7 +31,6 @@ public class CustomHeaderFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.getWriter().write(new ObjectMapper().writeValueAsString(new ServerMessageModel("Unauthorized")));
             return;
         }
