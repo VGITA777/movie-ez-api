@@ -1,5 +1,6 @@
 package com.prince.movieezapi.security.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class JwtGeneratorService {
 
     private final NimbusJwtEncoder encoder;
@@ -24,6 +26,7 @@ public class JwtGeneratorService {
     }
 
     public String genToken(Authentication authentication) {
+        log.info("Generating JWT Token for user: {}", authentication.getName());
         List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(Instant.now())
