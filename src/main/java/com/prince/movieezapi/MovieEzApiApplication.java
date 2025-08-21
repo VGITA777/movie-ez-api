@@ -1,6 +1,6 @@
 package com.prince.movieezapi;
 
-import com.prince.movieezapi.api.resource.TMDBSettings;
+import com.prince.movieezapi.media.api.resource.TMDBSettings;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
