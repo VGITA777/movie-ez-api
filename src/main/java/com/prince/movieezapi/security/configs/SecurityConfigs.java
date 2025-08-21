@@ -1,6 +1,6 @@
 package com.prince.movieezapi.security.configs;
 
-import com.prince.movieezapi.security.filters.CustomHeaderFilter;
+import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +23,7 @@ public class SecurityConfigs {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(endpoints -> endpoints.anyRequest().authenticated())
-                .addFilterBefore(new CustomHeaderFilter(), AuthorizationFilter.class)
+                .addFilterBefore(new CustomSecurityHeaderFilter(), AuthorizationFilter.class)
                 .build();
     }
 }

@@ -20,7 +20,7 @@ import java.util.Objects;
  * Main authentication filter for the application.
  * Requires a custom header in the request to be authenticated.
  */
-public class CustomHeaderFilter extends OncePerRequestFilter {
+public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
     public static final String HEADER_VALUE = "WowThisGottaBeTheBestSecurityMeasure101";
