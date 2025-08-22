@@ -1,7 +1,5 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.user.dto.MovieEzUserDto;
-import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,19 +17,17 @@ public class MovieEzUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<MovieEzUserDto> findByEmail(String email) {
-        Optional<MovieEzUserModel> user = movieEzUserRepository.findByEmail(email);
-        return user.map(MovieEzUserDtoMapper::toDto);
+    public Optional<MovieEzUserModel> findByEmail(String email) {
+        return movieEzUserRepository.findByEmail(email);
     }
 
-    public Optional<MovieEzUserDto> findByUsername(String username) {
-        Optional<MovieEzUserModel> user = movieEzUserRepository.findByUsername(username);
-        return user.map(MovieEzUserDtoMapper::toDto);
+    public Optional<MovieEzUserModel> findByUsername(String username) {
+        return movieEzUserRepository.findByUsername(username);
     }
 
-    public Optional<MovieEzUserModel> save(MovieEzUserModel movieEzUserModel) {
+    public MovieEzUserModel save(MovieEzUserModel movieEzUserModel) {
         movieEzUserModel.setPassword(passwordEncoder.encode(movieEzUserModel.getPassword()));
-        return Optional.of(movieEzUserRepository.save(movieEzUserModel));
+        return movieEzUserRepository.save(movieEzUserModel);
     }
 
     public void delete(MovieEzUserModel movieEzUserModel) {

@@ -2,7 +2,6 @@ package com.prince.movieezapi.user.dto.mappers;
 
 import com.prince.movieezapi.user.dto.MovieEzPlaylistContentDto;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
-import com.prince.movieezapi.user.dto.MovieEzUserPlaylistSummaryDto;
 import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 
@@ -10,13 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public final class MovieEzUserPlaylistDtoMapper {
-    private MovieEzUserPlaylistDtoMapper() {
-    }
-
-    public static MovieEzUserPlaylistSummaryDto toSummaryDto(MovieEzUserPlaylistModel entity) {
-        if (entity == null) return null;
-        return new MovieEzUserPlaylistSummaryDto(entity.getId(), entity.getName());
-    }
 
     public static MovieEzUserPlaylistDto toDto(MovieEzUserPlaylistModel entity) {
         if (entity == null) return null;

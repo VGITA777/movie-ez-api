@@ -1,7 +1,5 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
-import com.prince.movieezapi.user.dto.mappers.MovieEzUserPlaylistDtoMapper;
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import com.prince.movieezapi.user.repository.MovieEzUserPlaylistRepository;
 import org.springframework.stereotype.Service;
@@ -17,16 +15,16 @@ public class MovieEzUserPlaylistService {
         this.movieEzUserPlaylistRepository = movieEzUserPlaylistRepository;
     }
 
-    public MovieEzUserPlaylistDto save(MovieEzUserPlaylistModel movieEzUserPlaylistModel) {
-        return MovieEzUserPlaylistDtoMapper.toDto(movieEzUserPlaylistRepository.save(movieEzUserPlaylistModel));
+    public MovieEzUserPlaylistModel save(MovieEzUserPlaylistModel movieEzUserPlaylistModel) {
+        return movieEzUserPlaylistRepository.save(movieEzUserPlaylistModel);
     }
 
-    public List<MovieEzUserPlaylistDto> getAllByEmail(String email) {
-        return movieEzUserPlaylistRepository.findAllByUserEmail(email).stream().map(MovieEzUserPlaylistDtoMapper::toDto).toList();
+    public List<MovieEzUserPlaylistModel> getAllByEmail(String email) {
+        return movieEzUserPlaylistRepository.findAllByUserEmail(email);
     }
 
-    public List<MovieEzUserPlaylistDto> getAllByNameAndEmail(String name, String email) {
-        return movieEzUserPlaylistRepository.findAllByNameAndUserEmail(name, email).stream().map(MovieEzUserPlaylistDtoMapper::toDto).toList();
+    public List<MovieEzUserPlaylistModel> getAllByNameAndEmail(String name, String email) {
+        return movieEzUserPlaylistRepository.findAllByNameAndUserEmail(name, email);
     }
 
     public void deleteById(long id) {

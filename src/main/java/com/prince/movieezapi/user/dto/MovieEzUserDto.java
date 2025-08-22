@@ -6,5 +6,5 @@ public record MovieEzUserDto(
         long id,
         String username,
         String email,
-        List<MovieEzUserPlaylistSummaryDto> playlists
+        List<MovieEzUserPlaylistDto> playlists
 ) {}
