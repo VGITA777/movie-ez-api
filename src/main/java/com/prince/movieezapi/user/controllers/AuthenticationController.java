@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/user/auth")
 public class AuthenticationController {
@@ -21,7 +19,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input) throws IOException {
+    public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input) {
         return userAuthenticationService.authenticateUserWithEmail(input.email(), input.password());
     }
 }

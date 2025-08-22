@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MovieEzUserPlaylistRepository extends JpaRepository<MovieEzUserPlaylistModel, Long> {
     List<MovieEzUserPlaylistModel> findAllByUserEmail(String email);
+
+    List<MovieEzUserPlaylistModel> findAllByNameAndUserEmail(String name, String userEmail);
 }

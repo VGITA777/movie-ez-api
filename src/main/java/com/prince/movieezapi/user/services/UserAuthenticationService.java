@@ -3,6 +3,7 @@ package com.prince.movieezapi.user.services;
 import com.prince.movieezapi.security.services.JwtGeneratorService;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
+import com.prince.movieezapi.user.repository.MovieEzUserRepository;
 import com.prince.movieezapi.user.responses.ServerAuthenticationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,9 +22,9 @@ import java.util.List;
 public class UserAuthenticationService {
     private final JwtGeneratorService jwtGeneratorService;
     private final PasswordEncoder bCryptPasswordEncoder;
-    private final MovieEzUserService movieEzUserService;
+    private final MovieEzUserRepository movieEzUserService;
 
-    public UserAuthenticationService(JwtGeneratorService jwtGeneratorService, PasswordEncoder bCryptPasswordEncoder, MovieEzUserService movieEzUserService) {
+    public UserAuthenticationService(JwtGeneratorService jwtGeneratorService, PasswordEncoder bCryptPasswordEncoder, MovieEzUserService ignoredMovieEzUserService, MovieEzUserRepository movieEzUserService) {
         this.jwtGeneratorService = jwtGeneratorService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.movieEzUserService = movieEzUserService;

@@ -2,7 +2,7 @@ package com.prince.movieezapi.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.security.models.ServerMessageModel;
-import com.prince.movieezapi.security.tokens.EzMovieAuthenticationToken;
+import com.prince.movieezapi.security.tokens.MovieEzAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
             return;
         }
 
-        Authentication authentication = new EzMovieAuthenticationToken();
+        Authentication authentication = new MovieEzAuthenticationToken();
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);

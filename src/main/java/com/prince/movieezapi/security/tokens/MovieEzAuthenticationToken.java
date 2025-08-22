@@ -4,8 +4,8 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 import java.util.Collections;
 
-public class EzMovieAuthenticationToken extends AbstractAuthenticationToken {
-    public EzMovieAuthenticationToken() {
+public class MovieEzAuthenticationToken extends AbstractAuthenticationToken {
+    public MovieEzAuthenticationToken() {
         super(Collections.emptyList());
     }
 
@@ -26,6 +26,6 @@ public class EzMovieAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public void setAuthenticated(boolean authenticated) {
-        throw new IllegalArgumentException("Cannot change authenticated state of EzMovieAuthenticationToken");
+        throw new IllegalArgumentException("Cannot change authenticated state of MovieEzAuthenticationToken");
     }
 }
