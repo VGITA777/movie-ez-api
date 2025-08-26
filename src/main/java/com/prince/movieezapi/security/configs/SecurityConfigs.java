@@ -5,9 +5,11 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
+import com.prince.movieezapi.security.filters.JwtCookieAuthenticationFilter;
 import com.prince.movieezapi.security.models.RsaKeyPair;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +31,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
+    private final JwtCookieAuthenticationFilter jwtCookieAuthenticationFilter;
+
+    public SecurityConfigs(@Lazy JwtCookieAuthenticationFilter jwtCookieAuthenticationFilter) {
+        this.jwtCookieAuthenticationFilter = jwtCookieAuthenticationFilter;
+    }
+
     @Bean
     @Order(1)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -45,6 +53,7 @@ public class SecurityConfigs {
                     endpoints.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2ResourceServerConfigurer -> oauth2ResourceServerConfigurer.jwt(Customizer.withDefaults()))
+                .addFilterBefore(jwtCookieAuthenticationFilter, AuthorizationFilter.class)
                 .build();
     }
 
