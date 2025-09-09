@@ -20,7 +20,7 @@ public class BaseController {
      * */
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleBadCredentialsException(CredentialException e) {
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServerAuthenticationResponse("Authentication Failed", "Invalid Credentials", false));
     }
 
