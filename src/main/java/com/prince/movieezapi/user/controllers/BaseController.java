@@ -51,4 +51,9 @@ public class BaseController {
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ServerAuthenticationResponse("User Not Found", e.getMessage(), false));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ServerAuthenticationResponse("Invalid Input", e.getMessage(), false));
+    }
 }
