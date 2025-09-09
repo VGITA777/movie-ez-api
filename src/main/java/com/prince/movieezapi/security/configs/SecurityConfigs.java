@@ -37,6 +37,7 @@ public class SecurityConfigs {
         this.jwtCookieAuthenticationFilter = jwtCookieAuthenticationFilter;
     }
 
+    // TODO: migrate over to sessions since we're using DB for jwt refresh tokens
     @Bean
     @Order(1)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
