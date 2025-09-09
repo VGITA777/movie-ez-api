@@ -64,6 +64,7 @@ public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
             strategy.setContext(context);
             filterChain.doFilter(request, response);
         } catch (JwtException e) {
+            response.setHeader("WWW-Authenticate", "Bearer error=\"invalid_token\", error_description=\"Invalid or expired JWT token\"");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             strategy.clearContext();
         }
