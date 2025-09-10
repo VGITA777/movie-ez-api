@@ -1,5 +1,9 @@
 package com.prince.movieezapi.shared;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
 public class UserSecurityUtils {
 
     public static int MIN_PASSWORD_LENGTH = 8;
@@ -15,5 +19,16 @@ public class UserSecurityUtils {
 
     public static boolean isEmailValid(String email) {
         return email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    public static UserDetails generateUserDetails(String username, String password) {
+        return User.withUsername(username)
+                .password(password)
+                .authorities(new SimpleGrantedAuthority("USER"))
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(false)
+                .build();
     }
 }

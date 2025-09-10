@@ -1,9 +1,15 @@
 package com.prince.movieezapi.security.configs;
 
+import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
+import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,6 +21,8 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +36,7 @@ public class SecurityConfigs {
         applyCommonSecuritySettings(http);
         return applyCommonSecuritySettings(http)
                 .securityMatcher("/user/**")
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                     csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
@@ -37,6 +45,8 @@ public class SecurityConfigs {
                     endpoints.requestMatchers("/user/auth/**").permitAll();
                     endpoints.anyRequest().authenticated();
                 })
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
                 .build();
     }
 
@@ -54,6 +64,17 @@ public class SecurityConfigs {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            @Lazy MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider,
+            @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider
+    ) {
+        return new ProviderManager(List.of(
+                movieEzUsernameAuthenticationProvider,
+                movieEzEmailAuthenticationProvider
+        ));
     }
 
     private HttpSecurity applyCommonSecuritySettings(HttpSecurity http) throws Exception {
