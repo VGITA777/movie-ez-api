@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,7 +24,8 @@ import java.util.Objects;
 public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
-    public static final String HEADER_VALUE = "WowThisGottaBeTheBestSecurityMeasure101";
+    @Value("${movieez.security.header}")
+    private String HEADER_VALUE;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
