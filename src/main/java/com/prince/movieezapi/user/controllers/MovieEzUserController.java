@@ -1,9 +1,9 @@
 package com.prince.movieezapi.user.controllers;
 
+import com.prince.movieezapi.shared.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
-import com.prince.movieezapi.user.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

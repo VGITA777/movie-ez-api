@@ -1,8 +1,8 @@
 package com.prince.movieezapi.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prince.movieezapi.security.models.ServerMessageModel;
 import com.prince.movieezapi.security.tokens.MovieEzAuthenticationToken;
+import com.prince.movieezapi.shared.responses.ServerMessageResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            response.getWriter().write(new ObjectMapper().writeValueAsString(new ServerMessageModel("Unauthorized")));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ServerMessageResponse("Unauthorized")));
             return;
         }
 

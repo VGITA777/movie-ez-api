@@ -1,4 +1,4 @@
-package com.prince.movieezapi.shared;
+package com.prince.movieezapi.shared.utilities;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

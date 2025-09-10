@@ -1,8 +1,8 @@
 package com.prince.movieezapi.user.controllers;
 
+import com.prince.movieezapi.shared.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserPlaylistDtoMapper;
-import com.prince.movieezapi.user.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.services.MovieEzUserPlaylistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

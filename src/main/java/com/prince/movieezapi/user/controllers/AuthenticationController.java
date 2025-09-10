@@ -1,10 +1,10 @@
 package com.prince.movieezapi.user.controllers;
 
-import com.prince.movieezapi.shared.UserSecurityUtils;
+import com.prince.movieezapi.shared.responses.ServerAuthenticationResponse;
+import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
-import com.prince.movieezapi.user.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.user.services.UserAuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.prince.movieezapi.shared;
+package com.prince.movieezapi.shared.utilities;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,9 +1,9 @@
 package com.prince.movieezapi.user.controllers;
 
+import com.prince.movieezapi.shared.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
-import com.prince.movieezapi.user.responses.ServerAuthenticationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

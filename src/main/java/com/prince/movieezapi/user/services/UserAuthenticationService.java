@@ -1,7 +1,7 @@
 package com.prince.movieezapi.user.services;
 
 import com.prince.movieezapi.security.tokens.MovieEzEmailAuthenticationToken;
-import com.prince.movieezapi.shared.SecurityUtils;
+import com.prince.movieezapi.shared.utilities.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

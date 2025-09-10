@@ -1,4 +1,4 @@
-package com.prince.movieezapi.user.responses;
+package com.prince.movieezapi.shared.responses;
 
 public record ServerGenericResponse(String message, Object details, boolean success) {
     public static ServerGenericResponse success(String message, Object details) {

@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.shared.UserSecurityUtils;
+import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
