@@ -5,6 +5,8 @@ import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
 import com.prince.movieezapi.user.services.UserAuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,7 @@ public class AuthenticationController {
     }
 
     @SneakyThrows
-    public static void validateEmailPasswordInput(EmailPasswordInput input) {
+    private static void validateEmailPasswordInput(EmailPasswordInput input) {
         if (!UserSecurityUtils.isEmailValid(input.email())) {
             throw new MalformedEmailException("Malformed email");
         }
@@ -33,8 +35,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input) {
+    public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
         validateEmailPasswordInput(input);
-        return userAuthenticationService.authenticateUserWithEmail(input.email(), input.password());
+        return userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
     }
 }

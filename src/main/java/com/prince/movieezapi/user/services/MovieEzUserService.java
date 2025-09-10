@@ -53,7 +53,7 @@ public class MovieEzUserService {
         return movieEzUserRepository.existsByUsername(username);
     }
 
-    // TODO: Create a way to invalidate old tokens after password reset
+    // TODO: Invalidate stale sessions after password change
     @Transactional
     public MovieEzUserModel updatePasswordByEmail(String email, String oldPassword, String newPassword) {
         MovieEzUserModel user = findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));

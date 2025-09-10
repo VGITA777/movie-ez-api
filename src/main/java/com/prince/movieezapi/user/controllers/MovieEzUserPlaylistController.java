@@ -5,13 +5,12 @@ import com.prince.movieezapi.user.dto.mappers.MovieEzUserPlaylistDtoMapper;
 import com.prince.movieezapi.user.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.services.MovieEzUserPlaylistService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.stream.Stream;
 
 @RestController
@@ -25,8 +24,9 @@ public class MovieEzUserPlaylistController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllPlaylists(@AuthenticationPrincipal Principal principal) {
-        String email = principal.getName();
+    public ResponseEntity<?> getAllPlaylists(Authentication authentication) {
+        String email = authentication.getName();
+        System.out.println("CURRENT PRINCIPAL: " + authentication.getPrincipal().toString());
         Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByEmail(email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
                 new ServerGenericResponse("Playlists", response, true)
@@ -34,8 +34,8 @@ public class MovieEzUserPlaylistController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<?> getPlaylistByName(@AuthenticationPrincipal Principal principal, @PathVariable String name) {
-        String email = principal.getName();
+    public ResponseEntity<?> getPlaylistByName(@PathVariable String name, Authentication authentication) {
+        String email = authentication.getName();
         Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByNameAndEmail(name, email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
                 new ServerGenericResponse("Playlist", response, true)
