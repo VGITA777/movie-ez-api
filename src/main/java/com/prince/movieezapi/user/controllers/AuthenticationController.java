@@ -4,6 +4,7 @@ import com.prince.movieezapi.shared.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
+import com.prince.movieezapi.user.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.user.services.UserAuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,6 +38,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
         validateEmailPasswordInput(input);
-        return userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
+        userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
+        return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 }

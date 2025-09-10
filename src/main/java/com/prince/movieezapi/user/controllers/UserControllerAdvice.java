@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.security.auth.login.CredentialException;
 
 @ControllerAdvice
-public class BaseController {
+public class UserControllerAdvice {
 
     /*
      *   Authentication Exceptions Handling
@@ -21,39 +21,31 @@ public class BaseController {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServerAuthenticationResponse("Authentication Failed", "Invalid Credentials", false));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure("Invalid Credentials", e.getMessage()));
     }
 
     @ExceptionHandler(CredentialException.class)
     public ResponseEntity<?> handleCredentialException(CredentialException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServerAuthenticationResponse("Authentication Failed", e.getMessage(), false));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure("Authentication Failed", e.getMessage()));
     }
-
-    /*
-     *   Controller Inputs Exceptions Handling
-     * */
 
     @ExceptionHandler(MalformedEmailException.class)
     public ResponseEntity<?> handleMalformedEmailException(MalformedEmailException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ServerAuthenticationResponse("Invalid Email", e.getMessage(), false));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Email", e.getMessage()));
     }
 
     @ExceptionHandler(MalformedPasswordException.class)
     public ResponseEntity<?> handleMalformedPasswordException(MalformedPasswordException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ServerAuthenticationResponse("Invalid Password", e.getMessage(), false));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Password", e.getMessage()));
     }
-
-    /*
-     *   User Related Exceptions Handling
-     * */
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ServerAuthenticationResponse("User Not Found", e.getMessage(), false));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure("User Not Found", e.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ServerAuthenticationResponse("Invalid Input", e.getMessage(), false));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Input", e.getMessage()));
     }
 }
