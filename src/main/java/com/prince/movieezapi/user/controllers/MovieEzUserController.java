@@ -3,6 +3,7 @@ package com.prince.movieezapi.user.controllers;
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
+import com.prince.movieezapi.user.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,7 +26,7 @@ public class MovieEzUserController {
         String email = authentication.getName();
         MovieEzUserModel user = movieEzUserService.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
         MovieEzUserDto mapped = MovieEzUserDtoMapper.toDto(user);
-        return ResponseEntity.ok().body(mapped);
+        return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }
 
 }

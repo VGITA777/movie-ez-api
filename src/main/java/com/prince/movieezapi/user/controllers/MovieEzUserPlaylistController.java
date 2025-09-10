@@ -29,7 +29,7 @@ public class MovieEzUserPlaylistController {
         System.out.println("CURRENT PRINCIPAL: " + authentication.getPrincipal().toString());
         Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByEmail(email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
-                new ServerGenericResponse("Playlists", response, true)
+                ServerGenericResponse.success("Playlists", response)
         );
     }
 
@@ -38,7 +38,7 @@ public class MovieEzUserPlaylistController {
         String email = authentication.getName();
         Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByNameAndEmail(name, email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
-                new ServerGenericResponse("Playlist", response, true)
+                ServerGenericResponse.success("Playlist", response)
         );
     }
 }

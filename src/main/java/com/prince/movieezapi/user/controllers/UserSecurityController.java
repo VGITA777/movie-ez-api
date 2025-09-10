@@ -25,7 +25,7 @@ public class UserSecurityController {
         String email = principal.getName();
         validateUpdatePasswordInput(input, email);
         movieEzUserService.updatePasswordByEmail(email, input.oldPassword(), input.newPassword());
-        return ResponseEntity.ok(new ServerGenericResponse("Password updated successfully", null, true));
+        return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
     }
 
     private void validateUpdatePasswordInput(UpdatePasswordInput input, String email) {
