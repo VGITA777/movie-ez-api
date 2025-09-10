@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +29,6 @@ import java.util.List;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
-    // TODO: migrate over to sessions since we're using DB for jwt refresh tokens
     @Bean
     @Order(1)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -72,6 +72,11 @@ public class SecurityConfigs {
                 movieEzUsernameAuthenticationProvider,
                 movieEzEmailAuthenticationProvider
         ));
+    }
+
+    @Bean
+    public HttpSessionSecurityContextRepository httpSessionSecurityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
     }
 
     private HttpSecurity applyCommonSecuritySettings(HttpSecurity http) throws Exception {
