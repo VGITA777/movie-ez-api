@@ -1,15 +1,19 @@
 package com.prince.movieezapi.security.authprovider;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Collection;
 
 @Slf4j
 public abstract class MovieEzAuthenticationProvider implements AuthenticationProvider {
@@ -36,6 +40,15 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
         }
 
         log.info("Authentication successful for user: {}", authentication.getName());
-        return UsernamePasswordAuthenticationToken.authenticated(userDetails, null, userDetails.getAuthorities());
+        eraseCredentials(userDetails);
+        return createAuthenticatedToken(userDetails, userDetails.getAuthorities());
     }
+
+    private void eraseCredentials(UserDetails userDetails) {
+        if (userDetails instanceof CredentialsContainer credentialsContainer) {
+            credentialsContainer.eraseCredentials();
+        }
+    }
+
+    protected abstract AbstractAuthenticationToken createAuthenticatedToken(Object principal, Collection<? extends GrantedAuthority> authorities);
 }
