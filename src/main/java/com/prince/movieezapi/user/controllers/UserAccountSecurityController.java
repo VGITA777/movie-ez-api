@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("/user/security")
-public class UserSecurityController {
+@RequestMapping("/user/account/security")
+public class UserAccountSecurityController {
     private final MovieEzUserService movieEzUserService;
 
-    public UserSecurityController(MovieEzUserService movieEzUserService) {
+    public UserAccountSecurityController(MovieEzUserService movieEzUserService) {
         this.movieEzUserService = movieEzUserService;
     }
 
