@@ -3,11 +3,15 @@ package com.prince.movieezapi.security.configs;
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
 import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.utilities.BasicUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +47,16 @@ public class SecurityConfigs {
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                     csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
+                })
+                .logout(logout -> {
+                    logout.logoutUrl("/user/auth/logout");
+                    logout.deleteCookies("XSRF-TOKEN", "SESSION");
+                    logout.invalidateHttpSession(true);
+                    logout.clearAuthentication(true);
+                    logout.logoutSuccessHandler((request, response, authentication) -> {
+                        BasicUtils.sendJson(HttpStatus.OK, ServerGenericResponse.success("Successfully logged out", null), response);
+                    });
+                    logout.permitAll();
                 })
                 .authorizeHttpRequests(endpoints -> {
                     endpoints.requestMatchers("/user/auth/**").permitAll();
