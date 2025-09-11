@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
-import com.prince.movieezapi.shared.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.models.MovieEzUserModel;

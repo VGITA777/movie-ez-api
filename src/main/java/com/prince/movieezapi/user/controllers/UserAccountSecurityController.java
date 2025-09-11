@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
-import com.prince.movieezapi.shared.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.services.MovieEzUserService;

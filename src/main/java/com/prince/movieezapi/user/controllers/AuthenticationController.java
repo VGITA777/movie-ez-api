@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
-import com.prince.movieezapi.shared.responses.ServerAuthenticationResponse;
+import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
