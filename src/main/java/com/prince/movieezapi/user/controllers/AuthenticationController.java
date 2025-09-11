@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +41,10 @@ public class AuthenticationController {
         validateEmailPasswordInput(input);
         userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
+    }
+
+    @GetMapping("/csrf")
+    public ResponseEntity<?> getCsrfToken() {
+        return ResponseEntity.ok(ServerAuthenticationResponse.success("CSRF token fetched", null));
     }
 }
