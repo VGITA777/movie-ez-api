@@ -14,7 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 
 /**
  * Main authentication filter for the application.
@@ -23,20 +24,23 @@ import java.util.Objects;
 public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
-    private String headerValue;
+    private byte[] headerBytesValue;
 
     public CustomSecurityHeaderFilter(String headerValue) {
-        this.headerValue = headerValue;
+        assert headerBytesValue != null : "Header bytes value cannot be null";
+        this.headerBytesValue = headerValue.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestHeader = request.getHeader(HEADER_NAME);
-        if (!Objects.equals(requestHeader, headerValue)) {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json");
-            response.getWriter().write(new ObjectMapper().writeValueAsString(ServerGenericResponse.failure("Unauthorized", null)));
+        if (requestHeader == null) {
+            sendJsonError(response, HttpStatus.UNAUTHORIZED.value(), "What are you doing?");
+            return;
+        }
+        boolean ok = MessageDigest.isEqual(requestHeader.getBytes(StandardCharsets.UTF_8), headerBytesValue);
+        if (!ok) {
+            sendJsonError(response, HttpStatus.UNAUTHORIZED.value(), "Maybe try something else?");
             return;
         }
 
@@ -46,5 +50,12 @@ public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
         SecurityContextHolder.setContext(context);
 
         filterChain.doFilter(request, response);
+    }
+
+    private void sendJsonError(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(ServerGenericResponse.failure(message, null)));
     }
 }
