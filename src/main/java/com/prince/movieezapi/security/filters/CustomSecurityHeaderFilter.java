@@ -1,8 +1,8 @@
 package com.prince.movieezapi.security.filters;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.security.tokens.MovieEzAuthenticationToken;
-import com.prince.movieezapi.shared.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,10 +52,7 @@ public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void sendJsonError(HttpServletResponse response, int status, String message) throws IOException {
-        response.setStatus(status);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(ServerGenericResponse.failure(message, null)));
+    private void sendJsonError(HttpServletResponse response, int status, String message) {
+        BasicUtils.sendJson(HttpStatus.valueOf(status), ServerGenericResponse.failure(message, null), response);
     }
 }
