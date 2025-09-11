@@ -3,6 +3,7 @@ package com.prince.movieezapi.security.configs;
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
 import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -29,6 +30,9 @@ import java.util.List;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
+    @Value("${movieez.security.header}")
+    private String mediaSecurityHeader;
+
     @Bean
     @Order(1)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -54,7 +58,7 @@ public class SecurityConfigs {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(endpoints -> endpoints.anyRequest().authenticated())
-                .addFilterBefore(new CustomSecurityHeaderFilter(), AuthorizationFilter.class)
+                .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader), AuthorizationFilter.class)
                 .build();
     }
 
