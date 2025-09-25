@@ -8,7 +8,6 @@ services:
       MYSQL_DATABASE: app
     ports:
       - "3306:3306"
-    restart: always
 
 volumes:
   db_data:
