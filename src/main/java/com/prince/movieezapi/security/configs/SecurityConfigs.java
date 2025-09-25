@@ -5,7 +5,6 @@ import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthentication
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
