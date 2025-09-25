@@ -33,7 +33,7 @@ import java.util.List;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
-    @Value("${movieez.security.header}")
+    @Value("${movieez.security.header:WowThisGottaBeTheBestSecurityMeasure101}")
     private String mediaSecurityHeader;
 
     @Bean
