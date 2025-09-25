@@ -1,6 +1,7 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.security.tokens.MovieEzEmailAuthenticationToken;
+import com.prince.movieezapi.security.tokens.MovieEzEmailPasswordAuthenticationToken;
+import com.prince.movieezapi.security.tokens.MovieEzUsernamePasswordAuthenticationToken;
 import com.prince.movieezapi.shared.utilities.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +24,17 @@ public class UserAuthenticationService {
 
     public void authenticateUserWithEmail(String email, String password, HttpServletRequest request, HttpServletResponse response) {
         log.info("Authenticating user with email: {}", email);
-        MovieEzEmailAuthenticationToken unauthenticated = new MovieEzEmailAuthenticationToken(email, password);
+        MovieEzEmailPasswordAuthenticationToken unauthenticated = MovieEzEmailPasswordAuthenticationToken.unauthenticated(email, password);
         Authentication authenticated = authenticationManager.authenticate(unauthenticated);
         SecurityUtils.setCurrentAuthentication(authenticated, securityContextRepository, request, response);
         log.info("Authentication successful for user with email: {}", email);
     }
 
-    // TODO: Create username login
+    public void authenticateUserWithUsername(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+        log.info("Authenticating user with username: {}", username);
+        MovieEzUsernamePasswordAuthenticationToken unauthenticated = MovieEzUsernamePasswordAuthenticationToken.unauthenticated(username, password);
+        Authentication authenticated = authenticationManager.authenticate(unauthenticated);
+        SecurityUtils.setCurrentAuthentication(authenticated, securityContextRepository, request, response);
+        log.info("Authentication successful for user with username: {}", username);
+    }
 }

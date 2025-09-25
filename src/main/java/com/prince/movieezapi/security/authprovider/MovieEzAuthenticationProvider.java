@@ -28,8 +28,15 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
         log.info("Authenticating user: {}", authentication.getName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+        UserDetails userDetails;
+
+        try {
+            userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+        } catch (UsernameNotFoundException e) {
+            return null;
+        }
 
         if (userDetails == null) {
             throw new UsernameNotFoundException("User not found: " + authentication.getName());

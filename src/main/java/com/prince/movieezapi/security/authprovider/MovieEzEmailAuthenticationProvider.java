@@ -1,7 +1,7 @@
 package com.prince.movieezapi.security.authprovider;
 
 import com.prince.movieezapi.security.services.MovieEzEmailUserDetailsService;
-import com.prince.movieezapi.security.tokens.MovieEzEmailAuthenticationToken;
+import com.prince.movieezapi.security.tokens.MovieEzEmailPasswordAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,11 +17,11 @@ public class MovieEzEmailAuthenticationProvider extends MovieEzAuthenticationPro
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return MovieEzEmailAuthenticationToken.class.isAssignableFrom(authentication);
+        return MovieEzEmailPasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
     @Override
     protected AbstractAuthenticationToken createAuthenticatedToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        return new MovieEzEmailAuthenticationToken(principal, null, authorities);
+        return MovieEzEmailPasswordAuthenticationToken.authenticated(principal, null, authorities);
     }
 }
