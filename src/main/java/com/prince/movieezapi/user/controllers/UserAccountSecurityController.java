@@ -6,7 +6,7 @@ import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ public class UserAccountSecurityController {
         this.movieEzUserService = movieEzUserService;
     }
 
-    @PostMapping("/update-password")
+    @PatchMapping("/update-password")
     public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication principal) {
         String email = principal.getName();
         validateUpdatePasswordInput(input, email);

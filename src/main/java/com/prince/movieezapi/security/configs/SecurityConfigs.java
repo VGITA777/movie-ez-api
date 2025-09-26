@@ -59,6 +59,7 @@ public class SecurityConfigs {
                 })
                 .authorizeHttpRequests(endpoints -> {
                     endpoints.requestMatchers("/user/auth/**").permitAll();
+                    endpoints.requestMatchers("/user/register/**").permitAll();
                     endpoints.anyRequest().authenticated();
                 })
                 .build();
