@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.security.auth.login.CredentialException;
+import java.sql.SQLException;
 
 @ControllerAdvice
 public class UserControllerAdvice {
@@ -47,5 +48,14 @@ public class UserControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Input", e.getMessage()));
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<?> handleSQLException(SQLException e) {
+        String message = e.getMessage();
+        if (message.contains("Duplicate entry")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure("Conflict", "User already exists"));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure("Database Error", e.getMessage()));
     }
 }
