@@ -26,7 +26,6 @@ public class MovieEzUserPlaylistController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllPlaylists(Authentication authentication) {
         String email = authentication.getName();
-        System.out.println("CURRENT PRINCIPAL: " + authentication.getPrincipal().toString());
         Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByEmail(email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
                 ServerGenericResponse.success("Playlists", response)
