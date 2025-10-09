@@ -1,6 +1,5 @@
 package com.prince.movieezapi.user.dto;
 
-import java.util.Collections;
 import java.util.List;
 
 public record MovieEzUserDto(
