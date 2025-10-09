@@ -1,9 +1,11 @@
 package com.prince.movieezapi.user.services;
 
+import com.prince.movieezapi.security.services.UserSessionService;
 import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class MovieEzUserService {
     private final MovieEzUserRepository movieEzUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserSessionService userSessionService;
 
-    public MovieEzUserService(MovieEzUserRepository movieEzUserRepository, PasswordEncoder passwordEncoder) {
+    public MovieEzUserService(MovieEzUserRepository movieEzUserRepository, PasswordEncoder passwordEncoder, UserSessionService userSessionService) {
         this.movieEzUserRepository = movieEzUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userSessionService = userSessionService;
     }
 
     public Optional<MovieEzUserModel> findByEmail(String email) {
@@ -53,9 +57,8 @@ public class MovieEzUserService {
         return movieEzUserRepository.existsByUsername(username);
     }
 
-    // TODO: Invalidate stale sessions after password change
     @Transactional
-    public MovieEzUserModel updatePasswordByEmail(String email, String oldPassword, String newPassword) {
+    public MovieEzUserModel updatePasswordByEmail(String email, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateOtherSessions) {
         MovieEzUserModel user = findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
         if (!UserSecurityUtils.isPasswordValid(newPassword)) {
             throw new IllegalArgumentException("Password is not valid");
@@ -68,7 +71,11 @@ public class MovieEzUserService {
         }
         String encodedNewPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
-        return movieEzUserRepository.save(user);
+        MovieEzUserModel saved = movieEzUserRepository.save(user);
+        if (invalidateOtherSessions) {
+            userSessionService.deleteAllSessionsByUsernameExcludeSessionId(user.getEmail(), httpSession.getId());
+        }
+        return saved;
     }
 }
 

@@ -25,10 +25,10 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication principal) {
+    public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication principal, HttpSession session) {
         String email = principal.getName();
         validateUpdatePasswordInput(input, email);
-        movieEzUserService.updatePasswordByEmail(email, input.oldPassword(), input.newPassword());
+        movieEzUserService.updatePasswordByEmail(email, input.oldPassword(), input.newPassword(), session, input.invalidateSessions());
         return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
     }
 
