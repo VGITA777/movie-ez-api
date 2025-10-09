@@ -4,10 +4,10 @@ import com.prince.movieezapi.shared.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

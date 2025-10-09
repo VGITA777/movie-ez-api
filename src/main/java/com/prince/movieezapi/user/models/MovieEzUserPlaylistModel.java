@@ -30,7 +30,7 @@ public class MovieEzUserPlaylistModel {
     @JoinColumn(name = "user_id", nullable = false)
     private MovieEzUserModel user;
 
-    @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzPlaylistContentsModel> contents = new ArrayList<>();
 }
