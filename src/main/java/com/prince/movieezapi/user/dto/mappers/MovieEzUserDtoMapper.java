@@ -2,6 +2,7 @@ package com.prince.movieezapi.user.dto.mappers;
 
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistSummaryDto;
+import com.prince.movieezapi.user.dto.MovieEzUserRoleDto;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 
 import java.util.List;
@@ -18,11 +19,18 @@ public final class MovieEzUserDtoMapper {
                 .map(MovieEzUserPlaylistSummaryMapper::toDto)
                 .toList();
 
+        List<MovieEzUserRoleDto> roles = entity.getRoles() == null ? List.of()
+                : entity.getRoles().stream()
+                .filter(Objects::nonNull)
+                .map(MovieEzUserRoleDtoMapper::toDto)
+                .toList();
+
         return new MovieEzUserDto(
                 entity.getId(),
                 entity.getUsername(),
                 entity.getEmail(),
-                playlists
+                playlists,
+                roles
         );
     }
 }
