@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 public class BasicUtils {
 
-    private static final  ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @SneakyThrows
     public static void sendJson(HttpStatus status, Object message, HttpServletResponse response) {

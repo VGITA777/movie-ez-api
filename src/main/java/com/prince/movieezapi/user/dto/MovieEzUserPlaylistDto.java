@@ -7,4 +7,5 @@ public record MovieEzUserPlaylistDto(
         String name,
         long userId,
         List<MovieEzPlaylistContentDto> contents
-) {}
+) {
+}

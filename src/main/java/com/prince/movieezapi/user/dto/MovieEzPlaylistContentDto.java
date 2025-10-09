@@ -4,4 +4,5 @@ public record MovieEzPlaylistContentDto(
         long id,
         long mediaId,
         long playlistId
-) {}
+) {
+}

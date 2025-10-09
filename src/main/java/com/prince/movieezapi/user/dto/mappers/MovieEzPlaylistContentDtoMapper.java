@@ -4,7 +4,8 @@ import com.prince.movieezapi.user.dto.MovieEzPlaylistContentDto;
 import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
 
 public final class MovieEzPlaylistContentDtoMapper {
-    private MovieEzPlaylistContentDtoMapper() {}
+    private MovieEzPlaylistContentDtoMapper() {
+    }
 
     public static MovieEzPlaylistContentDto toDto(MovieEzPlaylistContentsModel entity) {
         if (entity == null) return null;

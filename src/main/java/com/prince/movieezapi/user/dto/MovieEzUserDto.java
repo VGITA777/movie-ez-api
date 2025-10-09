@@ -7,4 +7,5 @@ public record MovieEzUserDto(
         String username,
         String email,
         List<MovieEzUserPlaylistSummaryDto> playlists
-) {}
+) {
+}
