@@ -5,6 +5,7 @@ import com.prince.movieezapi.user.repository.MovieEzUserPlaylistRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MovieEzUserPlaylistService {
@@ -27,7 +28,7 @@ public class MovieEzUserPlaylistService {
         return movieEzUserPlaylistRepository.findAllByNameAndUserEmail(name, email);
     }
 
-    public void deleteById(long id) {
+    public void deleteById(UUID id) {
         movieEzUserPlaylistRepository.deleteById(id);
     }
 

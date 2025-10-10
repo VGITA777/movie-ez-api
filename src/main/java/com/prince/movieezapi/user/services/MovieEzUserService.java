@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovieEzUserService {
@@ -45,7 +46,7 @@ public class MovieEzUserService {
         movieEzUserRepository.delete(movieEzUserModel);
     }
 
-    public void deleteById(long id) {
+    public void deleteById(UUID id) {
         movieEzUserRepository.deleteById(id);
     }
 

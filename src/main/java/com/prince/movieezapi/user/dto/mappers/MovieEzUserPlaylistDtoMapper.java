@@ -7,13 +7,14 @@ import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class MovieEzUserPlaylistDtoMapper {
 
     public static MovieEzUserPlaylistDto toDto(MovieEzUserPlaylistModel entity) {
         if (entity == null) return null;
 
-        long userId = entity.getUser() != null ? entity.getUser().getId() : 0L;
+        UUID userId = entity.getUser() != null ? entity.getUser().getId() : null;
 
         List<MovieEzPlaylistContentDto> contents = entity.getContents() == null ? List.of()
                 : entity.getContents().stream()
@@ -23,8 +24,8 @@ public final class MovieEzUserPlaylistDtoMapper {
 
         return new MovieEzUserPlaylistDto(
                 entity.getId(),
-                entity.getName(),
                 userId,
+                entity.getName(),
                 contents
         );
     }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,8 +16,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "movieez_roles")
 public class MovieEzUserRoleModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(columnDefinition = "BINARY(16)")
+    @Builder.Default
+    private UUID id = UUID.randomUUID();
 
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)

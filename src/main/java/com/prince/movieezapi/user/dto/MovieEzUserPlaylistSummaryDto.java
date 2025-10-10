@@ -1,4 +1,6 @@
 package com.prince.movieezapi.user.dto;
 
-public record MovieEzUserPlaylistSummaryDto(long id, String name) {
+import java.util.UUID;
+
+public record MovieEzUserPlaylistSummaryDto(UUID id, String name) {
 }

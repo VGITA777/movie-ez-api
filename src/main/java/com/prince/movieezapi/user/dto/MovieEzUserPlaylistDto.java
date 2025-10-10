@@ -1,11 +1,12 @@
 package com.prince.movieezapi.user.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 public record MovieEzUserPlaylistDto(
-        long id,
+        UUID id,
+        UUID userId,
         String name,
-        long userId,
         List<MovieEzPlaylistContentDto> contents
 ) {
 }

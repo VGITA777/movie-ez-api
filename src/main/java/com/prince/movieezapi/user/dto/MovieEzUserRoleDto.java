@@ -2,5 +2,7 @@ package com.prince.movieezapi.user.dto;
 
 import com.prince.movieezapi.user.models.MovieEzAppRole;
 
-public record MovieEzUserRoleDto(long id, MovieEzAppRole role) {
+import java.util.UUID;
+
+public record MovieEzUserRoleDto(UUID id, MovieEzAppRole role) {
 }

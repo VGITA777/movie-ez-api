@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovieEzRolesService {
@@ -25,7 +26,7 @@ public class MovieEzRolesService {
         return movieEzRolesRepository.findAll();
     }
 
-    public Optional<MovieEzUserRoleModel> getById(long id) {
+    public Optional<MovieEzUserRoleModel> getById(UUID id) {
         return movieEzRolesRepository.findById(id);
     }
 
@@ -34,7 +35,7 @@ public class MovieEzRolesService {
     }
 
     @Transactional
-    public boolean deleteById(long id) {
+    public boolean deleteById(UUID id) {
         if (!movieEzRolesRepository.existsById(id)) {
             return false;
         }

@@ -5,6 +5,7 @@ import com.prince.movieezapi.user.repository.MovieEzPlaylistContentsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovieEzPlaylistContentsService {
@@ -18,11 +19,11 @@ public class MovieEzPlaylistContentsService {
         return movieEzPlaylistContentsRepository.save(movieEzPlaylistContentsModel);
     }
 
-    public Optional<MovieEzPlaylistContentsModel> get(long id) {
+    public Optional<MovieEzPlaylistContentsModel> get(UUID id) {
         return movieEzPlaylistContentsRepository.findById(id);
     }
 
-    public void delete(long id) {
+    public void delete(UUID id) {
         movieEzPlaylistContentsRepository.deleteById(id);
     }
 

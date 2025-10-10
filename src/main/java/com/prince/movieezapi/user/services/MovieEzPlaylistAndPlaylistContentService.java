@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Slf4j
 public class MovieEzPlaylistAndPlaylistContentService {
@@ -25,7 +27,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      * @throws IllegalArgumentException if the playlist does not exist.
      **/
     @Transactional
-    public MovieEzPlaylistContentsModel saveToPlaylist(long playlistId, long mediaId) {
+    public MovieEzPlaylistContentsModel saveToPlaylist(UUID playlistId, long mediaId) {
         MovieEzUserPlaylistModel playlist = playlistRepository.findById(playlistId).orElseThrow(() -> {
             log.error("Tried to save to a playlist that does not exist: {}", playlistId);
             return new IllegalArgumentException("Playlist not found");
@@ -56,13 +58,13 @@ public class MovieEzPlaylistAndPlaylistContentService {
     /**
      * Deletes a playlist content by id.
      **/
-    public void deletePlaylistContent(long id) {
+    public void deletePlaylistContent(UUID id) {
         playlistContentsRepository.deleteById(id);
     }
 
     /**
      * Deletes a playlist content.
-     * It's the same as using {@link #deletePlaylistContent(long)}
+     * It's the same as using {@link #deletePlaylistContent(UUID)}
      **/
     public void deletePlaylistContent(MovieEzPlaylistContentsModel playlistContent) {
         deletePlaylistContent(playlistContent.getId());
