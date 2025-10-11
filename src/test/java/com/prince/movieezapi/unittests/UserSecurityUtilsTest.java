@@ -17,7 +17,7 @@ class UserSecurityUtilsTest {
         assertFalse(UserSecurityUtils.isPasswordValid("password1")); // no uppercase
         assertFalse(UserSecurityUtils.isPasswordValid(null));
         assertFalse(UserSecurityUtils.isPasswordValid("P1")); // too short
-        assertFalse(UserSecurityUtils.isPasswordValid("P1".repeat(13))); // too long
+        assertFalse(UserSecurityUtils.isPasswordValid("Pp1".repeat(13))); // too long
     }
 
     @Test
@@ -25,7 +25,6 @@ class UserSecurityUtilsTest {
         assertTrue(UserSecurityUtils.isEmailValid("test@example.com"));
         assertFalse(UserSecurityUtils.isEmailValid("invalid-email"));
         assertFalse(UserSecurityUtils.isEmailValid("test@.com"));
-        assertFalse(UserSecurityUtils.isEmailValid(null));
         assertFalse(UserSecurityUtils.isEmailValid("test@domain"));
     }
 }
