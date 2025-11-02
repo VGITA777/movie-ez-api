@@ -1,10 +1,16 @@
-package com.prince.movieezapi.security.tokens;
+package com.prince.movieezapi.security.authenticationtokens;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collections;
 
-public class MovieEzCustomHeaderAuthenticationToken extends AbstractAuthenticationToken {
+public class MovieEzCustomHeaderAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public MovieEzCustomHeaderAuthenticationToken() {
         super(Collections.emptyList());
     }

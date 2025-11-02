@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,8 @@ import java.util.UUID;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class MovieEzUserPlaylistModel {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    @Builder.Default
-    private UUID id = UUID.randomUUID();
+    @UuidGenerator
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -35,4 +35,14 @@ public class MovieEzUserPlaylistModel {
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzPlaylistContentsModel> contents = new ArrayList<>();
+
+    public void addContent(MovieEzPlaylistContentsModel content) {
+        content.setPlaylist(this);
+        this.contents.add(content);
+    }
+
+    public void removeContent(MovieEzPlaylistContentsModel content) {
+        content.setPlaylist(null);
+        this.contents.remove(content);
+    }
 }

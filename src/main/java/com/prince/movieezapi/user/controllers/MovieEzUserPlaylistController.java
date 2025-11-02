@@ -1,5 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserPlaylistDtoMapper;
@@ -25,8 +26,8 @@ public class MovieEzUserPlaylistController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllPlaylists(Authentication authentication) {
-        String email = authentication.getName();
-        Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByEmail(email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
+        UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
+        Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByEmail(userIdentifierModel.email()).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
                 ServerGenericResponse.success("Playlists", response)
         );
@@ -34,8 +35,8 @@ public class MovieEzUserPlaylistController {
 
     @GetMapping("/{name}")
     public ResponseEntity<?> getPlaylistByName(@PathVariable String name, Authentication authentication) {
-        String email = authentication.getName();
-        Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByNameAndEmail(name, email).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
+        UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
+        Stream<MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByNameAndEmail(name, userIdentifierModel.email()).stream().map(MovieEzUserPlaylistDtoMapper::toDto);
         return ResponseEntity.ok().body(
                 ServerGenericResponse.success("Playlist", response)
         );

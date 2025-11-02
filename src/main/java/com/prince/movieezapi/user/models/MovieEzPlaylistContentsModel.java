@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
@@ -16,8 +17,7 @@ import java.util.UUID;
 @Table(name = "movieez_playlist_contents")
 public class MovieEzPlaylistContentsModel {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    @Builder.Default
+    @UuidGenerator
     private UUID id = UUID.randomUUID();
 
     @Column(nullable = false)

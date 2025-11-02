@@ -1,5 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
@@ -23,8 +24,8 @@ public class MovieEzUserController {
 
     @GetMapping("")
     public ResponseEntity<?> getCurrentClient(Authentication authentication) {
-        String email = authentication.getName();
-        MovieEzUserModel user = movieEzUserService.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
+        MovieEzUserModel user = movieEzUserService.findByEmail(userIdentifierModel.email()).orElseThrow(() -> new RuntimeException("User not found with userIdentifierModel: " + userIdentifierModel));
         MovieEzUserDto mapped = MovieEzUserDtoMapper.toDto(user);
         return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }

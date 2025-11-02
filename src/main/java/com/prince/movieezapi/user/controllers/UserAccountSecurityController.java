@@ -1,6 +1,7 @@
 package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.security.services.UserSessionService;
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
@@ -25,8 +26,9 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication principal, HttpSession session) {
-        String email = principal.getName();
+    public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication authentication, HttpSession session) {
+        UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
+        String email = userIdentifierModel.email();
         validateUpdatePasswordInput(input, email);
         movieEzUserService.updatePasswordByEmail(email, input.oldPassword(), input.newPassword(), session, input.invalidateSessions());
         return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
@@ -35,7 +37,7 @@ public class UserAccountSecurityController {
     @GetMapping("/sessions")
     public ResponseEntity<?> getAllSessions(Authentication authentication) {
         return ResponseEntity.ok(ServerGenericResponse.success("All sessions", userSessionService
-                .getSessionsByUser(authentication.getName())
+                .getSessionsByUser(authentication.getPrincipal().toString())
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(

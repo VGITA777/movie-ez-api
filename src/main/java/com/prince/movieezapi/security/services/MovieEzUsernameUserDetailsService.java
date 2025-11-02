@@ -19,7 +19,6 @@ public class MovieEzUsernameUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MovieEzUserModel movieEzUserModel = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
-        return UserSecurityUtils.generateUserDetails(movieEzUserModel.getEmail(), movieEzUserModel.getPassword());
+        return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
 }

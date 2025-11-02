@@ -1,7 +1,7 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.security.tokens.MovieEzEmailPasswordAuthenticationToken;
-import com.prince.movieezapi.security.tokens.MovieEzUsernamePasswordAuthenticationToken;
+import com.prince.movieezapi.security.authenticationtokens.MovieEzEmailPasswordAuthenticationToken;
+import com.prince.movieezapi.security.authenticationtokens.MovieEzUsernamePasswordAuthenticationToken;
 import com.prince.movieezapi.shared.utilities.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package com.prince.movieezapi.security.filters;
 
-import com.prince.movieezapi.security.tokens.MovieEzCustomHeaderAuthenticationToken;
+import com.prince.movieezapi.security.authenticationtokens.MovieEzCustomHeaderAuthenticationToken;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.FilterChain;

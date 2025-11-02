@@ -1,13 +1,9 @@
 package com.prince.movieezapi.security.authprovider;
 
+import com.prince.movieezapi.security.authenticationtokens.MovieEzUsernamePasswordAuthenticationToken;
 import com.prince.movieezapi.security.services.MovieEzUsernameUserDetailsService;
-import com.prince.movieezapi.security.tokens.MovieEzUsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class MovieEzUsernameAuthenticationProvider extends MovieEzAuthenticationProvider {
@@ -18,10 +14,5 @@ public class MovieEzUsernameAuthenticationProvider extends MovieEzAuthentication
     @Override
     public boolean supports(Class<?> authentication) {
         return MovieEzUsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    @Override
-    protected AbstractAuthenticationToken createAuthenticatedToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        return MovieEzUsernamePasswordAuthenticationToken.authenticated(principal, null, authorities);
     }
 }

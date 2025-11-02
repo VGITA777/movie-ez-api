@@ -1,15 +1,20 @@
-package com.prince.movieezapi.security.tokens;
+package com.prince.movieezapi.security.authenticationtokens;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * Custom authentication token for email-based authentication.
  * This token is used to carry email credentials through the authentication process.
  */
-public class MovieEzEmailPasswordAuthenticationToken extends AbstractAuthenticationToken {
+public class MovieEzEmailPasswordAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private final Object principal;
     private final Object credentials;

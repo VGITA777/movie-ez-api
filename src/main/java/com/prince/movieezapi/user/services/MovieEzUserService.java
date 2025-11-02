@@ -34,6 +34,7 @@ public class MovieEzUserService {
         return movieEzUserRepository.findByUsername(username);
     }
 
+    @Transactional
     public MovieEzUserModel save(MovieEzUserModel movieEzUserModel) {
         if (!UserSecurityUtils.isPasswordValid(movieEzUserModel.getPassword())) {
             throw new IllegalArgumentException("Password is not valid");

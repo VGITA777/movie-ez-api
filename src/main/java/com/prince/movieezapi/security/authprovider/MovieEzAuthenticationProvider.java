@@ -1,19 +1,18 @@
 package com.prince.movieezapi.security.authprovider;
 
+import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
+import com.prince.movieezapi.user.models.MovieEzUserModel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.CredentialsContainer;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Collection;
 
 @Slf4j
 public abstract class MovieEzAuthenticationProvider implements AuthenticationProvider {
@@ -30,10 +29,11 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         log.info("Authenticating user: {}", authentication.getName());
-        UserDetails userDetails;
+        MovieEzUserModel userDetails;
 
         try {
-            userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+            UserDetails searchResult = userDetailsService.loadUserByUsername(authentication.getName());
+            userDetails = (MovieEzUserModel) searchResult;
         } catch (UsernameNotFoundException e) {
             return null;
         }
@@ -48,7 +48,8 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
 
         log.info("Authentication successful for user: {}", authentication.getName());
         eraseCredentials(userDetails);
-        return createAuthenticatedToken(userDetails, userDetails.getAuthorities());
+        UserIdentifierModel userIdentifier = new UserIdentifierModel(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail());
+        return new MovieEzFullyAuthenticatedUser(userIdentifier, userDetails.getAuthorities());
     }
 
     private void eraseCredentials(UserDetails userDetails) {
@@ -56,6 +57,4 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
             credentialsContainer.eraseCredentials();
         }
     }
-
-    protected abstract AbstractAuthenticationToken createAuthenticatedToken(Object principal, Collection<? extends GrantedAuthority> authorities);
 }
