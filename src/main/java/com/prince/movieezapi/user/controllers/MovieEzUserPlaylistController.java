@@ -9,7 +9,9 @@ import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import com.prince.movieezapi.user.services.MovieEzPlaylistAndPlaylistContentService;
 import com.prince.movieezapi.user.services.MovieEzUserPlaylistService;
 import com.prince.movieezapi.user.validators.annotations.Alphanumeric;
+import com.prince.movieezapi.user.validators.annotations.Required;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,13 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok().body(
                 ServerGenericResponse.success("Playlists", response)
         );
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createPlaylist(@Alphanumeric @RequestParam(name = "name") @Valid String name, @AuthenticationPrincipal UUID uuid) {
+        MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.createPlaylist(name, uuid);
+        MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
+        return ResponseEntity.ok(ServerGenericResponse.success("Playlist created successfully", mapped));
     }
 
     @GetMapping("/{playlistName}")
