@@ -1,14 +1,12 @@
 package com.prince.movieezapi.user.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
+@EqualsAndHashCode
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +16,12 @@ import java.util.UUID;
 public class MovieEzPlaylistContentsModel {
     @Id
     @UuidGenerator
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(nullable = false)
-    private long mediaId;
+    private String mediaId;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playlist_id", nullable = false)
     private MovieEzUserPlaylistModel playlist;
