@@ -6,7 +6,6 @@ import com.prince.movieezapi.user.exceptions.PlaylistNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
-import com.prince.movieezapi.user.repository.MovieEzPlaylistContentsRepository;
 import com.prince.movieezapi.user.repository.MovieEzUserPlaylistRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +18,9 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class MovieEzPlaylistAndPlaylistContentService {
-    private final MovieEzPlaylistContentsRepository playlistContentsRepository;
     private final MovieEzUserPlaylistRepository playlistRepository;
 
-    public MovieEzPlaylistAndPlaylistContentService(MovieEzPlaylistContentsRepository playlistContentsRepository, MovieEzUserPlaylistRepository playlistRepository) {
-        this.playlistContentsRepository = playlistContentsRepository;
+    public MovieEzPlaylistAndPlaylistContentService(MovieEzUserPlaylistRepository playlistRepository) {
         this.playlistRepository = playlistRepository;
     }
 
