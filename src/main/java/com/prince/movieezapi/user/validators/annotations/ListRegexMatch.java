@@ -1,0 +1,25 @@
+package com.prince.movieezapi.user.validators.annotations;
+
+import com.prince.movieezapi.user.validators.ListRegexMatchValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Constraint(validatedBy = {ListRegexMatchValidator.class})
+public @interface ListRegexMatch {
+    String message() default "Invalid or Malformed String from the list";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String[] patterns() default {};
+
+    boolean matchAll() default false;
+}
