@@ -1,9 +1,5 @@
 package com.prince.movieezapi.shared.utilities;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-
 public class UserSecurityUtils {
 
     public static int MIN_PASSWORD_LENGTH = 8;

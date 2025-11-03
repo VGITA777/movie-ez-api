@@ -1,7 +1,5 @@
 package com.prince.movieezapi.security.services;
 
-import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
-import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

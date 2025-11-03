@@ -3,7 +3,6 @@ package com.prince.movieezapi.user.controllers;
 import com.prince.movieezapi.security.services.UserSessionService;
 import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
-import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
 import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.services.MovieEzUserService;
