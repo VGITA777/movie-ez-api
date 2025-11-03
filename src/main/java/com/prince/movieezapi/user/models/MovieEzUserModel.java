@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,14 +20,18 @@ import java.util.UUID;
 @Entity
 @Table(name = "movieez_users")
 public class MovieEzUserModel implements UserDetails {
+
     @Id
     @UuidGenerator
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private String username;
 
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private String email;
 
     @Column(nullable = false)
@@ -45,12 +49,10 @@ public class MovieEzUserModel implements UserDetails {
     @Column(nullable = false)
     private boolean isEnabled;
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzUserPlaylistModel> playlists = new ArrayList<>();
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzUserRoleModel> roles = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,20 +19,20 @@ import java.util.UUID;
 @Table(name = "movieez_user_playlists")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class MovieEzUserPlaylistModel {
+
     @Id
     @UuidGenerator
+    @EqualsAndHashCode.Include
     private UUID id;
 
     // MAKE SURE THAT EACH USER ONLY HAS ONE PLAYLIST WITH THE SAME NAME
     @Column(nullable = false)
     private String name;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private MovieEzUserModel user;
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzPlaylistContentsModel> contents = new ArrayList<>();

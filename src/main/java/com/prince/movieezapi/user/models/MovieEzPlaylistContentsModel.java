@@ -6,7 +6,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,12 +16,12 @@ import java.util.UUID;
 public class MovieEzPlaylistContentsModel {
     @Id
     @UuidGenerator
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(nullable = false)
     private String mediaId;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playlist_id", nullable = false)
     private MovieEzUserPlaylistModel playlist;

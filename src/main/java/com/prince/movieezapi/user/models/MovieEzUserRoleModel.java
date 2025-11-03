@@ -6,7 +6,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,6 +17,7 @@ public class MovieEzUserRoleModel {
 
     @Id
     @UuidGenerator
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(nullable = false, unique = true)
