@@ -4,6 +4,7 @@ import com.prince.movieezapi.shared.models.responses.ServerAuthenticationRespons
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
+import com.prince.movieezapi.user.exceptions.NotFoundException;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -67,6 +68,11 @@ public class UserControllerAdvice {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure("Conflict", "User already exists"));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure("Database Error", e.getMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundException(NotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure("Playlist Error", e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

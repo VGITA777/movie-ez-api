@@ -2,9 +2,11 @@ package com.prince.movieezapi.user.services;
 
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import com.prince.movieezapi.user.repository.MovieEzUserPlaylistRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,19 +22,16 @@ public class MovieEzUserPlaylistService {
         return movieEzUserPlaylistRepository.save(movieEzUserPlaylistModel);
     }
 
-    public List<MovieEzUserPlaylistModel> getAllByEmail(String email) {
-        return movieEzUserPlaylistRepository.findAllByUserEmail(email);
+    public List<MovieEzUserPlaylistModel> getAllByUserId(UUID userId) {
+        return movieEzUserPlaylistRepository.findAllByUserId(userId);
     }
 
-    public List<MovieEzUserPlaylistModel> getAllByNameAndEmail(String name, String email) {
-        return movieEzUserPlaylistRepository.findAllByNameAndUserEmail(name, email);
+    public Optional<MovieEzUserPlaylistModel> getByNameAndUserId(String playlistName, UUID userId) {
+        return movieEzUserPlaylistRepository.findByNameAndUserId(playlistName, userId);
     }
 
-    public void deleteById(UUID id) {
-        movieEzUserPlaylistRepository.deleteById(id);
-    }
-
-    public void delete(MovieEzUserPlaylistModel movieEzUserPlaylistModel) {
-        movieEzUserPlaylistRepository.delete(movieEzUserPlaylistModel);
+    @Transactional
+    public boolean delete(String playlistName, UUID userId) {
+        return movieEzUserPlaylistRepository.deleteByNameAndUserId(playlistName, userId) > 0;
     }
 }
