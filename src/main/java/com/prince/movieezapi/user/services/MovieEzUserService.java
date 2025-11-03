@@ -62,8 +62,8 @@ public class MovieEzUserService {
     }
 
     @Transactional
-    public MovieEzUserModel updatePasswordById(UUID id, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateOtherSessions, boolean invalidateAllSessions) {
-        MovieEzUserModel user = findByEmail(id.toString()).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+    public MovieEzUserModel updatePasswordById(UUID id, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateSessions, boolean invalidateAllSessions) {
+        MovieEzUserModel user = findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new BadCredentialsException("Old password does not match");
         }
@@ -73,11 +73,13 @@ public class MovieEzUserService {
         String encodedNewPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
         MovieEzUserModel saved = movieEzUserRepository.save(user);
-        if (invalidateAllSessions) {
-            userSessionService.deleteAllSessionsByPrincipalName(user.getId());
-        }
-        if (!invalidateAllSessions && invalidateOtherSessions) {
-            userSessionService.deleteAllSessionsByPrincipalNameExcludeSessionId(user.getId(), httpSession.getId());
+
+        if (invalidateSessions) {
+            if (invalidateAllSessions) {
+                userSessionService.deleteAllSessionsByPrincipalName(user.getId());
+            } else {
+                userSessionService.deleteAllSessionsByPrincipalNameExcludeSessionId(user.getId(), httpSession.getId());
+            }
         }
         return saved;
     }
