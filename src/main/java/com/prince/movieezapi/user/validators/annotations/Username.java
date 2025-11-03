@@ -19,7 +19,7 @@ public @interface Username {
 
     Class<? extends Payload>[] payload() default {};
 
-    int minLength() default 8;
+    int minLength() default 4;
 
     int maxLength() default 32;
 }
