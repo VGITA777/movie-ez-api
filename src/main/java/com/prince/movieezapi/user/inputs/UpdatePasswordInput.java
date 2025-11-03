@@ -1,4 +1,6 @@
 package com.prince.movieezapi.user.inputs;
 
-public record UpdatePasswordInput(String oldPassword, String newPassword, boolean invalidateSessions) {
+import com.prince.movieezapi.user.validators.annotations.Password;
+
+public record UpdatePasswordInput(@Password String oldPassword, @Password String newPassword, boolean invalidateSessions) {
 }

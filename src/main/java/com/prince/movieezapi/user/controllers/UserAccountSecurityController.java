@@ -8,6 +8,7 @@ import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
 import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,10 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePasswordByEmail(@RequestBody UpdatePasswordInput input, Authentication authentication, HttpSession session) {
+    public ResponseEntity<?> updatePasswordByEmail(@RequestBody @Valid UpdatePasswordInput input, Authentication authentication, HttpSession session) {
         UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
         String email = userIdentifierModel.email();
-        validateUpdatePasswordInput(input, email);
+        validateUpdatePasswordInput(input);
         movieEzUserService.updatePasswordByEmail(email, input.oldPassword(), input.newPassword(), session, input.invalidateSessions());
         return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
     }
@@ -70,16 +71,7 @@ public class UserAccountSecurityController {
         return ResponseEntity.ok(ServerGenericResponse.success("All sessions invalidated successfully except current", null));
     }
 
-    private void validateUpdatePasswordInput(UpdatePasswordInput input, String email) {
-        if (!UserSecurityUtils.isPasswordValid(input.newPassword())) {
-            throw new IllegalArgumentException("New password is not valid");
-        }
-        if (!UserSecurityUtils.isPasswordValid(input.oldPassword())) {
-            throw new IllegalArgumentException("Old password is not valid");
-        }
-        if (!UserSecurityUtils.isEmailValid(email)) {
-            throw new IllegalArgumentException("Email is not valid");
-        }
+    private void validateUpdatePasswordInput(UpdatePasswordInput input) {
         if (input.newPassword().equals(input.oldPassword())) {
             throw new IllegalArgumentException("New password cannot be the same as old password");
         }

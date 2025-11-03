@@ -1,17 +1,21 @@
 package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.security.auth.login.CredentialException;
 import java.sql.SQLException;
+import java.util.List;
 
 @ControllerAdvice
 public class UserControllerAdvice {
@@ -57,5 +61,17 @@ public class UserControllerAdvice {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure("Conflict", "User already exists"));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure("Database Error", e.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+        List<String> errors = e.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .filter(message -> message != null && !message.isBlank())
+                .distinct()
+                .toList();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure("Invalid Input", errors));
     }
 }

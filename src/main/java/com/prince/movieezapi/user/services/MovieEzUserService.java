@@ -1,7 +1,6 @@
 package com.prince.movieezapi.user.services;
 
 import com.prince.movieezapi.security.services.UserSessionService;
-import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
@@ -36,9 +35,6 @@ public class MovieEzUserService {
 
     @Transactional
     public MovieEzUserModel save(MovieEzUserModel movieEzUserModel) {
-        if (!UserSecurityUtils.isPasswordValid(movieEzUserModel.getPassword())) {
-            throw new IllegalArgumentException("Password is not valid");
-        }
         movieEzUserModel.setPassword(passwordEncoder.encode(movieEzUserModel.getPassword()));
         return movieEzUserRepository.save(movieEzUserModel);
     }
@@ -62,9 +58,6 @@ public class MovieEzUserService {
     @Transactional
     public MovieEzUserModel updatePasswordByEmail(String email, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateOtherSessions) {
         MovieEzUserModel user = findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
-        if (!UserSecurityUtils.isPasswordValid(newPassword)) {
-            throw new IllegalArgumentException("Password is not valid");
-        }
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new BadCredentialsException("Old password does not match");
         }

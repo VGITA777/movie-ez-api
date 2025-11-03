@@ -1,57 +1,73 @@
 package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
-import com.prince.movieezapi.shared.utilities.UserSecurityUtils;
-import com.prince.movieezapi.user.exceptions.MalformedEmailException;
-import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
+import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
 import com.prince.movieezapi.user.inputs.UsernamePasswordInput;
 import com.prince.movieezapi.user.services.UserAuthenticationService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.SneakyThrows;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+
 @Controller
 @RequestMapping("/user/auth")
 public class AuthenticationController {
 
     private final UserAuthenticationService userAuthenticationService;
+    private final SecurityContextLogoutHandler securityContextLogoutHandler;
+    private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
-    public AuthenticationController(UserAuthenticationService userAuthenticationService) {
+    public AuthenticationController(UserAuthenticationService userAuthenticationService, SecurityContextLogoutHandler securityContextLogoutHandler) {
         this.userAuthenticationService = userAuthenticationService;
-    }
-
-    @SneakyThrows
-    private static void validateEmailPasswordInput(EmailPasswordInput input) {
-        if (!UserSecurityUtils.isEmailValid(input.email())) {
-            throw new MalformedEmailException("Malformed email");
-        }
-        if (!UserSecurityUtils.isPasswordValid(input.password())) {
-            throw new MalformedPasswordException("Malformed password");
-        }
+        this.securityContextLogoutHandler = securityContextLogoutHandler;
     }
 
     @PostMapping("/login/email")
-    public ResponseEntity<?> emailPasswordLogin(@RequestBody EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
-        validateEmailPasswordInput(input);
+    public ResponseEntity<?> emailPasswordLogin(@RequestBody @Valid EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
         userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 
     @PostMapping("/login/username")
-    public ResponseEntity<?> usernamePasswordLogin(@RequestBody UsernamePasswordInput input, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> usernamePasswordLogin(@RequestBody @Valid UsernamePasswordInput input, HttpServletRequest request, HttpServletResponse response) {
         userAuthenticationService.authenticateUserWithUsername(input.username(), input.password(), request, response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = securityContextHolderStrategy.getContext().getAuthentication();
+        securityContextLogoutHandler.logout(request, response, authentication);
+        deleteCookies(request);
+        return ResponseEntity.ok(ServerGenericResponse.success("Successful log out", null));
     }
 
     @GetMapping("/csrf")
     public ResponseEntity<?> getCsrfToken() {
         return ResponseEntity.ok(ServerAuthenticationResponse.success("CSRF token fetched", null));
+    }
+
+    private void deleteCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        Arrays.stream(cookies).forEach(cookie -> {
+            if (cookie.getName().contains("SESSION") || cookie.getName().contains("XSRF")) {
+                cookie.setMaxAge(0);
+                cookie.setValue("");
+                cookie.setPath("/");
+            }
+        });
     }
 }

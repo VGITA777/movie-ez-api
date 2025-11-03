@@ -1,4 +1,7 @@
 package com.prince.movieezapi.user.inputs;
 
-public record UsernamePasswordInput(String username, String password) {
+import com.prince.movieezapi.user.validators.annotations.Password;
+import com.prince.movieezapi.user.validators.annotations.Username;
+
+public record UsernamePasswordInput(@Username String username, @Password String password) {
 }

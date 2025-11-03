@@ -5,6 +5,7 @@ import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.inputs.UserRegistrationInput;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationInput input) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
         MovieEzUserModel newUser = MovieEzUserModel.builder()
                 .username(input.username())
                 .email(input.email())

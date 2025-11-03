@@ -20,15 +20,4 @@ public class UserSecurityUtils {
     public static boolean isEmailValid(String email) {
         return email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
-
-    public static UserDetails generateUserDetails(String username, String password) {
-        return User.withUsername(username)
-                .password(password)
-                .authorities(new SimpleGrantedAuthority("USER"))
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(false)
-                .build();
-    }
 }

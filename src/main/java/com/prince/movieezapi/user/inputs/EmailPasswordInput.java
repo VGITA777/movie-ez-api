@@ -1,4 +1,7 @@
 package com.prince.movieezapi.user.inputs;
 
-public record EmailPasswordInput(String email, String password) {
+import com.prince.movieezapi.user.validators.annotations.Password;
+import jakarta.validation.constraints.Email;
+
+public record EmailPasswordInput(@Email String email, @Password String password) {
 }

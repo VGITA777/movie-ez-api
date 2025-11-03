@@ -1,8 +1,8 @@
 package com.prince.movieezapi.shared.utilities;
 
+import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +17,8 @@ public class SecurityUtils {
     }
 
     public static boolean isAuthenticated() {
-        SecurityContext context = CONTEXT_HOLDER_STRATEGY.getContext();
-        Authentication authentication = context.getAuthentication();
-        return authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken);
+        Authentication authentication = CONTEXT_HOLDER_STRATEGY.getContext().getAuthentication();
+        return authentication instanceof MovieEzFullyAuthenticatedUser;
     }
 
     public static void setCurrentAuthentication(Authentication authenticated, HttpSessionSecurityContextRepository securityContextRepository, HttpServletRequest request, HttpServletResponse response) {
