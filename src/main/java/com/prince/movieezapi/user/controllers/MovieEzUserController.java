@@ -25,7 +25,7 @@ public class MovieEzUserController {
     @GetMapping("")
     public ResponseEntity<?> getCurrentClient(Authentication authentication) {
         UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
-        MovieEzUserModel user = movieEzUserService.findByEmail(userIdentifierModel.email()).orElseThrow(() -> new RuntimeException("User not found with userIdentifierModel: " + userIdentifierModel));
+        MovieEzUserModel user = movieEzUserService.findByEmail(userIdentifierModel.email()).orElseThrow(() -> new RuntimeException("User not found with userIdentifierModel: '" + userIdentifierModel + "'"));
         MovieEzUserDto mapped = MovieEzUserDtoMapper.toDto(user);
         return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }

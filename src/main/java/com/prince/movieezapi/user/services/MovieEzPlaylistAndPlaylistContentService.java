@@ -36,7 +36,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
     public MovieEzUserPlaylistModel createPlaylist(String playlistName, UUID userId) {
         Optional<MovieEzUserPlaylistModel> optionalPlaylist = playlistRepository.findByNameAndUserId(playlistName, userId);
         if (optionalPlaylist.isPresent()) {
-            throw new PlaylistAlreadyExistsException("Playlist with name: " + playlistName + " already exists");
+            throw new PlaylistAlreadyExistsException("Playlist with name: '" + playlistName + "' already exists");
         }
         MovieEzUserModel user = MovieEzUserModel.builder().id(userId).build();
         MovieEzUserPlaylistModel playlist = MovieEzUserPlaylistModel.builder().user(user).name(playlistName).build();
@@ -54,7 +54,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      */
     @Transactional
     public MovieEzUserPlaylistModel addToPlaylist(UUID userId, String playlistName, String trackId) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: " + playlistName + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         MovieEzPlaylistContentsModel playlistContent = MovieEzPlaylistContentsModel.builder().playlist(playlistModel).mediaId(trackId).build();
         playlistModel.addContent(playlistContent);
         return playlistRepository.save(playlistModel);
@@ -71,7 +71,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      */
     @Transactional
     public MovieEzUserPlaylistModel addToPlaylist(UUID userId, UUID playlistId, String trackId) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByIdAndUserId(playlistId, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " + playlistId + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByIdAndUserId(playlistId, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: '" + playlistId + "' does not exists"));
         MovieEzPlaylistContentsModel playlistContent = MovieEzPlaylistContentsModel.builder().playlist(playlistModel).mediaId(trackId).build();
         playlistModel.addContent(playlistContent);
         return playlistRepository.save(playlistModel);
@@ -88,7 +88,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      */
     @Transactional
     public MovieEzUserPlaylistModel addAllToPlaylist(UUID userId, String playlistName, List<String> trackIdList) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: " + playlistName + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         List<MovieEzPlaylistContentsModel> playlistContents = trackIdList.stream().map(trackId -> MovieEzPlaylistContentsModel.builder().playlist(playlistModel).mediaId(trackId).build()).toList();
         playlistModel.addContent(playlistContents);
         return playlistRepository.save(playlistModel);
@@ -104,7 +104,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      * @throws PlaylistContentNotFoundException when removing a content from a playlist that does not exist.
      */
     public MovieEzUserPlaylistModel removeFromPlaylist(UUID userId, String playlistName, UUID mediaId) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: " + playlistName + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         Optional<MovieEzPlaylistContentsModel> foundContent = playlistModel.getContents().stream().filter(content -> content.getId().equals(mediaId)).findFirst();
         if (foundContent.isEmpty()) {
             throw new PlaylistContentNotFoundException("Content with id: " + mediaId + " does not exists in playlist: " + playlistName);
@@ -123,7 +123,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      * @throws PlaylistContentNotFoundException when removing a content from a playlist that does not exist.
      */
     public MovieEzUserPlaylistModel removeFromPlaylist(UUID userId, String playlistName, String trackId) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: " + playlistName + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         Optional<MovieEzPlaylistContentsModel> foundContent = playlistModel.getContents().stream().filter(content -> content.getMediaId().equals(trackId)).findFirst();
         if (foundContent.isEmpty()) {
             throw new PlaylistContentNotFoundException("Content with track id: " + trackId + " does not exists in playlist: " + playlistName);
@@ -142,7 +142,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      * @throws PlaylistContentNotFoundException when removing a content from a playlist that does not exist.
      */
     public MovieEzUserPlaylistModel removeAllFromPlaylist(UUID userId, String playlistName, List<String> trackIdList) {
-        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: " + playlistName + " does not exists"));
+        MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         playlistModel.removeContent(trackIdList);
         return playlistRepository.save(playlistModel);
     }
