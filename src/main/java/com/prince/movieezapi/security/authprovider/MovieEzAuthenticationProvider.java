@@ -29,27 +29,22 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         log.info("Authenticating user: {}", authentication.getName());
-        MovieEzUserModel userDetails;
 
-        try {
-            UserDetails searchResult = userDetailsService.loadUserByUsername(authentication.getName());
-            userDetails = (MovieEzUserModel) searchResult;
-        } catch (UsernameNotFoundException e) {
-            return null;
-        }
 
-        if (userDetails == null) {
+        MovieEzUserModel searchResult = (MovieEzUserModel) userDetailsService.loadUserByUsername(authentication.getName());
+
+        if (searchResult == null) {
             throw new UsernameNotFoundException("User not found: " + authentication.getName());
         }
 
-        if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
+        if (!passwordEncoder.matches(authentication.getCredentials().toString(), searchResult.getPassword())) {
             throw new BadCredentialsException("Invalid password for user: " + authentication.getName());
         }
 
         log.info("Authentication successful for user: {}", authentication.getName());
-        eraseCredentials(userDetails);
-        UserIdentifierModel userIdentifier = new UserIdentifierModel(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail());
-        return new MovieEzFullyAuthenticatedUser(userIdentifier, userDetails.getAuthorities());
+        eraseCredentials(searchResult);
+        UserIdentifierModel userIdentifier = new UserIdentifierModel(searchResult.getId(), searchResult.getUsername(), searchResult.getEmail());
+        return new MovieEzFullyAuthenticatedUser(userIdentifier, searchResult.getAuthorities());
     }
 
     private void eraseCredentials(UserDetails userDetails) {
