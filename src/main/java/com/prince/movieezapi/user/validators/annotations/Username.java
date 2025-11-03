@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {UsernameValidator.class})
 public @interface Username {
-    String message() default "Invalid or Malformed Username";
+    String message() default "{constraint.Username.message}";
 
     Class<?>[] groups() default {};
 

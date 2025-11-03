@@ -4,8 +4,8 @@ import com.prince.movieezapi.user.validators.annotations.Password;
 import com.prince.movieezapi.user.validators.annotations.Required;
 
 public record UpdatePasswordInput(
-        @Required(message = "'oldPassword' field is required") @Password(message = "Old password is invalid") String oldPassword,
-        @Required(message = "'newPassword' field is required") @Password(message = "New password is invalid") String newPassword,
-        @Required(message = "'invalidateSessions' field is required") boolean invalidateSessions,
+        @Required(fieldName = "oldPassword") @Password(message = "Old password is invalid") String oldPassword,
+        @Required(fieldName = "newPassword") @Password(message = "New password is invalid") String newPassword,
+        @Required(fieldName = "invalidateSessions") boolean invalidateSessions,
         boolean invalidateAllSessions) {
 }

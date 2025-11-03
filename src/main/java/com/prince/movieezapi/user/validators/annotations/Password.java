@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {PasswordValidator.class})
 public @interface Password {
-    String message() default "Invalid or Malformed Password";
+    String message() default "{constraint.Password.message}";
 
     Class<?>[] groups() default {};
 

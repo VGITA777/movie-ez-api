@@ -13,7 +13,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {RequiredValidator.class})
 public @interface Required {
-    String message() default "This field is required!";
+    String fieldName() default "";
+
+    String message() default "{constraint.Required.message}";
 
     Class<?>[] groups() default {};
 

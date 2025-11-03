@@ -5,7 +5,7 @@ import com.prince.movieezapi.user.validators.annotations.Required;
 import com.prince.movieezapi.user.validators.annotations.Username;
 import jakarta.validation.constraints.Email;
 
-public record UserRegistrationInput(@Required(message = "'username' field is required") @Username String username,
-                                    @Required(message = "'email' field is required") @Email String email,
-                                    @Required(message = "'password' field is required") @Password String password) {
+public record UserRegistrationInput(@Required(fieldName = "username") @Username String username,
+                                    @Required(fieldName = "email") @Email String email,
+                                    @Required(fieldName = "password") @Password String password) {
 }

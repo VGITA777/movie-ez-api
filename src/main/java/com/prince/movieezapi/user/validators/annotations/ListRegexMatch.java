@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = {ListRegexMatchValidator.class})
 public @interface ListRegexMatch {
-    String message() default "Invalid or Malformed String from the list";
+    String message() default "{constraint.ListRegexMatch.message}";
 
     Class<?>[] groups() default {};
 
