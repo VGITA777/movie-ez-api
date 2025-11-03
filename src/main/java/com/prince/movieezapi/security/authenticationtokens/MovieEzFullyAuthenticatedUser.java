@@ -42,7 +42,7 @@ public class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationToken i
     }
 
     @Override
-    public Object getDetails() {
+    public UserIdentifierModel getDetails() {
         return userIdentifierModel;
     }
 
