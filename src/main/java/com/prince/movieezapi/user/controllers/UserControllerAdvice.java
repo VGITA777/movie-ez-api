@@ -6,6 +6,8 @@ import com.prince.movieezapi.user.exceptions.MalformedEmailException;
 import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
 import com.prince.movieezapi.user.exceptions.NotFoundException;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,57 +24,94 @@ import java.util.List;
 @ControllerAdvice
 public class UserControllerAdvice {
 
+    private final MessageSource messageSource;
+
+    public UserControllerAdvice(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     /*
      *   Authentication Exceptions Handling
      * */
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure("User Not Found", e.getMessage()));
+        String title = msg("auth.userNotFound.title", "User Not Found");
+        String base = msg("auth.userNotFound.message", "No matching user account found.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure("Invalid Credentials", e.getMessage()));
+        String title = msg("auth.badCredentials.title", "Invalid Credentials");
+        String base = msg("auth.badCredentials.message", "The username or password is incorrect.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(CredentialException.class)
     public ResponseEntity<?> handleCredentialException(CredentialException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure("Authentication Failed", e.getMessage()));
+        String title = msg("auth.credentialFailure.title", "Authentication Failed");
+        String base = msg("auth.credentialFailure.message", "Authentication could not be completed.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(MalformedEmailException.class)
     public ResponseEntity<?> handleMalformedEmailException(MalformedEmailException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Email", e.getMessage()));
+        String title = msg("auth.invalidEmail.title", "Invalid Email");
+        String base = msg("auth.invalidEmail.message", "Provided email is not valid.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(MalformedPasswordException.class)
     public ResponseEntity<?> handleMalformedPasswordException(MalformedPasswordException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Password", e.getMessage()));
+        String title = msg("auth.invalidPassword.title", "Invalid Password");
+        String base = msg("auth.invalidPassword.message", "Password does not meet the required format.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure("User Not Found", e.getMessage()));
+        String title = msg("auth.userNotFound.title", "User Not Found");
+        String base = msg("auth.userNotFound.message", "No matching user account found.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure("Invalid Input", e.getMessage()));
+        String title = msg("error.invalidInput.title", "Invalid Input");
+        String base = msg("error.invalidInput.message", "Request contains invalid parameters.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
     }
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<?> handleSQLException(SQLException e) {
-        String message = e.getMessage();
+        String detail = e.getMessage();
+        String message = detail != null ? detail : "Database error";
         if (message.contains("Duplicate entry")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure("Conflict", "User already exists"));
+            String title = msg("sql.duplicate.title", "Conflict");
+            String base = msg("sql.duplicate.message", "An entry with the same key already exists.");
+            String body = appendDetail(base, detail);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure(title, body));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure("Database Error", e.getMessage()));
+        String title = msg("sql.error.title", "Database Error");
+        String base = msg("sql.error.message", "An unexpected database error occurred.");
+        String body = appendDetail(base, detail);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure(title, body));
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(NotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure("Playlist Error", e.getMessage()));
+        String title = msg("resource.notFound.title", "Resource Error");
+        String base = msg("resource.notFound.message", "Requested resource not found.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure(title, message));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -84,6 +123,24 @@ public class UserControllerAdvice {
                 .filter(message -> message != null && !message.isBlank())
                 .distinct()
                 .toList();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure("Invalid Input", errors));
+        String title = msg("validation.invalid.title", "Invalid Input");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, errors));
     }
+
+    private String msg(String key, String defaultMessage, Object... args) {
+        return messageSource.getMessage(key, args, defaultMessage, LocaleContextHolder.getLocale());
+    }
+
+    private String msg(String key, String defaultMessage) {
+        return msg(key, defaultMessage, new Object[]{});
+    }
+
+    private String appendDetail(String base, String detail) {
+        if (detail == null || detail.isBlank()) return base;
+        String trimmed = detail.trim();
+        // avoid duplicating detail if already included
+        if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) return base;
+        return base + " (" + trimmed + ")";
+    }
+
 }
