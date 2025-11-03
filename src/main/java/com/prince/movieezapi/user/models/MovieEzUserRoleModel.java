@@ -1,14 +1,12 @@
 package com.prince.movieezapi.user.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
+@EqualsAndHashCode
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,6 +23,7 @@ public class MovieEzUserRoleModel {
     @Enumerated(EnumType.STRING)
     private MovieEzAppRole description;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private MovieEzUserModel user;
