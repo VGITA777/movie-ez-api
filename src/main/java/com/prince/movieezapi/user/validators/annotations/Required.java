@@ -1,6 +1,5 @@
 package com.prince.movieezapi.user.validators.annotations;
 
-import com.prince.movieezapi.user.validators.PasswordValidator;
 import com.prince.movieezapi.user.validators.RequiredValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -12,15 +11,11 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-@Constraint(validatedBy = {PasswordValidator.class})
-public @interface Password {
-    String message() default "Invalid or Malformed Password";
+@Constraint(validatedBy = {RequiredValidator.class})
+public @interface Required {
+    String message() default "This field is required!";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    int minLength() default 8;
-
-    int maxLength() default 32;
 }

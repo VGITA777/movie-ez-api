@@ -4,8 +4,6 @@ import com.prince.movieezapi.user.validators.annotations.Password;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Objects;
-
 public class PasswordValidator implements ConstraintValidator<Password, String> {
 
     // At least one digit, one letter, and one special character
@@ -21,6 +19,6 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return Objects.nonNull(s) && s.length() >= minLength && s.length() <= maxLength && s.matches(VALID_PASSWORD_REGEX);
+        return s != null &&s.length() >= minLength && s.length() <= maxLength && s.matches(VALID_PASSWORD_REGEX);
     }
 }

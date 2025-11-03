@@ -1,5 +1,6 @@
 package com.prince.movieezapi.user.validators.annotations;
 
+import com.prince.movieezapi.user.validators.RequiredValidator;
 import com.prince.movieezapi.user.validators.UsernameValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
