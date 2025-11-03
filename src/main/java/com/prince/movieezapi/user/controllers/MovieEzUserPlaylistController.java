@@ -64,7 +64,7 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok(ServerGenericResponse.success("Contents added to playlist", mapped));
     }
 
-    @PatchMapping("/{playlistName}/remove")
+    @DeleteMapping("/{playlistName}/remove")
     public ResponseEntity<?> removeAllToPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @RequestBody @Valid PlaylistContentsInput playlistContentsInput, @AuthenticationPrincipal UUID uuid) {
         MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeAllFromPlaylist(uuid, playlistName, playlistContentsInput.trackIds());
         MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
@@ -78,7 +78,7 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok(ServerGenericResponse.success("Content added to playlist", mapped));
     }
 
-    @PatchMapping("/{playlistName}/remove/{trackId}")
+    @DeleteMapping("/{playlistName}/remove/{trackId}")
     public ResponseEntity<?> removeFromPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @Alphanumeric @Valid @PathVariable String trackId, @AuthenticationPrincipal UUID uuid) {
         MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeFromPlaylist(uuid, playlistName, trackId);
         MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
