@@ -1,7 +1,6 @@
 package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.security.services.UserSessionService;
-import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
 import com.prince.movieezapi.user.inputs.CloseAccountInput;
@@ -29,7 +28,7 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePasswordByEmail(@RequestBody @Valid UpdatePasswordInput input, Authentication authentication, HttpSession session) {
+    public ResponseEntity<?> updatePassword(@RequestBody @Valid UpdatePasswordInput input, Authentication authentication, HttpSession session) {
         UUID uuid = (UUID) authentication.getPrincipal();
         validateUpdatePasswordInput(input);
         movieEzUserService.updatePasswordById(uuid, input.oldPassword(), input.newPassword(), session, input.invalidateSessions(), input.invalidateAllSessions());
@@ -37,7 +36,7 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-username")
-    public ResponseEntity<?> updateUsernameByEmail(@RequestBody @Valid UpdateUsernameInput input, Authentication authentication) {
+    public ResponseEntity<?> updateUsername(@RequestBody @Valid UpdateUsernameInput input, Authentication authentication) {
         UUID uuid = (UUID) authentication.getPrincipal();
         movieEzUserService.updateUsernameById(uuid, input.username());
         return ResponseEntity.ok(ServerGenericResponse.success("Username updated successfully", null));
