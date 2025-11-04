@@ -15,7 +15,7 @@ public final class MovieEzPlaylistContentDtoMapper {
         return new MovieEzPlaylistContentDto(
                 entity.getId(),
                 playlistId,
-                entity.getMediaId()
+                entity.getTrackId()
         );
     }
 }

@@ -124,7 +124,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
      */
     public MovieEzUserPlaylistModel removeFromPlaylist(UUID userId, String playlistName, String trackId) {
         MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
-        Optional<MovieEzPlaylistContentsModel> foundContent = playlistModel.getContents().stream().filter(content -> content.getMediaId().equals(trackId)).findFirst();
+        Optional<MovieEzPlaylistContentsModel> foundContent = playlistModel.getContents().stream().filter(content -> content.getTrackId().equals(trackId)).findFirst();
         if (foundContent.isEmpty()) {
             throw new PlaylistContentNotFoundException("Content with track id: " + trackId + " does not exists in playlist: " + playlistName);
         }
