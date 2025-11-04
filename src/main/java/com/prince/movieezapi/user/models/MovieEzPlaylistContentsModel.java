@@ -20,7 +20,7 @@ public class MovieEzPlaylistContentsModel {
     private UUID id;
 
     @Column(nullable = false)
-    private String mediaId;
+    private String trackId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playlist_id", nullable = false)

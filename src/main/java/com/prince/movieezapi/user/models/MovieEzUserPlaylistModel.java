@@ -48,8 +48,8 @@ public class MovieEzUserPlaylistModel {
                     if (e == null) {
                         return false;
                     }
-                    String trackId = e.getMediaId();
-                    boolean isTrackIdInContents = contents.stream().anyMatch(c -> c.getMediaId().equals(trackId));
+                    String trackId = e.getTrackId();
+                    boolean isTrackIdInContents = contents.stream().anyMatch(c -> c.getTrackId().equals(trackId));
                     return !isTrackIdInContents;
                 })
                 .peek(e -> e.setPlaylist(this))
@@ -62,6 +62,6 @@ public class MovieEzUserPlaylistModel {
     }
 
     public void removeContent(List<String> contentList) {
-        this.contents.removeIf(e -> contentList.contains(e.getMediaId()));
+        this.contents.removeIf(e -> contentList.contains(e.getTrackId()));
     }
 }

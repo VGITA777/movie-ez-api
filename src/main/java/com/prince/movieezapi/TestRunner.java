@@ -29,7 +29,7 @@ public class TestRunner implements ApplicationRunner {
                 .build();
         MovieEzUserPlaylistModel user1Playlist = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
         MovieEzPlaylistContentsModel user1PlaylistContent1 = MovieEzPlaylistContentsModel.builder()
-                .mediaId("abc1")
+                .trackId("abc1")
                 .build();
 
         // Adding Roles
@@ -53,13 +53,13 @@ public class TestRunner implements ApplicationRunner {
         MovieEzUserPlaylistModel user2Playlist1 = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
         MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel.builder().name("LoFi tracks").user(user1).build();
         MovieEzPlaylistContentsModel user2Playlist1Content1 = MovieEzPlaylistContentsModel.builder()
-                .mediaId("abc1")
+                .trackId("abc1")
                 .build();
         MovieEzPlaylistContentsModel user2Playlist2Content1 = MovieEzPlaylistContentsModel.builder()
-                .mediaId("aaa111")
+                .trackId("aaa111")
                 .build();
         MovieEzPlaylistContentsModel user2Playlist2Content2 = MovieEzPlaylistContentsModel.builder()
-                .mediaId("bbb222")
+                .trackId("bbb222")
                 .build();
 
         // Adding Roles
