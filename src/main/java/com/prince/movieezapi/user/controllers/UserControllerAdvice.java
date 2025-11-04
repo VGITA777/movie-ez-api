@@ -2,10 +2,7 @@ package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
-import com.prince.movieezapi.user.exceptions.MalformedEmailException;
-import com.prince.movieezapi.user.exceptions.MalformedPasswordException;
-import com.prince.movieezapi.user.exceptions.NotFoundException;
-import com.prince.movieezapi.user.exceptions.UserNotFoundException;
+import com.prince.movieezapi.user.exceptions.*;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -78,6 +75,9 @@ public class UserControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure(title, message));
     }
 
+    /**
+     * Handles illegal argument exceptions.
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
         String title = msg("error.invalidInput.title", "Invalid Input");
@@ -86,6 +86,9 @@ public class UserControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
     }
 
+    /**
+     * Handles SQLException thrown by Spring Data JPA.
+     */
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<?> handleSQLException(SQLException e) {
         String detail = e.getMessage();
@@ -102,14 +105,9 @@ public class UserControllerAdvice {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure(title, body));
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(NotFoundException e) {
-        String title = msg("resource.notFound.title", "Resource Error");
-        String base = msg("resource.notFound.message", "Requested resource not found.");
-        String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure(title, message));
-    }
-
+    /**
+     * Handles MethodArgumentNotValidException thrown by Spring validation.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         List<String> errors = e.getBindingResult()
@@ -121,6 +119,40 @@ public class UserControllerAdvice {
                 .toList();
         String title = msg("validation.invalid.title", "Invalid Input");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, errors));
+    }
+
+    /* BASE CLASS EXCEPTION HANDLERS */
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundException(NotFoundException e) {
+        String title = msg("resource.notFound.title", "Resource Error");
+        String base = msg("resource.notFound.message", "Requested resource not found.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure(title, message));
+    }
+
+    @ExceptionHandler(MalformedInput.class)
+    public ResponseEntity<?> handleMalformedInput(MalformedInput e) {
+        String title = msg("input.malformed.title", "Malformed Input");
+        String base = msg("input.malformed.message", "Request contains malformed input.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, message));
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<?> handleResourceAlreadyExistsException(ResourceAlreadyExistsException e) {
+        String title = msg("resource.alreadyExists.title", "Resource Already Exists");
+        String base = msg("resource.alreadyExists.message", "Requested resource already exists.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerGenericResponse.failure(title, message));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleException(Exception e) {
+        String title = msg("error.internal.unknown.title", "Internal Server Error");
+        String base = msg("error.internal.unknown.message", "An unexpected error occurred.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerGenericResponse.failure(title, message));
     }
 
     private String msg(String key, String defaultMessage, Object... args) {
