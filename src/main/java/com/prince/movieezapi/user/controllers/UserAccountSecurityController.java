@@ -1,11 +1,15 @@
 package com.prince.movieezapi.user.controllers;
 
 import com.prince.movieezapi.security.services.UserSessionService;
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
+import com.prince.movieezapi.user.dto.MovieEzUserDto;
+import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
 import com.prince.movieezapi.user.inputs.CloseAccountInput;
 import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.inputs.UpdateUsernameInput;
+import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,6 +29,14 @@ public class UserAccountSecurityController {
     public UserAccountSecurityController(MovieEzUserService movieEzUserService, UserSessionService userSessionService) {
         this.movieEzUserService = movieEzUserService;
         this.userSessionService = userSessionService;
+    }
+
+    @GetMapping("/client")
+    public ResponseEntity<?> getCurrentClient(Authentication authentication) {
+        UserIdentifierModel userIdentifierModel = (UserIdentifierModel) authentication.getDetails();
+        MovieEzUserModel user = movieEzUserService.findByEmail(userIdentifierModel.email()).orElseThrow(() -> new RuntimeException("User not found with userIdentifierModel: '" + userIdentifierModel + "'"));
+        MovieEzUserDto mapped = MovieEzUserDtoMapper.toDto(user);
+        return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }
 
     @PatchMapping("/update-password")
