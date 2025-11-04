@@ -39,21 +39,6 @@ public class UserAccountSecurityController {
         return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }
 
-    @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePassword(@RequestBody @Valid UpdatePasswordInput input, Authentication authentication, HttpSession session) {
-        UUID uuid = (UUID) authentication.getPrincipal();
-        validateUpdatePasswordInput(input);
-        movieEzUserService.updatePasswordById(uuid, input.oldPassword(), input.newPassword(), session, input.invalidateSessions(), input.invalidateAllSessions());
-        return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
-    }
-
-    @PatchMapping("/update-username")
-    public ResponseEntity<?> updateUsername(@RequestBody @Valid UpdateUsernameInput input, Authentication authentication) {
-        UUID uuid = (UUID) authentication.getPrincipal();
-        movieEzUserService.updateUsernameById(uuid, input.username());
-        return ResponseEntity.ok(ServerGenericResponse.success("Username updated successfully", null));
-    }
-
     @GetMapping("/sessions")
     public ResponseEntity<?> getAllSessions(Authentication authentication) {
         UUID uuid = (UUID) authentication.getPrincipal();
@@ -71,6 +56,21 @@ public class UserAccountSecurityController {
     @GetMapping("/sessions/current")
     public ResponseEntity<?> getCurrentSession(HttpSession session) {
         return ResponseEntity.ok(ServerGenericResponse.success("Current session", MovieEzUserSessionMapper.toDto(session)));
+    }
+
+    @PatchMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody @Valid UpdatePasswordInput input, Authentication authentication, HttpSession session) {
+        UUID uuid = (UUID) authentication.getPrincipal();
+        validateUpdatePasswordInput(input);
+        movieEzUserService.updatePasswordById(uuid, input.oldPassword(), input.newPassword(), session, input.invalidateSessions(), input.invalidateAllSessions());
+        return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
+    }
+
+    @PatchMapping("/update-username")
+    public ResponseEntity<?> updateUsername(@RequestBody @Valid UpdateUsernameInput input, Authentication authentication) {
+        UUID uuid = (UUID) authentication.getPrincipal();
+        movieEzUserService.updateUsernameById(uuid, input.username());
+        return ResponseEntity.ok(ServerGenericResponse.success("Username updated successfully", null));
     }
 
     @DeleteMapping("/sessions/invalidate/{id}")

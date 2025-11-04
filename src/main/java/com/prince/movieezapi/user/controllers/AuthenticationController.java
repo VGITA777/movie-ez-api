@@ -35,6 +35,11 @@ public class AuthenticationController {
         this.securityContextLogoutHandler = securityContextLogoutHandler;
     }
 
+    @GetMapping("/csrf")
+    public ResponseEntity<?> getCsrfToken() {
+        return ResponseEntity.ok(ServerAuthenticationResponse.success("CSRF token fetched", null));
+    }
+
     @PostMapping("/login/email")
     public ResponseEntity<?> emailPasswordLogin(@RequestBody @Valid EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
         userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
@@ -53,11 +58,6 @@ public class AuthenticationController {
         securityContextLogoutHandler.logout(request, response, authentication);
         deleteCookies(request);
         return ResponseEntity.ok(ServerGenericResponse.success("Successful log out", null));
-    }
-
-    @GetMapping("/csrf")
-    public ResponseEntity<?> getCsrfToken() {
-        return ResponseEntity.ok(ServerAuthenticationResponse.success("CSRF token fetched", null));
     }
 
     private void deleteCookies(HttpServletRequest request) {

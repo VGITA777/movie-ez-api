@@ -30,10 +30,6 @@ public class UserControllerAdvice {
         this.messageSource = messageSource;
     }
 
-    /*
-     *   Authentication Exceptions Handling
-     * */
-
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException e) {
         String title = msg("auth.userNotFound.title", "User Not Found");

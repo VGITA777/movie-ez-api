@@ -9,9 +9,7 @@ import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import com.prince.movieezapi.user.services.MovieEzPlaylistAndPlaylistContentService;
 import com.prince.movieezapi.user.services.MovieEzUserPlaylistService;
 import com.prince.movieezapi.user.validators.annotations.Alphanumeric;
-import com.prince.movieezapi.user.validators.annotations.Required;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +41,13 @@ public class MovieEzUserPlaylistController {
         );
     }
 
+    @GetMapping("/{playlistName}")
+    public ResponseEntity<?> getPlaylistByName(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
+        MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService.getByNameAndUserId(playlistName, uuid).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
+        MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
+        return ResponseEntity.ok().body(ServerGenericResponse.success("Playlist", mapped));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createPlaylist(@Alphanumeric @RequestParam(name = "name") @Valid String name, @AuthenticationPrincipal UUID uuid) {
         MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.createPlaylist(name, uuid);
@@ -50,11 +55,11 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok(ServerGenericResponse.success("Playlist created successfully", mapped));
     }
 
-    @GetMapping("/{playlistName}")
-    public ResponseEntity<?> getPlaylistByName(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
-        MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService.getByNameAndUserId(playlistName, uuid).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
+    @PatchMapping("/{playlistName}/add")
+    public ResponseEntity<?> addAllToPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @RequestBody @Valid PlaylistContentsInput playlistContentsInput, @AuthenticationPrincipal UUID uuid) {
+        MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addAllToPlaylist(uuid, playlistName, playlistContentsInput.trackIds());
         MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
-        return ResponseEntity.ok().body(ServerGenericResponse.success("Playlist", mapped));
+        return ResponseEntity.ok(ServerGenericResponse.success("Contents added to playlist", mapped));
     }
 
     @DeleteMapping("/{playlistName}")
@@ -64,13 +69,6 @@ public class MovieEzUserPlaylistController {
             throw new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists");
         }
         return ResponseEntity.ok(ServerGenericResponse.success("Playlist deleted successfully", null));
-    }
-
-    @PatchMapping("/{playlistName}/add")
-    public ResponseEntity<?> addAllToPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @RequestBody @Valid PlaylistContentsInput playlistContentsInput, @AuthenticationPrincipal UUID uuid) {
-        MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addAllToPlaylist(uuid, playlistName, playlistContentsInput.trackIds());
-        MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
-        return ResponseEntity.ok(ServerGenericResponse.success("Contents added to playlist", mapped));
     }
 
     @DeleteMapping("/{playlistName}/remove")
