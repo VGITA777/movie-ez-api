@@ -1,7 +1,6 @@
 package com.prince.movieezapi.user.validators.annotations;
 
 import com.prince.movieezapi.user.validators.AlphanumericValidator;
-import com.prince.movieezapi.user.validators.PasswordValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.constraints.Size;
