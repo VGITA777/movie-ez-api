@@ -64,10 +64,11 @@ public class MovieEzUserService {
     @Transactional
     public MovieEzUserModel updatePasswordById(UUID id, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateSessions, boolean invalidateAllSessions) {
         MovieEzUserModel user = findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: '" + id + "'"));
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+        String userPassword = user.getPassword();
+        if (!passwordEncoder.matches(oldPassword, userPassword)) {
             throw new BadCredentialsException("Old password does not match");
         }
-        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+        if (passwordEncoder.matches(newPassword, userPassword)) {
             throw new IllegalArgumentException("New password cannot be the same as old password");
         }
         String encodedNewPassword = passwordEncoder.encode(newPassword);
