@@ -62,13 +62,12 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok(ServerGenericResponse.success("Contents added to playlist", mapped));
     }
 
-    @DeleteMapping("/{playlistName}")
-    public ResponseEntity<?> deletePlaylist(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
-        boolean delete = movieEzUserPlaylistService.delete(playlistName, uuid);
-        if (!delete) {
-            throw new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists");
-        }
-        return ResponseEntity.ok(ServerGenericResponse.success("Playlist deleted successfully", null));
+
+    @PatchMapping("/{playlistName}/add/{trackId}")
+    public ResponseEntity<?> addToPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @Alphanumeric @Valid @PathVariable String trackId, @AuthenticationPrincipal UUID uuid) {
+        MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addToPlaylist(uuid, playlistName, trackId);
+        MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
+        return ResponseEntity.ok(ServerGenericResponse.success("Content added to playlist", mapped));
     }
 
     @DeleteMapping("/{playlistName}/remove")
@@ -78,17 +77,19 @@ public class MovieEzUserPlaylistController {
         return ResponseEntity.ok(ServerGenericResponse.success("Contents removed to playlist", mapped));
     }
 
-    @PatchMapping("/{playlistName}/add/{trackId}")
-    public ResponseEntity<?> addToPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @Alphanumeric @Valid @PathVariable String trackId, @AuthenticationPrincipal UUID uuid) {
-        MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addToPlaylist(uuid, playlistName, trackId);
-        MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
-        return ResponseEntity.ok(ServerGenericResponse.success("Content added to playlist", mapped));
-    }
-
     @DeleteMapping("/{playlistName}/remove/{trackId}")
     public ResponseEntity<?> removeFromPlaylistByName(@Alphanumeric @Valid @PathVariable String playlistName, @Alphanumeric @Valid @PathVariable String trackId, @AuthenticationPrincipal UUID uuid) {
         MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeFromPlaylist(uuid, playlistName, trackId);
         MovieEzUserPlaylistDto mapped = MovieEzUserPlaylistDtoMapper.toDto(playlist);
         return ResponseEntity.ok(ServerGenericResponse.success("Content removed from playlist", mapped));
+    }
+
+    @DeleteMapping("/{playlistName}")
+    public ResponseEntity<?> deletePlaylist(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
+        boolean delete = movieEzUserPlaylistService.delete(playlistName, uuid);
+        if (!delete) {
+            throw new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists");
+        }
+        return ResponseEntity.ok(ServerGenericResponse.success("Playlist deleted successfully", null));
     }
 }
