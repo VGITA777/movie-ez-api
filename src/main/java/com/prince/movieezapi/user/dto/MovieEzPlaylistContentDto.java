@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record MovieEzPlaylistContentDto(
         UUID id,
-        UUID playlistId,
-        String mediaId
+        UUID playlist,
+        String trackId
 ) {
 }

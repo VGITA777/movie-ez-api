@@ -4,5 +4,5 @@ import com.prince.movieezapi.user.models.MovieEzAppRole;
 
 import java.util.UUID;
 
-public record MovieEzUserRoleDto(UUID id, MovieEzAppRole role) {
+public record MovieEzUserRoleDto(UUID id, MovieEzAppRole description) {
 }

@@ -1,21 +1,25 @@
 package com.prince.movieezapi.user.dto.mappers;
 
+import com.prince.movieezapi.user.configurations.SpringDtoMapperConfigs;
 import com.prince.movieezapi.user.dto.MovieEzPlaylistContentDto;
 import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.UUID;
+@Mapper(config = SpringDtoMapperConfigs.class)
+public interface MovieEzPlaylistContentDtoMapper {
 
-public final class MovieEzPlaylistContentDtoMapper {
-    private MovieEzPlaylistContentDtoMapper() {
-    }
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "playlist.id", target = "playlist")
+    @Mapping(source = "trackId", target = "trackId")
+    MovieEzPlaylistContentDto toDto(MovieEzPlaylistContentsModel model);
 
-    public static MovieEzPlaylistContentDto toDto(MovieEzPlaylistContentsModel entity) {
-        if (entity == null) return null;
-        UUID playlistId = entity.getPlaylist() != null ? entity.getPlaylist().getId() : null;
-        return new MovieEzPlaylistContentDto(
-                entity.getId(),
-                playlistId,
-                entity.getTrackId()
-        );
-    }
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "playlist", target = "playlist.id")
+    @Mapping(source = "trackId", target = "trackId")
+    MovieEzPlaylistContentsModel toModel(MovieEzPlaylistContentDto dto);
 }

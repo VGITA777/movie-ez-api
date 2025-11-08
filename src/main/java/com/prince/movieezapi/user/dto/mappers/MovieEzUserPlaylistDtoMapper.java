@@ -1,36 +1,27 @@
 package com.prince.movieezapi.user.dto.mappers;
 
-import com.prince.movieezapi.user.dto.MovieEzPlaylistContentDto;
+import com.prince.movieezapi.user.configurations.SpringDtoMapperConfigs;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
-import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+@Mapper(config = SpringDtoMapperConfigs.class, uses = {MovieEzPlaylistContentSummaryDtoMapper.class})
+public interface MovieEzUserPlaylistDtoMapper {
 
-public final class MovieEzUserPlaylistDtoMapper {
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "user.id", target = "user")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "contents", target = "contents")
+    MovieEzUserPlaylistDto toDto(MovieEzUserPlaylistModel model);
 
-    public static MovieEzUserPlaylistDto toDto(MovieEzUserPlaylistModel entity) {
-        if (entity == null) return null;
-
-        UUID userId = entity.getUser() != null ? entity.getUser().getId() : null;
-
-        List<MovieEzPlaylistContentDto> contents = entity.getContents() == null ? List.of()
-                : entity.getContents().stream()
-                .filter(Objects::nonNull)
-                .map(MovieEzUserPlaylistDtoMapper::mapContent)
-                .toList();
-
-        return new MovieEzUserPlaylistDto(
-                entity.getId(),
-                userId,
-                entity.getName(),
-                contents
-        );
-    }
-
-    private static MovieEzPlaylistContentDto mapContent(MovieEzPlaylistContentsModel content) {
-        return MovieEzPlaylistContentDtoMapper.toDto(content);
-    }
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "user", target = "user.id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "contents", target = "contents")
+    MovieEzUserPlaylistModel toModel(MovieEzUserPlaylistDto dto);
 }

@@ -4,7 +4,8 @@ import com.prince.movieezapi.security.services.UserSessionService;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.dto.MovieEzUserDto;
 import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
-import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionMapper;
+import com.prince.movieezapi.user.dto.mappers.MovieEzUserSessionDtoMapper;
+import com.prince.movieezapi.user.dto.mappers.SpringSessionMapper;
 import com.prince.movieezapi.user.inputs.PasswordInput;
 import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.inputs.UpdateUsernameInput;
@@ -24,16 +25,22 @@ import java.util.stream.Collectors;
 public class UserAccountSecurityController {
     private final MovieEzUserService movieEzUserService;
     private final UserSessionService userSessionService;
+    private final MovieEzUserDtoMapper movieEzUserDtoMapper;
+    private final MovieEzUserSessionDtoMapper movieEzUserSessionDtoMapper;
+    private final SpringSessionMapper springSessionMapper;
 
-    public UserAccountSecurityController(MovieEzUserService movieEzUserService, UserSessionService userSessionService) {
+    public UserAccountSecurityController(MovieEzUserService movieEzUserService, UserSessionService userSessionService, MovieEzUserDtoMapper movieEzUserDtoMapper, MovieEzUserSessionDtoMapper movieEzUserSessionDtoMapper, SpringSessionMapper springSessionMapper) {
         this.movieEzUserService = movieEzUserService;
         this.userSessionService = userSessionService;
+        this.movieEzUserDtoMapper = movieEzUserDtoMapper;
+        this.movieEzUserSessionDtoMapper = movieEzUserSessionDtoMapper;
+        this.springSessionMapper = springSessionMapper;
     }
 
     @GetMapping("/client")
     public ResponseEntity<?> getCurrentClient(@AuthenticationPrincipal UUID uuid) {
         MovieEzUserModel user = movieEzUserService.findById(uuid).orElseThrow(() -> new RuntimeException("User not found with ID: '" + uuid + "'"));
-        MovieEzUserDto mapped = MovieEzUserDtoMapper.toDto(user);
+        MovieEzUserDto mapped = movieEzUserDtoMapper.toDto(user);
         return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }
 
@@ -45,14 +52,14 @@ public class UserAccountSecurityController {
                 .stream()
                 .collect(Collectors.toMap(
                         (e) -> e.getValue().getId(),
-                        (e) -> MovieEzUserSessionMapper.toDto(e.getValue())
+                        (e) -> movieEzUserSessionDtoMapper.toDto(e.getValue())
                 ))
         ));
     }
 
     @GetMapping("/sessions/current")
     public ResponseEntity<?> getCurrentSession(HttpSession session) {
-        return ResponseEntity.ok(ServerGenericResponse.success("Current session", MovieEzUserSessionMapper.toDto(session)));
+        return ResponseEntity.ok(ServerGenericResponse.success("Current session", springSessionMapper.toDto(session)));
     }
 
     @PatchMapping("/update-password")

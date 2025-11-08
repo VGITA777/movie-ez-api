@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public record MovieEzUserPlaylistDto(
         UUID id,
-        UUID userId,
+        UUID user,
         String name,
-        List<MovieEzPlaylistContentDto> contents
+        List<MovieEzPlaylistContentSummaryDto> contents
 ) {
 }

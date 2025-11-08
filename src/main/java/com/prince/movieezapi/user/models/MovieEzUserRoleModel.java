@@ -24,7 +24,6 @@ public class MovieEzUserRoleModel {
     @Enumerated(EnumType.STRING)
     private MovieEzAppRole description;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private MovieEzUserModel user;
