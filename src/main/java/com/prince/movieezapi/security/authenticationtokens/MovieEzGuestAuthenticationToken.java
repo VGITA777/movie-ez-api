@@ -6,12 +6,12 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 
-public class MovieEzCustomHeaderAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+public class MovieEzGuestAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public MovieEzCustomHeaderAuthenticationToken() {
+    public MovieEzGuestAuthenticationToken() {
         super(Collections.emptyList());
     }
 
@@ -32,6 +32,6 @@ public class MovieEzCustomHeaderAuthenticationToken extends AbstractAuthenticati
 
     @Override
     public void setAuthenticated(boolean authenticated) {
-        throw new IllegalArgumentException("Cannot change authenticated state of MovieEzCustomHeaderAuthenticationToken");
+        throw new IllegalArgumentException("Cannot change authenticated state of MovieEzGuestAuthenticationToken");
     }
 }

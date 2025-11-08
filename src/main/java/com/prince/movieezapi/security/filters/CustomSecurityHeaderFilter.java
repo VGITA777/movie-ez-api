@@ -1,6 +1,6 @@
 package com.prince.movieezapi.security.filters;
 
-import com.prince.movieezapi.security.authenticationtokens.MovieEzCustomHeaderAuthenticationToken;
+import com.prince.movieezapi.security.authenticationtokens.MovieEzGuestAuthenticationToken;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.FilterChain;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.security.MessageDigest;
 public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
+    private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private byte[] headerBytesValue;
 
     public CustomSecurityHeaderFilter(String headerValue) {
@@ -44,8 +46,8 @@ public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
             return;
         }
 
-        Authentication authentication = new MovieEzCustomHeaderAuthenticationToken();
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication = new MovieEzGuestAuthenticationToken();
+        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
 

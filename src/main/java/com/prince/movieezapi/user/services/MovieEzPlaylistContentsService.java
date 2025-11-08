@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.services;
 
-import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
+import com.prince.movieezapi.user.models.MovieEzPlaylistContentModel;
 import com.prince.movieezapi.user.repository.MovieEzPlaylistContentsRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ public class MovieEzPlaylistContentsService {
         this.movieEzPlaylistContentsRepository = movieEzPlaylistContentsRepository;
     }
 
-    public MovieEzPlaylistContentsModel save(MovieEzPlaylistContentsModel movieEzPlaylistContentsModel) {
-        return movieEzPlaylistContentsRepository.save(movieEzPlaylistContentsModel);
+    public MovieEzPlaylistContentModel save(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
+        return movieEzPlaylistContentsRepository.save(movieEzPlaylistContentModel);
     }
 
-    public Optional<MovieEzPlaylistContentsModel> get(UUID id) {
+    public Optional<MovieEzPlaylistContentModel> get(UUID id) {
         return movieEzPlaylistContentsRepository.findById(id);
     }
 
@@ -27,7 +27,7 @@ public class MovieEzPlaylistContentsService {
         movieEzPlaylistContentsRepository.deleteById(id);
     }
 
-    public void delete(MovieEzPlaylistContentsModel movieEzPlaylistContentsModel) {
-        movieEzPlaylistContentsRepository.delete(movieEzPlaylistContentsModel);
+    public void delete(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
+        movieEzPlaylistContentsRepository.delete(movieEzPlaylistContentModel);
     }
 }

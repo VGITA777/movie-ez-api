@@ -2,7 +2,7 @@ package com.prince.movieezapi.user.dto.mappers;
 
 import com.prince.movieezapi.user.configurations.SpringDtoMapperConfigs;
 import com.prince.movieezapi.user.dto.MovieEzPlaylistContentDto;
-import com.prince.movieezapi.user.models.MovieEzPlaylistContentsModel;
+import com.prince.movieezapi.user.models.MovieEzPlaylistContentModel;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,11 +15,11 @@ public interface MovieEzPlaylistContentDtoMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "playlist.id", target = "playlist")
     @Mapping(source = "trackId", target = "trackId")
-    MovieEzPlaylistContentDto toDto(MovieEzPlaylistContentsModel model);
+    MovieEzPlaylistContentDto toDto(MovieEzPlaylistContentModel model);
 
     @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
     @Mapping(source = "id", target = "id")
     @Mapping(source = "playlist", target = "playlist.id")
     @Mapping(source = "trackId", target = "trackId")
-    MovieEzPlaylistContentsModel toModel(MovieEzPlaylistContentDto dto);
+    MovieEzPlaylistContentModel toModel(MovieEzPlaylistContentDto dto);
 }

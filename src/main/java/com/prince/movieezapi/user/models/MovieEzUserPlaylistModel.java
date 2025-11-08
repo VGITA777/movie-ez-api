@@ -35,15 +35,15 @@ public class MovieEzUserPlaylistModel {
 
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
-    private List<MovieEzPlaylistContentsModel> contents = new ArrayList<>();
+    private List<MovieEzPlaylistContentModel> contents = new ArrayList<>();
 
-    public void addContent(MovieEzPlaylistContentsModel content) {
+    public void addContent(MovieEzPlaylistContentModel content) {
         content.setPlaylist(this);
         this.contents.add(content);
     }
 
-    public void addContent(List<MovieEzPlaylistContentsModel> contentList) {
-        List<MovieEzPlaylistContentsModel> playlistToBeInserted = contentList.stream()
+    public void addContent(List<MovieEzPlaylistContentModel> contentList) {
+        List<MovieEzPlaylistContentModel> playlistToBeInserted = contentList.stream()
                 .filter(e -> {
                     if (e == null) {
                         return false;
@@ -57,7 +57,7 @@ public class MovieEzUserPlaylistModel {
         this.contents.addAll(playlistToBeInserted);
     }
 
-    public void removeContent(MovieEzPlaylistContentsModel content) {
+    public void removeContent(MovieEzPlaylistContentModel content) {
         this.contents.remove(content);
     }
 

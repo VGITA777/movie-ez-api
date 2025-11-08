@@ -28,7 +28,7 @@ public class TestRunner implements ApplicationRunner {
                 .password("Password1!")
                 .build();
         MovieEzUserPlaylistModel user1Playlist = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
-        MovieEzPlaylistContentsModel user1PlaylistContent1 = MovieEzPlaylistContentsModel.builder()
+        MovieEzPlaylistContentModel user1PlaylistContent1 = MovieEzPlaylistContentModel.builder()
                 .trackId("abc1")
                 .build();
 
@@ -52,13 +52,13 @@ public class TestRunner implements ApplicationRunner {
                 .build();
         MovieEzUserPlaylistModel user2Playlist1 = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
         MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel.builder().name("LoFi tracks").user(user1).build();
-        MovieEzPlaylistContentsModel user2Playlist1Content1 = MovieEzPlaylistContentsModel.builder()
+        MovieEzPlaylistContentModel user2Playlist1Content1 = MovieEzPlaylistContentModel.builder()
                 .trackId("abc1")
                 .build();
-        MovieEzPlaylistContentsModel user2Playlist2Content1 = MovieEzPlaylistContentsModel.builder()
+        MovieEzPlaylistContentModel user2Playlist2Content1 = MovieEzPlaylistContentModel.builder()
                 .trackId("aaa111")
                 .build();
-        MovieEzPlaylistContentsModel user2Playlist2Content2 = MovieEzPlaylistContentsModel.builder()
+        MovieEzPlaylistContentModel user2Playlist2Content2 = MovieEzPlaylistContentModel.builder()
                 .trackId("bbb222")
                 .build();
 

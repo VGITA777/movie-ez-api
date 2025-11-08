@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "movieez_playlist_contents")
-public class MovieEzPlaylistContentsModel {
+public class MovieEzPlaylistContentModel {
     @Id
     @UuidGenerator
     @EqualsAndHashCode.Include
