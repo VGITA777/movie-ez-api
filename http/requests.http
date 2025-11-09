@@ -1,0 +1,169 @@
+### Get CSRF TOKEN
+GET http://localhost:8080/user/auth/csrf
+
+{%
+ console.log(response)
+ %}
+
+### Login as Prince
+POST http://localhost:8080/user/auth/login/email
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "email": "{{prince-email}}",
+  "password": "{{prince-password}}"
+}
+
+
+### Login as Horizon
+POST http://localhost:8080/user/auth/login/email
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "email": "{{horizon-email}}",
+  "password": "{{horizon-password}}"
+}
+
+### Logout
+POST http://localhost:8080/user/auth/logout
+X-XSRF-TOKEN: {{csrf-token}}
+
+
+### Get current user details
+GET http://localhost:8080/user/account/security/client
+
+<> 2025-11-09T163436.403.json
+<> 2025-11-09T022021.200.json
+<> 2025-11-09T022013.403.json
+<> 2025-11-09T021953.200.json
+<> 2025-11-09T021931.200.json
+
+
+
+### Update user password to Password12!
+PATCH http://localhost:8080/user/account/security/update-password
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "oldPassword": "{{prince-password}}",
+  "newPassword": "Password12!",
+  "invalidateSessions": true,
+  "invalidateAllSessions": true
+}
+
+<> 2025-11-09T163429.200.json
+
+### Update user username to Gelo
+PATCH http://localhost:8080/user/account/security/update-username
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "username": "Gelo"
+}
+
+<> 2025-11-09T021945.200.json
+<> 2025-11-09T021938.200.json
+
+### Close user account
+DELETE http://localhost:8080/user/account/security/close-account
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "password": "{{prince-password}}"
+}
+
+### Get all sessions
+GET http://localhost:8080/user/account/security/sessions
+
+<> 2025-11-09T021959.200.json
+
+### Get current session
+GET http://localhost:8080/user/account/security/sessions/current
+
+<> 2025-11-09T022003.200.json
+
+### Invalidate all sessions
+DELETE http://localhost:8080/user/account/security/sessions/invalidate/all
+X-XSRF-TOKEN: {{csrf-token}}
+
+<> 2025-11-09T022008.200.json
+
+### Invalidate all sessions except current
+DELETE http://localhost:8080/user/account/security/sessions/invalidate/all/exclude-current
+X-XSRF-TOKEN: {{csrf-token}}
+
+### Get all playlists
+@playlistName = Favorites
+@playlistToBeCreated = Chill Vibes
+@trackId = abc123
+
+GET http://localhost:8080/user/v1/playlist/all
+
+<> 2025-11-09T023723.200.json
+
+
+### Get specific playlist by playlist name
+GET http://localhost:8080/user/v1/playlist/{{playlistName}}
+
+<> 2025-11-09T024120.200.json
+<> 2025-11-09T022910.400.json
+<> 2025-11-09T022650.400.json
+<> 2025-11-09T022639.400.json
+<> 2025-11-09T022605.400.json
+
+### Add track id to playlist by name
+PATCH http://localhost:8080/user/v1/playlist/{{playlistName}}/add/{{trackId}}
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
+
+### Add multiple track ids to playlist by name
+PATCH http://localhost:8080/user/v1/playlist/{{playlistName}}/add
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "trackIds": [
+    "abc123",
+    "abc124"
+  ]
+}
+
+<> 2025-11-09T023702.200.json
+
+### Remove track id from playlist by name
+DELETE http://localhost:8080/user/v1/playlist/{{playlistName}}/remove/{{trackId}}
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
+
+<> 2025-11-09T024444.404.json
+<> 2025-11-09T024125.500.json
+<> 2025-11-09T023707.200.json
+<> 2025-11-09T023642.500.json
+
+### Remove multiple track ids from playlist by name
+DELETE http://localhost:8080/user/v1/playlist/{{playlistName}}/remove
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf-token}}
+
+{
+  "trackIds": [
+    "abc123",
+    "abc124"
+  ]
+}
+
+### Delete playlist by name
+DELETE http://localhost:8080/user/v1/playlist/{{playlistName}}
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
+
+### Create new playlist
+POST http://localhost:8080/user/v1/playlist/create?
+    name={{playlistToBeCreated}}
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
