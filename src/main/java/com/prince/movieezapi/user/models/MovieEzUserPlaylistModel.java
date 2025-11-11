@@ -52,7 +52,7 @@ public class MovieEzUserPlaylistModel {
                         return false;
                     }
                     String trackId = e.getTrackId();
-                    boolean isTrackIdInContents = contents.stream().anyMatch(c -> c.getTrackId().equals(trackId));
+                    boolean isTrackIdInContents = contents.stream().map(MovieEzPlaylistContentModel::getTrackId).anyMatch(trackId::equals);
                     return !isTrackIdInContents;
                 })
                 .peek(e -> e.setPlaylist(this))
