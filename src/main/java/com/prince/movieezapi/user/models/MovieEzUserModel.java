@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A model representing a user.
+ */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Builder

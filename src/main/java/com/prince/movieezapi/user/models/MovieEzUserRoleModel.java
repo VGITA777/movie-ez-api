@@ -6,6 +6,9 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
+/**
+ * A model representing a role of a user.
+ */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Builder
