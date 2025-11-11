@@ -9,7 +9,7 @@ import java.util.Collections;
 /**
  * Custom authentication token representing a guest user.
  */
-public final class MovieEzGuestAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+public final class MovieEzGuestAuthenticationToken extends UnauthenticatedToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

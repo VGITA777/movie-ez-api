@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Custom authentication token for email-based authentication.
  */
-public final class MovieEzEmailPasswordAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+public final class MovieEzEmailPasswordAuthenticationToken extends UnauthenticatedToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

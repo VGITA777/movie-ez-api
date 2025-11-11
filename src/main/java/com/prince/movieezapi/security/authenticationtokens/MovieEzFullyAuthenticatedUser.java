@@ -53,4 +53,9 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
     public void setAuthenticated(boolean authenticated) {
         throw new UnsupportedOperationException("Cannot change authentication state");
     }
+
+    @Override
+    public void setDetails(Object details) {
+        throw new UnsupportedOperationException("Cannot change authentication state");
+    }
 }

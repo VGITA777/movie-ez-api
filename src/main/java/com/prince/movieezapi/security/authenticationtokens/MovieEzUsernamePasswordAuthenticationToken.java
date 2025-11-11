@@ -1,14 +1,12 @@
 package com.prince.movieezapi.security.authenticationtokens;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Custom authentication token for username-based authentication.
  */
-public final class MovieEzUsernamePasswordAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
+public final class MovieEzUsernamePasswordAuthenticationToken extends UnauthenticatedToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
