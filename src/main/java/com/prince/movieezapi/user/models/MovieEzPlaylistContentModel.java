@@ -15,7 +15,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "movieez_playlist_contents")
+@Table(
+        name = "movieez_playlist_contents",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "trackId"})}
+)
 public class MovieEzPlaylistContentModel {
     @Id
     @UuidGenerator
@@ -23,6 +26,7 @@ public class MovieEzPlaylistContentModel {
     private UUID id;
 
     @Column(nullable = false)
+    @EqualsAndHashCode.Include
     private String trackId;
 
     @ManyToOne(fetch = FetchType.LAZY)
