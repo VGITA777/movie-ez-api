@@ -89,7 +89,8 @@ public class MovieEzPlaylistAndPlaylistContentService {
     @Transactional
     public MovieEzUserPlaylistModel addAllToPlaylist(UUID userId, String playlistName, List<String> trackIdList) {
         MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
-        List<MovieEzPlaylistContentModel> playlistContents = trackIdList.stream().map(trackId -> MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build()).toList();
+        List<MovieEzPlaylistContentModel> playlistContents = trackIdList.stream()
+                .map(trackId -> MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build()).toList();
         playlistModel.addContent(playlistContents);
         return playlistRepository.save(playlistModel);
     }
