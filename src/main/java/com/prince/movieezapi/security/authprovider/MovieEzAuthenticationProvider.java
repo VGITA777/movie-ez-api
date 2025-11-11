@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * A base class used for authenticating tokens.
+ */
 @Slf4j
 public abstract class MovieEzAuthenticationProvider implements AuthenticationProvider {
 

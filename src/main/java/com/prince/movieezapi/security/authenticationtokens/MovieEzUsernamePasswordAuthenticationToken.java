@@ -9,7 +9,6 @@ import java.util.Collection;
 
 /**
  * Custom authentication token for username-based authentication.
- * This token is used to carry username credentials through the authentication process.
  */
 public class MovieEzUsernamePasswordAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
 
@@ -46,10 +45,13 @@ public class MovieEzUsernamePasswordAuthenticationToken extends AbstractAuthenti
         super.setAuthenticated(true);
     }
 
-    public static MovieEzUsernamePasswordAuthenticationToken authenticated(Object principal, String credentials, Collection<? extends GrantedAuthority> authorities) {
-        return new MovieEzUsernamePasswordAuthenticationToken(principal, credentials, authorities);
-    }
-
+    /**
+     * Creates an unauthenticated token.
+     *
+     * @param principal   the username of the user.
+     * @param credentials the password of the user
+     * @return an unauthenticated {@link MovieEzUsernamePasswordAuthenticationToken}
+     */
     public static MovieEzUsernamePasswordAuthenticationToken unauthenticated(Object principal, String credentials) {
         return new MovieEzUsernamePasswordAuthenticationToken(principal, credentials);
     }

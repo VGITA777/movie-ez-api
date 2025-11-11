@@ -11,8 +11,8 @@ import java.util.UUID;
 
 /**
  * A fully authenticated user token for the MovieEz application.
- * This token represents a user that has been fully authenticated
- * and contains their granted authorities.
+ * This token should be used carefully because it is a marker
+ * globally used to identify an authenticated user.
  */
 public class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationToken implements Serializable {
 

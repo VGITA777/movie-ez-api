@@ -6,11 +6,17 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 
+/**
+ * Custom authentication token representing a guest user.
+ */
 public class MovieEzGuestAuthenticationToken extends AbstractAuthenticationToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates a fully authenticated guest user.
+     */
     public MovieEzGuestAuthenticationToken() {
         super(Collections.emptyList());
     }

@@ -45,11 +45,14 @@ public class MovieEzEmailPasswordAuthenticationToken extends AbstractAuthenticat
         setAuthenticated(true);
     }
 
-    public static MovieEzEmailPasswordAuthenticationToken authenticated(Object principal, String credentials, Collection<? extends GrantedAuthority> authorities) {
-        return new MovieEzEmailPasswordAuthenticationToken(principal, credentials, authorities);
-    }
-
-    public static MovieEzEmailPasswordAuthenticationToken unauthenticated(Object principal, String credentials) {
+    /**
+     * Creates an unauthenticated token.
+     *
+     * @param principal   the email of the user.
+     * @param credentials the password of the user.
+     * @return an unauthenticated {@link MovieEzEmailPasswordAuthenticationToken}
+     */
+    public static MovieEzEmailPasswordAuthenticationToken unauthenticated(String principal, String credentials) {
         return new MovieEzEmailPasswordAuthenticationToken(principal, credentials);
     }
 
