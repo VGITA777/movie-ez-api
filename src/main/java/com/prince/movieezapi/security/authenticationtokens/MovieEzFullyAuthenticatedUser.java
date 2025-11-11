@@ -14,7 +14,7 @@ import java.util.UUID;
  * This token should be used carefully because it is a marker
  * globally used to identify an authenticated user.
  */
-public class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationToken implements Serializable {
+public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

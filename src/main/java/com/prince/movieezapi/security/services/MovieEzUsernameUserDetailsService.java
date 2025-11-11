@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Used by {@link MovieEzUsernameAuthenticationProvider} to find users using their username.
  */
 @Service
-public class MovieEzUsernameUserDetailsService implements UserDetailsService {
+public final class MovieEzUsernameUserDetailsService implements UserDetailsService {
 
     private final MovieEzUserService userService;
 

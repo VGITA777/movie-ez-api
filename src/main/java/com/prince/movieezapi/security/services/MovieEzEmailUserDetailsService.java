@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Used by {@link MovieEzEmailAuthenticationProvider} to find users using their email.
  */
 @Service
-public class MovieEzEmailUserDetailsService implements UserDetailsService {
+public final class MovieEzEmailUserDetailsService implements UserDetailsService {
 
     private final MovieEzUserService userService;
 

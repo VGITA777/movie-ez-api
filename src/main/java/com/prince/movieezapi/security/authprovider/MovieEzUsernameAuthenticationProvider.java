@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * An authentication provider in charge of authenticating {@link MovieEzUsernamePasswordAuthenticationToken}
  */
 @Service
-public class MovieEzUsernameAuthenticationProvider extends MovieEzAuthenticationProvider {
+public final class MovieEzUsernameAuthenticationProvider extends MovieEzAuthenticationProvider {
     public MovieEzUsernameAuthenticationProvider(MovieEzUsernameUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         super(userDetailsService, passwordEncoder);
     }

@@ -11,7 +11,7 @@ import java.util.UUID;
  * Used to find users' sessions.
  */
 @Service
-public class UserSessionService {
+public final class UserSessionService {
 
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 

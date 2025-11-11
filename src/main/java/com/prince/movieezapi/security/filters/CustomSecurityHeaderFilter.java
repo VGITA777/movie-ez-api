@@ -22,7 +22,7 @@ import java.security.MessageDigest;
  * A custom authentication filter for the /media/** endpoint.
  * This filter uses a custom header to identify if a request is authenticated.
  */
-public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
+public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
     private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
