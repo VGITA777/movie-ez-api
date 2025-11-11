@@ -6,6 +6,7 @@ import com.prince.movieezapi.user.exceptions.*;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -89,14 +90,17 @@ public class UserControllerAdvice {
     /**
      * Handles SQLException thrown by Spring Data JPA.
      */
-    @ExceptionHandler(SQLException.class)
+    @ExceptionHandler({DataIntegrityViolationException.class, SQLException.class})
     public ResponseEntity<?> handleSQLException(SQLException e) {
         String detail = e.getMessage();
         String message = detail != null ? detail : "Database error";
         if (message.contains("Duplicate entry")) {
             String title = msg("sql.duplicate.title", "Conflict");
             String base = msg("sql.duplicate.message", "An entry with the same key already exists.");
-            String body = appendDetail(base, detail);
+            String body = base;
+            if (!detail.contains("for key")) {
+                body = appendDetail(base, detail);
+            }
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure(title, body));
         }
         String title = msg("sql.error.title", "Database Error");
