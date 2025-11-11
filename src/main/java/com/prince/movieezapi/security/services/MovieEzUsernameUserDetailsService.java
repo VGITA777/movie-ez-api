@@ -1,11 +1,15 @@
 package com.prince.movieezapi.security.services;
 
+import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.user.services.MovieEzUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Used by {@link MovieEzUsernameAuthenticationProvider} to find users using their username.
+ */
 @Service
 public class MovieEzUsernameUserDetailsService implements UserDetailsService {
 

@@ -36,6 +36,9 @@ public class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationToken i
         return userIdentifierModel.id();
     }
 
+    /**
+     * Will always return true.
+     */
     @Override
     public boolean isAuthenticated() {
         return true;

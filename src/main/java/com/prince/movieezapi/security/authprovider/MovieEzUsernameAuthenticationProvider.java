@@ -5,6 +5,9 @@ import com.prince.movieezapi.security.services.MovieEzUsernameUserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * An authentication provider in charge of authenticating {@link MovieEzUsernamePasswordAuthenticationToken}
+ */
 @Service
 public class MovieEzUsernameAuthenticationProvider extends MovieEzAuthenticationProvider {
     public MovieEzUsernameAuthenticationProvider(MovieEzUsernameUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

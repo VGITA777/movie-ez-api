@@ -40,6 +40,9 @@ public class SecurityConfigs {
     @Value("${app.movieez.security.header:WowThisGottaBeTheBestSecurityMeasure101}")
     private String mediaSecurityHeader;
 
+    /**
+     * Security filter chain for the /user/** endpoint.
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -62,6 +65,9 @@ public class SecurityConfigs {
                 .build();
     }
 
+    /**
+     * Security filter chain for the /media/** endpoint.
+     */
     @Bean
     public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http) throws Exception {
         return applyCommonSecuritySettings(http)

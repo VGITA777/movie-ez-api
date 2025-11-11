@@ -19,8 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 /**
- * Main authentication filter for the application.
- * Requires a custom header in the request to be authenticated.
+ * A custom authentication filter for the /media/** endpoint.
+ * This filter uses a custom header to identify if a request is authenticated.
  */
 public class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 

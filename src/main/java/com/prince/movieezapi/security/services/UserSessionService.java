@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Used to find users' sessions.
+ */
 @Service
 public class UserSessionService {
 
