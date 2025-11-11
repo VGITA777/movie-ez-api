@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,10 +34,6 @@ public class MovieEzUserPlaylistController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllPlaylists(@AuthenticationPrincipal UUID uuid) {
-        List<MovieEzUserPlaylistDto> list = movieEzUserPlaylistService.getAllByUserId(uuid)
-                .stream()
-                .map(userPlaylistMapper::toDto)
-                .toList();
         Map<String, MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByUserId(uuid)
                 .stream()
                 .map(userPlaylistMapper::toDto)

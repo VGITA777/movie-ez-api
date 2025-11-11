@@ -7,6 +7,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Profile("dev")
 @Component
 public class TestRunner implements ApplicationRunner {
@@ -31,6 +33,12 @@ public class TestRunner implements ApplicationRunner {
         MovieEzPlaylistContentModel user1PlaylistContent1 = MovieEzPlaylistContentModel.builder()
                 .trackId("abc1")
                 .build();
+        MovieEzPlaylistContentModel user1PlaylistContent2 = MovieEzPlaylistContentModel.builder()
+                .trackId("zzz123")
+                .build();
+        MovieEzPlaylistContentModel user1PlaylistContent3 = MovieEzPlaylistContentModel.builder()
+                .trackId("rrr123")
+                .build();
 
         // Adding Roles
         user1.addRole(adminRole);
@@ -38,10 +46,9 @@ public class TestRunner implements ApplicationRunner {
 
         // Adding Playlist and Contents
         user1.addPlaylist(user1Playlist);
-        user1Playlist.addContent(user1PlaylistContent1);
-
-        // Saving User
-        movieEzUserService.save(user1);
+        user1Playlist.addContents(user1PlaylistContent1);
+        user1Playlist.addContents(user1PlaylistContent2);
+        user1Playlist.addContents(user1PlaylistContent3);
 
         MovieEzUserRoleModel adminRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
         MovieEzUserRoleModel userRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
@@ -69,11 +76,11 @@ public class TestRunner implements ApplicationRunner {
         // Adding Playlist and Contents
         user2.addPlaylist(user2Playlist1);
         user2.addPlaylist(user2Playlist2);
-        user2Playlist1.addContent(user2Playlist1Content1);
-        user2Playlist2.addContent(user2Playlist2Content1);
-        user2Playlist2.addContent(user2Playlist2Content2);
+        user2Playlist1.addContents(user2Playlist1Content1);
+        user2Playlist2.addContents(user2Playlist2Content1);
+        user2Playlist2.addContents(user2Playlist2Content2);
 
-        // Saving User
-        movieEzUserService.save(user2);
+        // Saving Users
+        movieEzUserService.save(List.of(user1, user2));
     }
 }

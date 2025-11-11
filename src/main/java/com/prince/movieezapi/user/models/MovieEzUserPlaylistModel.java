@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,12 +41,12 @@ public class MovieEzUserPlaylistModel {
     @Builder.Default
     private List<MovieEzPlaylistContentModel> contents = new ArrayList<>();
 
-    public void addContent(MovieEzPlaylistContentModel content) {
+    public void addContents(MovieEzPlaylistContentModel content) {
         content.setPlaylist(this);
         this.contents.add(content);
     }
 
-    public void addContent(List<MovieEzPlaylistContentModel> contentList) {
+    public void addContents(Collection<MovieEzPlaylistContentModel> contentList) {
         List<MovieEzPlaylistContentModel> playlistToBeInserted = contentList.stream()
                 .filter(e -> {
                     if (e == null) {

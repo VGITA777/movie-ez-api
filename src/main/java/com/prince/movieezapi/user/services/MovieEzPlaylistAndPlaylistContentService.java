@@ -56,7 +56,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
     public MovieEzUserPlaylistModel addToPlaylist(UUID userId, String playlistName, String trackId) {
         MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
         MovieEzPlaylistContentModel playlistContent = MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build();
-        playlistModel.addContent(playlistContent);
+        playlistModel.addContents(playlistContent);
         return playlistRepository.save(playlistModel);
     }
 
@@ -73,7 +73,7 @@ public class MovieEzPlaylistAndPlaylistContentService {
     public MovieEzUserPlaylistModel addToPlaylist(UUID userId, UUID playlistId, String trackId) {
         MovieEzUserPlaylistModel playlistModel = playlistRepository.findByIdAndUserId(playlistId, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: '" + playlistId + "' does not exists"));
         MovieEzPlaylistContentModel playlistContent = MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build();
-        playlistModel.addContent(playlistContent);
+        playlistModel.addContents(playlistContent);
         return playlistRepository.save(playlistModel);
     }
 
@@ -89,9 +89,8 @@ public class MovieEzPlaylistAndPlaylistContentService {
     @Transactional
     public MovieEzUserPlaylistModel addAllToPlaylist(UUID userId, String playlistName, List<String> trackIdList) {
         MovieEzUserPlaylistModel playlistModel = playlistRepository.findByNameAndUserId(playlistName, userId).orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
-        List<MovieEzPlaylistContentModel> playlistContents = trackIdList.stream()
-                .map(trackId -> MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build()).toList();
-        playlistModel.addContent(playlistContents);
+        List<MovieEzPlaylistContentModel> contentsToBeAdded = trackIdList.stream().map(trackId -> MovieEzPlaylistContentModel.builder().playlist(playlistModel).trackId(trackId).build()).toList();
+        playlistModel.addContents(contentsToBeAdded);
         return playlistRepository.save(playlistModel);
     }
 

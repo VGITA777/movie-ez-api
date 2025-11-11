@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,6 +42,15 @@ public class MovieEzUserService {
     public MovieEzUserModel save(MovieEzUserModel movieEzUserModel) {
         movieEzUserModel.setPassword(passwordEncoder.encode(movieEzUserModel.getPassword()));
         return movieEzUserRepository.save(movieEzUserModel);
+    }
+
+    @Transactional
+    public List<MovieEzUserModel> save(List<MovieEzUserModel> movieEzUserModel) {
+        if (movieEzUserModel.isEmpty()) {
+            return movieEzUserModel;
+        }
+        movieEzUserModel.forEach(e -> e.setPassword(passwordEncoder.encode(e.getPassword())));
+        return movieEzUserRepository.saveAll(movieEzUserModel);
     }
 
     @Transactional
