@@ -88,6 +88,9 @@ public class MovieEzUserService {
     @Transactional
     public MovieEzUserModel updateUsernameById(UUID uuid, String username) {
         MovieEzUserModel user = findById(uuid).orElseThrow(() -> new UserNotFoundException("User not found with email: '" + uuid + "'"));
+        if (user.getUsername().equalsIgnoreCase(username)) {
+            return user;
+        }
         user.setUsername(username);
         return movieEzUserRepository.save(user);
     }
