@@ -29,7 +29,7 @@ public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
     private final byte[] headerBytesValue;
 
     public CustomSecurityHeaderFilter(String headerValue) {
-        this.headerBytesValue = headerValue == null ? null : headerValue.getBytes(StandardCharsets.UTF_8);
+        this.headerBytesValue = (headerValue == null || headerValue.isBlank()) ? null : headerValue.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
