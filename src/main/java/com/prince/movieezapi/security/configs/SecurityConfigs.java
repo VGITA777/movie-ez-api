@@ -37,7 +37,7 @@ import java.util.function.Supplier;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
-    @Value("${app.movieez.security.header:WowThisGottaBeTheBestSecurityMeasure101}")
+    @Value("${app.movieez.security.header}")
     private String mediaSecurityHeader;
 
     /**
@@ -74,8 +74,8 @@ public class SecurityConfigs {
                 .securityMatcher("/media/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(endpoints -> endpoints.anyRequest().authenticated())
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .authorizeHttpRequests(endpoints -> endpoints.anyRequest().permitAll())
                 .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader), AuthorizationFilter.class)
                 .build();
     }

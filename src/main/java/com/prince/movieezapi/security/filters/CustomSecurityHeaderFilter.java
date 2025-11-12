@@ -26,15 +26,21 @@ public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Ez-Movie";
     private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-    private byte[] headerBytesValue;
+    private final byte[] headerBytesValue;
 
     public CustomSecurityHeaderFilter(String headerValue) {
-        assert headerBytesValue != null : "Header bytes value cannot be null";
-        this.headerBytesValue = headerValue.getBytes(StandardCharsets.UTF_8);
+        this.headerBytesValue = headerValue == null ? null : headerValue.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // No header value configured, skip authentication
+        if (headerBytesValue == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String requestHeader = request.getHeader(HEADER_NAME);
         if (requestHeader == null) {
             sendJsonError(response, HttpStatus.UNAUTHORIZED.value(), "What are you doing?");
