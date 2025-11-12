@@ -1,0 +1,37 @@
+### Get latest movie
+GET http://localhost:8080/media/v1/movie/latest
+
+###
+@movieId = 157336
+@language = en
+@page = 1
+GET http://localhost:8080/media/v1/movie/{{movieId}}/alternative-titles
+
+### Get credits of a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/credits?
+    language={{language}}
+
+### Get details of a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/details?
+    language={{language}}
+
+### Get images of a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/images?
+    language={{language}}
+
+### Get keywords of a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/keywords
+
+### Get recommendations based on a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/recommendations?
+    language={{language}}&
+    page={{page}}
+
+### Get similar movies based on a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/similar?
+    language={{language}}&
+    page={{page}}
+
+### Get videos of a movie
+GET http://localhost:8080/media/v1/movie/{{movieId}}/videos?
+    language={{language}}

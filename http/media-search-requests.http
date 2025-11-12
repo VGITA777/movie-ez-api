@@ -1,0 +1,11 @@
+###
+GET http://localhost:8080/media/v1/search/movie?
+    query=Interstellar
+
+###
+GET http://localhost:8080/media/v1/search/tv?
+    query=Breaking Bad
+
+###
+GET http://localhost:8080/media/v1/search/multi?
+    query=One Punch Man
