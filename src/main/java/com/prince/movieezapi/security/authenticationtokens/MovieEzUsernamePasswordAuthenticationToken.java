@@ -24,7 +24,6 @@ public final class MovieEzUsernamePasswordAuthenticationToken extends Unauthenti
         super(null);
         this.principal = principal;
         this.credentials = credentials;
-        setAuthenticated(false);
     }
 
     /**
