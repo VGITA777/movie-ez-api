@@ -1,5 +1,7 @@
 package com.prince.movieezapi.shared.models;
 
+import com.prince.movieezapi.user.models.MovieEzUserModel;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
@@ -13,4 +15,8 @@ import java.util.UUID;
 public record UserIdentifierModel(UUID id, String username, String email) implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public static UserIdentifierModel of(MovieEzUserModel movieEzUserModel) {
+        return new UserIdentifierModel(movieEzUserModel.getId(), movieEzUserModel.getUsername(), movieEzUserModel.getEmail());
+    }
 }
