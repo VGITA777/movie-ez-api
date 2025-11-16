@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.ott.InvalidOneTimeTokenException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -89,6 +90,17 @@ public class UserControllerAdvice {
     }
 
     /**
+     * Handles InvalidOneTimeTokenException from Spring Security OTT flow.
+     */
+    @ExceptionHandler(InvalidOneTimeTokenException.class)
+    public ResponseEntity<?> handleInvalidOneTimeTokenException(InvalidOneTimeTokenException e) {
+        String title = msg("auth.ott.invalid.title", "Invalid One-Time Token");
+        String base = msg("auth.ott.invalid.message", "The one-time token provided is invalid or expired.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
+    }
+
+    /**
      * Handles SQLException thrown by Spring Data JPA.
      */
     @ExceptionHandler({DataIntegrityViolationException.class, SQLException.class})
@@ -125,6 +137,7 @@ public class UserControllerAdvice {
         String title = msg("validation.invalid.title", "Invalid Input");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, errors));
     }
+
 
     /* BASE CLASS EXCEPTION HANDLERS */
 
