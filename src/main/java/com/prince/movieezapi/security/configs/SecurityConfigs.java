@@ -2,6 +2,7 @@ package com.prince.movieezapi.security.configs;
 
 import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
+import com.prince.movieezapi.security.authprovider.MovieEzOneTimeTokenAuthenticationProvider;
 import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.ott.JdbcOneTimeTokenService;
+import org.springframework.security.authentication.ott.OneTimeTokenService;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,10 +54,15 @@ public class SecurityConfigs {
         return applyCommonSecuritySettings(http)
                 .securityMatcher("/user/**")
                 .logout(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                     csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
+                })
+                .oneTimeTokenLogin(ott -> {
+                    ott.tokenGeneratingUrl("/user/auth/request/ott");
+                    ott.loginProcessingUrl("/user/auth/login/ott");
+                    ott.showDefaultSubmitPage(false);
                 })
                 .authorizeHttpRequests(endpoints -> {
                     endpoints.requestMatchers("/user/auth/logout")
@@ -74,7 +83,7 @@ public class SecurityConfigs {
                 .securityMatcher("/media/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(endpoints -> endpoints.anyRequest().permitAll())
                 .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader), AuthorizationFilter.class)
                 .build();
@@ -88,11 +97,13 @@ public class SecurityConfigs {
     @Bean
     public AuthenticationManager authenticationManager(
             @Lazy MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider,
-            @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider
+            @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider,
+            @Lazy MovieEzOneTimeTokenAuthenticationProvider movieEzOneTimeTokenAuthenticationProvider
     ) {
         return new ProviderManager(List.of(
                 movieEzUsernameAuthenticationProvider,
-                movieEzEmailAuthenticationProvider
+                movieEzEmailAuthenticationProvider,
+                movieEzOneTimeTokenAuthenticationProvider
         ));
     }
 
@@ -108,6 +119,11 @@ public class SecurityConfigs {
         securityContextLogoutHandler.setInvalidateHttpSession(true);
         securityContextLogoutHandler.setSecurityContextRepository(httpSessionSecurityContextRepository);
         return securityContextLogoutHandler;
+    }
+
+    @Bean
+    public OneTimeTokenService oneTimeTokenService(JdbcOperations jdbcOperations) {
+        return new JdbcOneTimeTokenService(jdbcOperations);
     }
 
     private HttpSecurity applyCommonSecuritySettings(HttpSecurity http) throws Exception {
