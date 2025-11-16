@@ -163,3 +163,19 @@ POST http://localhost:8080/user/v1/playlist/create?
     name={{playlistToBeCreated}}
 Content-Type: application/x-www-form-urlencoded
 X-XSRF-TOKEN: {{csrf-token}}
+
+
+### Request one-time token (OTT) for login
+POST http://localhost:8080/user/auth/request/ott
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
+
+username = {{prince-email}}
+
+
+###
+POST http://localhost:8080/user/auth/login/ott
+Content-Type: application/x-www-form-urlencoded
+X-XSRF-TOKEN: {{csrf-token}}
+
+token = 87517bae-d412-442d-8ac4-9f90a09318d5
