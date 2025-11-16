@@ -4,7 +4,7 @@ import com.prince.movieezapi.shared.models.responses.ServerAuthenticationRespons
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
 import com.prince.movieezapi.user.inputs.UsernamePasswordInput;
-import com.prince.movieezapi.user.services.UserAuthenticationService;
+import com.prince.movieezapi.user.services.UserEmailAndUsernameAuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,12 +26,12 @@ import java.util.Arrays;
 @RequestMapping("/user/auth")
 public class AuthenticationController {
 
-    private final UserAuthenticationService userAuthenticationService;
+    private final UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService;
     private final SecurityContextLogoutHandler securityContextLogoutHandler;
     private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
-    public AuthenticationController(UserAuthenticationService userAuthenticationService, SecurityContextLogoutHandler securityContextLogoutHandler) {
-        this.userAuthenticationService = userAuthenticationService;
+    public AuthenticationController(UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService, SecurityContextLogoutHandler securityContextLogoutHandler) {
+        this.userEmailAndUsernameAuthenticationService = userEmailAndUsernameAuthenticationService;
         this.securityContextLogoutHandler = securityContextLogoutHandler;
     }
 
@@ -42,13 +42,13 @@ public class AuthenticationController {
 
     @PostMapping("/login/email")
     public ResponseEntity<?> emailPasswordLogin(@RequestBody @Valid EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
-        userAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
+        userEmailAndUsernameAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 
     @PostMapping("/login/username")
     public ResponseEntity<?> usernamePasswordLogin(@RequestBody @Valid UsernamePasswordInput input, HttpServletRequest request, HttpServletResponse response) {
-        userAuthenticationService.authenticateUserWithUsername(input.username(), input.password(), request, response);
+        userEmailAndUsernameAuthenticationService.authenticateUserWithUsername(input.username(), input.password(), request, response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 
