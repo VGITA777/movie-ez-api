@@ -52,11 +52,13 @@ public class MovieEzUserModel implements UserDetails {
     @Column(nullable = false)
     private boolean isEnabled;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzUserPlaylistModel> playlists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MovieEzUserRoleModel> roles = new ArrayList<>();
 
