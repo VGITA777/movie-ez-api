@@ -22,7 +22,7 @@ public class OneTimeTokenGenerationSuccessHandlerService implements OneTimeToken
     public OneTimeTokenGenerationSuccessHandlerService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-    
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException, ServletException {
         // TODO: Send email to user with one time token
