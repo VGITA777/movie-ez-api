@@ -5,7 +5,6 @@ import com.prince.movieezapi.security.services.MovieEzEmailUserDetailsService;
 import com.prince.movieezapi.security.services.MovieEzUsernameUserDetailsService;
 import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ott.InvalidOneTimeTokenException;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieEzOneTimeTokenAuthenticationProvider implements AuthenticationProvider {
 
-    @Value("${app.regex.email:/^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$/gm}")
+    @Value("${app.regex.email:^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$}")
     private String emailRegex;
     private final OneTimeTokenService oneTimeTokenService;
     private final MovieEzUsernameUserDetailsService usernameUserDetailsService;
@@ -34,17 +33,17 @@ public class MovieEzOneTimeTokenAuthenticationProvider implements Authentication
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         OneTimeTokenAuthenticationToken oneTimeTokenAuthenticationToken = (OneTimeTokenAuthenticationToken) authentication;
-        val consumedToken = oneTimeTokenService.consume(oneTimeTokenAuthenticationToken);
+        var consumedToken = oneTimeTokenService.consume(oneTimeTokenAuthenticationToken);
 
         if (consumedToken == null) {
             log.warn("Invalid One Time Token provided for token ID '{}'", oneTimeTokenAuthenticationToken.getTokenValue());
             throw new InvalidOneTimeTokenException("Invalid One Time Token provided");
         }
 
-        val userDetails = isStringEmail(consumedToken.getUsername()) ?
+        var userDetails = isStringEmail(consumedToken.getUsername()) ?
                 emailUserDetailsService.loadUserByUsername(consumedToken.getUsername()) :
                 usernameUserDetailsService.loadUserByUsername(consumedToken.getUsername());
-        val userIdentifier = UserIdentifierModel.of(userDetails);
+        var userIdentifier = UserIdentifierModel.of(userDetails);
         return new MovieEzFullyAuthenticatedUser(userIdentifier, userDetails.getAuthorities());
     }
 
@@ -54,7 +53,6 @@ public class MovieEzOneTimeTokenAuthenticationProvider implements Authentication
     }
 
     private boolean isStringEmail(String data) {
-        val matches = data.matches(emailRegex);
-        return matches;
+        return data.matches(emailRegex);
     }
 }
