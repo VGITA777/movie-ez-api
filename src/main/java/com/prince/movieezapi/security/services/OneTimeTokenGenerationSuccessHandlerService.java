@@ -22,9 +22,10 @@ public class OneTimeTokenGenerationSuccessHandlerService implements OneTimeToken
     public OneTimeTokenGenerationSuccessHandlerService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-
+    
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException, ServletException {
+        // TODO: Send email to user with one time token
         log.info("One time token generated successfully for user: {}", oneTimeToken.getUsername());
         val writer = response.getWriter();
         val message = objectMapper.writeValueAsString(ServerAuthenticationResponse.success("One time token generated successfully", oneTimeToken));
