@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -24,11 +23,11 @@ public class OneTimeTokenGenerationSuccessHandlerService implements OneTimeToken
     }
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException {
         // TODO: Send email to user with one time token
         log.info("One time token generated successfully for user: {}", oneTimeToken.getUsername());
-        val writer = response.getWriter();
-        val message = objectMapper.writeValueAsString(ServerAuthenticationResponse.success("One time token generated successfully", oneTimeToken));
+        var writer = response.getWriter();
+        var message = objectMapper.writeValueAsString(ServerAuthenticationResponse.success("One time token generated successfully", oneTimeToken));
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         writer.write(message);
