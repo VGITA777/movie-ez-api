@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import javax.security.auth.login.CredentialException;
 import java.sql.SQLException;
@@ -127,8 +128,8 @@ public class UserControllerAdvice {
 
     /* BASE CLASS EXCEPTION HANDLERS */
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(NotFoundException e) {
+    @ExceptionHandler({NoResourceFoundException.class, NotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException(Exception e) {
         String title = msg("resource.notFound.title", "Resource Error");
         String base = msg("resource.notFound.message", "Requested resource not found.");
         String message = appendDetail(base, e.getMessage());
