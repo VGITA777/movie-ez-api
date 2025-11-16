@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserAuthenticationServiceTest {
+class UserEmailAndUsernameAuthenticationServiceTest {
 
     @Mock
     AuthenticationManager authenticationManager;
@@ -36,7 +36,7 @@ class UserAuthenticationServiceTest {
     Authentication authenticated;
 
     @InjectMocks
-    UserAuthenticationService service;
+    UserEmailAndUsernameAuthenticationService service;
 
     @Captor
     ArgumentCaptor<Authentication> authenticationCaptor;

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class UserAuthenticationService {
+public class UserEmailAndUsernameAuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final HttpSessionSecurityContextRepository securityContextRepository;
 
-    public UserAuthenticationService(AuthenticationManager authenticationManager, HttpSessionSecurityContextRepository securityContextRepository) {
+    public UserEmailAndUsernameAuthenticationService(AuthenticationManager authenticationManager, HttpSessionSecurityContextRepository securityContextRepository) {
         this.authenticationManager = authenticationManager;
         this.securityContextRepository = securityContextRepository;
     }
