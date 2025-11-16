@@ -2,6 +2,7 @@ package com.prince.movieezapi.security.services;
 
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
 import com.prince.movieezapi.user.services.MovieEzUserService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * Used by {@link MovieEzEmailAuthenticationProvider} to find users using their email.
  */
+@Primary
 @Service
 public class MovieEzEmailUserDetailsService implements UserDetailsService {
 
