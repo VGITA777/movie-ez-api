@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface OneTimeTokenRepository extends JpaRepository<OneTimeTokenModel, Long> {
+public interface OttRepository extends JpaRepository<OneTimeTokenModel, Long> {
 
     Optional<OneTimeTokenModel> findByTokenValue(String tokenValue);
 }
