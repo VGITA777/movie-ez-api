@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieEzOneTimeTokenAuthenticationProvider implements AuthenticationProvider {
 
-    @Value("${app.regex.email:^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$}")
+    @Value("${app.email.regexp}")
     private String emailRegex;
     private final OneTimeTokenService oneTimeTokenService;
     private final MovieEzUsernameUserDetailsService usernameUserDetailsService;

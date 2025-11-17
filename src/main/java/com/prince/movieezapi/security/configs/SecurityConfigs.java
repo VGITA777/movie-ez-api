@@ -48,7 +48,7 @@ import java.util.function.Supplier;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
-    @Value("${app.movieez.security.header}")
+    @Value("${app.movieez.security.header:#{null}")
     private String mediaSecurityHeader;
 
     /**
@@ -145,6 +145,14 @@ public class SecurityConfigs {
         ott.authenticationProvider(ottAuthProvider);
         ott.defaultSuccessUrl("/", false);
         ott.showDefaultSubmitPage(false);
+        ott.successHandler((_, response, _) -> {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            var body = objectMapper.writeValueAsString(
+                    ServerAuthenticationResponse.success("Login successful", null)
+            );
+            response.getWriter().write(body);
+        });
     }
 
     private static void configureUserExceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> ex, ObjectMapper objectMapper) {
