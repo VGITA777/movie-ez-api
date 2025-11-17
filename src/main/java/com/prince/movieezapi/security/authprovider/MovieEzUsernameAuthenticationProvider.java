@@ -1,7 +1,7 @@
 package com.prince.movieezapi.security.authprovider;
 
 import com.prince.movieezapi.security.authenticationtokens.MovieEzUsernamePasswordAuthenticationToken;
-import com.prince.movieezapi.security.services.MovieEzUsernameUserDetailsService;
+import com.prince.movieezapi.security.userdetails.MovieEzUsernameUserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

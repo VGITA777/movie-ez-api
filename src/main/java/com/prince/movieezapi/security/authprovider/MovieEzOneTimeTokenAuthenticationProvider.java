@@ -1,8 +1,8 @@
 package com.prince.movieezapi.security.authprovider;
 
 import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
-import com.prince.movieezapi.security.services.MovieEzEmailUserDetailsService;
-import com.prince.movieezapi.security.services.MovieEzUsernameUserDetailsService;
+import com.prince.movieezapi.security.userdetails.MovieEzEmailUserDetailsService;
+import com.prince.movieezapi.security.userdetails.MovieEzUsernameUserDetailsService;
 import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.prince.movieezapi.security.services;
+package com.prince.movieezapi.security.userdetails;
 
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
