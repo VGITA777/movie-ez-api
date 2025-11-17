@@ -170,7 +170,7 @@ POST http://localhost:8080/user/auth/request/ott
 Content-Type: application/x-www-form-urlencoded
 X-XSRF-TOKEN: {{csrf-token}}
 
-username={{prince-email}}
+username=horizon
 
 
 ###
@@ -178,4 +178,4 @@ POST http://localhost:8080/user/auth/login/ott
 Content-Type: application/x-www-form-urlencoded
 X-XSRF-TOKEN: {{csrf-token}}
 
-token=b768adc4-7399-4042-b040-42e888088121
+token=e91149a7-e222-4d7c-abbc-80458592863c
