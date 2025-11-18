@@ -4,8 +4,8 @@ import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthentic
 import com.prince.movieezapi.security.userdetails.MovieEzEmailUserDetailsService;
 import com.prince.movieezapi.security.userdetails.MovieEzUsernameUserDetailsService;
 import com.prince.movieezapi.shared.models.UserIdentifierModel;
+import com.prince.movieezapi.shared.utilities.BasicUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ott.InvalidOneTimeTokenException;
 import org.springframework.security.authentication.ott.OneTimeTokenAuthenticationToken;
@@ -18,16 +18,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieEzOneTimeTokenAuthenticationProvider implements AuthenticationProvider {
 
-    @Value("${app.email.regexp}")
-    private String emailRegex;
     private final OneTimeTokenService oneTimeTokenService;
     private final MovieEzUsernameUserDetailsService usernameUserDetailsService;
     private final MovieEzEmailUserDetailsService emailUserDetailsService;
+    private final BasicUtils basicUtils;
 
-    public MovieEzOneTimeTokenAuthenticationProvider(OneTimeTokenService oneTimeTokenService, MovieEzUsernameUserDetailsService usernameUserDetailsService, MovieEzEmailUserDetailsService emailUserDetailsService) {
+    public MovieEzOneTimeTokenAuthenticationProvider(OneTimeTokenService oneTimeTokenService, MovieEzUsernameUserDetailsService usernameUserDetailsService, MovieEzEmailUserDetailsService emailUserDetailsService, BasicUtils basicUtils) {
         this.oneTimeTokenService = oneTimeTokenService;
         this.usernameUserDetailsService = usernameUserDetailsService;
         this.emailUserDetailsService = emailUserDetailsService;
+        this.basicUtils = basicUtils;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MovieEzOneTimeTokenAuthenticationProvider implements Authentication
             throw new InvalidOneTimeTokenException("Invalid One Time Token provided");
         }
 
-        var userDetails = isStringEmail(consumedToken.getUsername()) ?
+        var userDetails = basicUtils.isValidEmail(consumedToken.getUsername()) ?
                 emailUserDetailsService.loadUserByUsername(consumedToken.getUsername()) :
                 usernameUserDetailsService.loadUserByUsername(consumedToken.getUsername());
         var userIdentifier = UserIdentifierModel.of(userDetails);
@@ -50,9 +50,5 @@ public class MovieEzOneTimeTokenAuthenticationProvider implements Authentication
     @Override
     public boolean supports(Class<?> authentication) {
         return OneTimeTokenAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    private boolean isStringEmail(String data) {
-        return data.matches(emailRegex);
     }
 }
