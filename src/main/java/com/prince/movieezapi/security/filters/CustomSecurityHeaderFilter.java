@@ -27,9 +27,11 @@ public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
     public static final String HEADER_NAME = "X-Ez-Movie";
     private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private final byte[] headerBytesValue;
+    private final BasicUtils basicUtils;
 
-    public CustomSecurityHeaderFilter(String headerValue) {
+    public CustomSecurityHeaderFilter(String headerValue, BasicUtils basicUtils) {
         this.headerBytesValue = (headerValue == null || headerValue.isBlank()) ? null : headerValue.getBytes(StandardCharsets.UTF_8);
+        this.basicUtils = basicUtils;
     }
 
     @Override
@@ -61,6 +63,6 @@ public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
     }
 
     private void sendJsonError(HttpServletResponse response, int status, String message) {
-        BasicUtils.sendJson(HttpStatus.valueOf(status), ServerGenericResponse.failure(message, null), response);
+        basicUtils.sendJson(HttpStatus.valueOf(status), ServerGenericResponse.failure(message, null), response);
     }
 }
