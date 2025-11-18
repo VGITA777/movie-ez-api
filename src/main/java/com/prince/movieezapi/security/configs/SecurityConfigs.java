@@ -7,6 +7,7 @@ import com.prince.movieezapi.security.authprovider.MovieEzOneTimeTokenAuthentica
 import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
+import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -81,14 +82,14 @@ public class SecurityConfigs {
      * Security filter chain for the /media/** endpoint.
      */
     @Bean
-    public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http, BasicUtils basicUtils) throws Exception {
         return applyCommonSecuritySettings(http)
                 .securityMatcher("/media/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(endpoints -> endpoints.anyRequest().permitAll())
-                .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader), AuthorizationFilter.class).build();
+                .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader, basicUtils), AuthorizationFilter.class).build();
     }
 
     @Bean
