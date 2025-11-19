@@ -33,8 +33,9 @@ public class OttMailSenderService {
 
     /**
      * Sends an email containing a one-time token link to the user.
+     *
      * @param mailModel the {@link OttMailModel} containing the recipient email and token value.
-     * @return  true if the email was sent successfully, false otherwise.
+     * @return true if the email was sent successfully, false otherwise.
      * @throws Exception if there is an error sending the email.
      */
     public boolean sendMail(OttMailModel mailModel) throws Exception {

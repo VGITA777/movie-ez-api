@@ -1,7 +1,5 @@
 package com.prince.movieezapi.security.authenticationtokens;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;

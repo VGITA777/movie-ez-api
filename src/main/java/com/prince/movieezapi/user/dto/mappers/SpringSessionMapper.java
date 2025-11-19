@@ -11,6 +11,7 @@ import java.time.Instant;
 public class SpringSessionMapper {
     /**
      * Always returns a non-expired session DTO.
+     *
      * @param session the HttpSession to convert to a DTO
      * @return MovieEzUserSessionDto
      */

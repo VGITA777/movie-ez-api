@@ -2,10 +2,10 @@ package com.prince.movieezapi.media.api.controllers;
 
 import com.prince.movieezapi.media.api.models.discover.DiscoverMovieModel;
 import com.prince.movieezapi.media.api.models.discover.DiscoverTvModel;
-import com.prince.movieezapi.media.api.models.shared.Page;
-import com.prince.movieezapi.media.api.tmdb.services.DiscoverRequestsService;
 import com.prince.movieezapi.media.api.models.inputs.DiscoverMoviesInput;
 import com.prince.movieezapi.media.api.models.inputs.DiscoverTvInput;
+import com.prince.movieezapi.media.api.models.shared.Page;
+import com.prince.movieezapi.media.api.tmdb.services.DiscoverRequestsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
