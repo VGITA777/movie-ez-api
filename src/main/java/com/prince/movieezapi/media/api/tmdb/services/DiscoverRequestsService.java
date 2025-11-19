@@ -6,6 +6,7 @@ import com.prince.movieezapi.media.api.models.inputs.DiscoverMoviesInput;
 import com.prince.movieezapi.media.api.models.inputs.DiscoverTvInput;
 import com.prince.movieezapi.media.api.models.shared.Page;
 import com.prince.movieezapi.media.api.tmdb.requests.DiscoverRequests;
+import com.prince.movieezapi.media.caching.utils.DiscoverCacheConfigurer;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
@@ -18,7 +19,7 @@ public class DiscoverRequestsService {
         this.discoverRequests = httpServiceProxyFactory.createClient(DiscoverRequests.class);
     }
 
-    @Cacheable(cacheNames = "discoverMovies")
+    @Cacheable(cacheNames = DiscoverCacheConfigurer.DISCOVER_MOVIES_CACHE)
     public Page<DiscoverMovieModel> discoverMovies(DiscoverMoviesInput input) {
         return discoverRequests.discoverMovies(
                 input.isIncludeAdult(),
@@ -30,7 +31,7 @@ public class DiscoverRequestsService {
         );
     }
 
-    @Cacheable(cacheNames = "discoverTvSeries")
+    @Cacheable(cacheNames = DiscoverCacheConfigurer.DISCOVER_TV_SERIES_CACHE)
     public Page<DiscoverTvModel> discoverTv(DiscoverTvInput input) {
         return discoverRequests.discoverTvSeries(
                 input.isIncludeAdult(),

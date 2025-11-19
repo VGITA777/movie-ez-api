@@ -7,14 +7,15 @@ import java.time.Duration;
 
 public class MovieCacheConfigurer {
 
-    public static String MOVIE_ALTERNATIVE_TITLES_CACHE = "movieAlternativeTitles";
-    public static String MOVIE_CREDITS_CACHE = "movieCredits";
-    public static String MOVIE_DETAILS_CACHE = "movieDetails";
-    public static String MOVIE_IMAGES_CACHE = "movieImages";
-    public static String MOVIE_KEYWORDS_CACHE = "movieKeywords";
-    public static String MOVIE_RECOMMENDATIONS_CACHE = "movieRecommendations";
-    public static String MOVIE_SIMILAR_CACHE = "movieSimilar";
-    public static String MOVIE_VIDEOS_CACHE = "movieVideos";
+    public static final String MOVIE_ALTERNATIVE_TITLES_CACHE = "movieAlternativeTitles";
+    public static final String MOVIE_CREDITS_CACHE = "movieCredits";
+    public static final String MOVIE_DETAILS_CACHE = "movieDetails";
+    public static final String MOVIE_IMAGES_CACHE = "movieImages";
+    public static final String MOVIE_KEYWORDS_CACHE = "movieKeywords";
+    public static final String MOVIE_RECOMMENDATIONS_CACHE = "movieRecommendations";
+    public static final String MOVIE_SIMILAR_CACHE = "movieSimilar";
+    public static final String MOVIE_VIDEOS_CACHE = "movieVideos";
+    public static final String MOVIE_LATEST_CACHE = "latestMovie";
 
     public static void configureMovieCaches(CaffeineCacheManager cacheManager) {
         configureMovieAlternativeTitlesCache(cacheManager);
@@ -22,6 +23,7 @@ public class MovieCacheConfigurer {
         configureMovieDetailsCache(cacheManager);
         configureMovieImagesCache(cacheManager);
         configureMovieKeywordsCache(cacheManager);
+        configureLatestMovieCache(cacheManager);
         configureMovieRecommendationsCache(cacheManager);
         configureMovieSimilarCache(cacheManager);
         configureMovieVideosCache(cacheManager);
@@ -59,6 +61,13 @@ public class MovieCacheConfigurer {
         cacheManager.registerCustomCache(MOVIE_KEYWORDS_CACHE, Caffeine.newBuilder()
                 .maximumSize(500)
                 .expireAfterWrite(Duration.ofDays(7))
+                .build());
+    }
+
+    public static void configureLatestMovieCache(CaffeineCacheManager cacheManager) {
+        cacheManager.registerCustomCache(MOVIE_LATEST_CACHE, Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterWrite(Duration.ofMinutes(1))
                 .build());
     }
 

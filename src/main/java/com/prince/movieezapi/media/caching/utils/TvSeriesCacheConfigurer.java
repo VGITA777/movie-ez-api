@@ -13,12 +13,14 @@ public class TvSeriesCacheConfigurer {
     public static final String TV_SERIES_RECOMMENDATIONS = "tvSeriesRecommendations";
     public static final String TV_SERIES_SIMILAR = "tvSeriesSimilar";
     public static final String TV_SERIES_VIDEOS = "tvSeriesVideos";
+    public static final String TV_SERIES_LATEST = "tvSeriesLatest";
 
     public static void configureTvSeriesCaches(CaffeineCacheManager cacheManager) {
         configureTvSeriesCreditsCache(cacheManager);
         configureTvSeriesDetailsCache(cacheManager);
         configureTvSeriesImagesCache(cacheManager);
         configureTvSeriesKeywordsCache(cacheManager);
+        configureLatestTvSeriesCache(cacheManager);
         configureTvSeriesRecommendationsCache(cacheManager);
         configureTvSeriesSimilarCache(cacheManager);
         configureTvSeriesVideosCache(cacheManager);
@@ -49,6 +51,13 @@ public class TvSeriesCacheConfigurer {
         cacheManager.registerCustomCache(TV_SERIES_KEYWORDS, Caffeine.newBuilder()
                 .maximumSize(500)
                 .expireAfterWrite(Duration.ofDays(7))
+                .build());
+    }
+
+    public static void configureLatestTvSeriesCache(CaffeineCacheManager cacheManager) {
+        cacheManager.registerCustomCache(TV_SERIES_LATEST, Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterWrite(Duration.ofMinutes(1))
                 .build());
     }
 
