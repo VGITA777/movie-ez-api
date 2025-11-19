@@ -18,6 +18,5 @@ public class TvSeriesShortDetailsModel extends MediaShortDetailsModel {
     private String name;
     private String original_name;
     private String first_air_date;
-    private String original_language;
     private List<String> origin_country;
 }
