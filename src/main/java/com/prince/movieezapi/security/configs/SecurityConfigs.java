@@ -49,7 +49,7 @@ import java.util.function.Supplier;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class SecurityConfigs {
 
-    @Value("${app.movieez.security.header:#{null}")
+    @Value("${app.movieez.security.header:#{null}}")
     private String mediaSecurityHeader;
 
     /**
