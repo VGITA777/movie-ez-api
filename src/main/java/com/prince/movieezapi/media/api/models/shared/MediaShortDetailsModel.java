@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Data
 public class MediaShortDetailsModel {
-    private boolean adult;
     private String backdrop_path;
     private long id;
     private String overview;
