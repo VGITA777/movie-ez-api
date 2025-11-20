@@ -13,4 +13,5 @@ What this service provides
 
 # TODO
 
-- [ ] Update the /media/** endpoint controllers to use the @ModelAttribute annotation.
+- [ ] Update rate-limiting to be Role-based instead of the default implemented by Slf4j.
+- [x] Update the /media/** endpoint controllers to use the @ModelAttribute annotation.
