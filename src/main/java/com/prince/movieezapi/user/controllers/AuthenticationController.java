@@ -5,6 +5,7 @@ import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.inputs.EmailPasswordInput;
 import com.prince.movieezapi.user.inputs.UsernamePasswordInput;
 import com.prince.movieezapi.user.services.UserEmailAndUsernameAuthenticationService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 
+@RateLimiter(name = "userAuthEndpoints")
 @Controller
 @RequestMapping("/user/auth")
 public class AuthenticationController {

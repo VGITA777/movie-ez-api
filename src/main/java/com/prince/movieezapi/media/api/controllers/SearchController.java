@@ -2,6 +2,7 @@ package com.prince.movieezapi.media.api.controllers;
 
 import com.prince.movieezapi.media.api.models.enums.Language;
 import com.prince.movieezapi.media.api.tmdb.services.SearchRequestsService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RateLimiter(name = "searchEndpoints")
 @RestController
 @RequestMapping("/media/v1/search")
 public class SearchController {

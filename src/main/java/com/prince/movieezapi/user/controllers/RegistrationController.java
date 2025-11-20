@@ -5,6 +5,7 @@ import com.prince.movieezapi.user.dto.mappers.MovieEzUserDtoMapper;
 import com.prince.movieezapi.user.inputs.UserRegistrationInput;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ public class RegistrationController {
         this.movieEzUserDtoMapper = movieEzUserDtoMapper;
     }
 
+    @RateLimiter(name = "userRegisterEndpoint")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
         MovieEzUserModel newUser = MovieEzUserModel.builder()

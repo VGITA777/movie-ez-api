@@ -3,10 +3,12 @@ package com.prince.movieezapi.media.api.controllers;
 import com.prince.movieezapi.media.api.models.enums.Language;
 import com.prince.movieezapi.media.api.tmdb.services.TvSeriesRequestsService;
 import com.prince.movieezapi.media.api.utils.ResponseEntityUtils;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RateLimiter(name = "tvEndpoints")
 @RestController
 @RequestMapping("/media/v1/tv-series")
 public class TvSeriesController {

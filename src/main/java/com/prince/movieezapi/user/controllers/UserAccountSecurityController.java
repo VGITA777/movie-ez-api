@@ -11,6 +11,7 @@ import com.prince.movieezapi.user.inputs.UpdatePasswordInput;
 import com.prince.movieezapi.user.inputs.UpdateUsernameInput;
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@RateLimiter(name = "userAccountSecurityEndpoints")
 @RestController()
 @RequestMapping("/user/account/security")
 public class UserAccountSecurityController {
