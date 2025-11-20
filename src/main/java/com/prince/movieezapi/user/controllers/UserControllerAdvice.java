@@ -3,6 +3,7 @@ package com.prince.movieezapi.user.controllers;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.user.exceptions.*;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -136,6 +137,17 @@ public class UserControllerAdvice {
                 .toList();
         String title = msg("validation.invalid.title", "Invalid Input");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, errors));
+    }
+
+    /**
+     * Handles RequestNotPermitted thrown by Resilience4j.
+     */
+    @ExceptionHandler(RequestNotPermitted.class)
+    public ResponseEntity<?> handleRequestNotPermitted(RequestNotPermitted e) {
+        String title = msg("rateLimit.exceeded.title", "Rate Limit Exceeded");
+        String base = msg("rateLimit.exceeded.message", "You have exceeded the rate limit for this endpoint.");
+        String message = appendDetail(base, e.getMessage());
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ServerGenericResponse.failure(title, message));
     }
 
 
