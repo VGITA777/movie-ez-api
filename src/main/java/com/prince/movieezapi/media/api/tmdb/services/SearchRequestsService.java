@@ -1,5 +1,8 @@
 package com.prince.movieezapi.media.api.tmdb.services;
 
+import com.prince.movieezapi.media.api.models.inputs.SearchMovieInput;
+import com.prince.movieezapi.media.api.models.inputs.SearchMultiInput;
+import com.prince.movieezapi.media.api.models.inputs.SearchTvInput;
 import com.prince.movieezapi.media.api.models.search.SearchMovieResultsModel;
 import com.prince.movieezapi.media.api.models.search.SearchMultiResultsModel;
 import com.prince.movieezapi.media.api.models.search.SearchTvSeriesResultsModel;
@@ -18,18 +21,37 @@ public class SearchRequestsService {
     }
 
     @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MOVIE_RESULTS_CACHE)
-    public SearchMovieResultsModel searchMovies(String query, boolean includeAdult, String language, Integer primaryReleaseYear, int page, String region, Integer year) {
-        return searchRequests.searchMovies(query, includeAdult, language, primaryReleaseYear, page, region, year);
+    public SearchMovieResultsModel searchMovies(SearchMovieInput input) {
+        return searchRequests.searchMovies(
+                input.getQuery(),
+                input.isIncludeAdult(),
+                input.getLanguage().getIsoCode(),
+                input.getPrimaryReleaseYear(),
+                input.getPage(),
+                input.getRegion(),
+                input.getYear()
+        );
     }
 
     @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_TV_SERIES_RESULTS_CACHE)
-    public SearchTvSeriesResultsModel searchTvSeries(String query, Integer firstAirDateYear, boolean includeAdult, String language, int page, Integer year) {
-        return searchRequests.searchTvSeries(query, firstAirDateYear, includeAdult, language, page, year);
+    public SearchTvSeriesResultsModel searchTvSeries(SearchTvInput input) {
+        return searchRequests.searchTvSeries(
+                input.getQuery(),
+                input.getFirstAirDateYear(),
+                input.isIncludeAdult(),
+                input.getLanguage().getIsoCode(),
+                input.getPage(),
+                input.getPage());
     }
 
     @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MULTI_RESULTS_CACHE)
-    public SearchMultiResultsModel searchMulti(String query, boolean includeAdult, String language, int page) {
-        return searchRequests.searchMulti(query, includeAdult, language, page);
+    public SearchMultiResultsModel searchMulti(SearchMultiInput input) {
+        return searchRequests.searchMulti(
+                input.getQuery(),
+                input.isIncludeAdult(),
+                input.getLanguage().getIsoCode(),
+                input.getPage()
+        );
     }
 }
 
