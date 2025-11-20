@@ -1,0 +1,7 @@
+### Discover Movies
+    GET http://localhost:8080/media/v1/discover/movies?page=1
+Content-Type: application/x-www-form-urlencoded
+
+### Discover TV Series
+    GET http://localhost:8080/media/v1/discover/tv?page=1
+Content-Type: application/x-www-form-urlencoded
