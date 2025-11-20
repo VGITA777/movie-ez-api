@@ -125,16 +125,6 @@ public class SecurityConfigs {
         return http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).httpBasic(AbstractHttpConfigurer::disable).formLogin(AbstractHttpConfigurer::disable);
     }
 
-    private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
-        @Override
-        public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
-            if (authentication.get() instanceof MovieEzFullyAuthenticatedUser) {
-                return new AuthorizationDecision(true);
-            }
-            return new AuthorizationDecision(false);
-        }
-    }
-
     private static void configureCsrf(CsrfConfigurer<HttpSecurity> csrf) {
         csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
@@ -174,5 +164,15 @@ public class SecurityConfigs {
             );
             response.getWriter().write(body);
         });
+    }
+
+    private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+        @Override
+        public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
+            if (authentication.get() instanceof MovieEzFullyAuthenticatedUser) {
+                return new AuthorizationDecision(true);
+            }
+            return new AuthorizationDecision(false);
+        }
     }
 }
