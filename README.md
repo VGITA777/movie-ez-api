@@ -13,4 +13,5 @@ What this service provides
 
 # TODO
 
-- [ ] Update the /media/** endpoint controllers to use the @ModelAttribute annotation.
+- [ ] Update rate-limiting to be IP-based.
+- [x] Update the /media/** endpoint controllers to use the @ModelAttribute annotation.
