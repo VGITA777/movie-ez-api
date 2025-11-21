@@ -9,8 +9,8 @@ import java.time.Duration;
  * Enum representing different user roles and their associated rate limiting configurations.
  */
 public enum RateLimiterUserRoles {
-    GUEST(1, Duration.ofSeconds(1), Duration.ofMillis(250)),
-    USER(20, Duration.ofSeconds(1), Duration.ofSeconds(1)),
+    GUEST(10, Duration.ofSeconds(1), Duration.ofMillis(250)),
+    USER(25, Duration.ofSeconds(1), Duration.ofSeconds(1)),
     ADMIN(100, Duration.ofSeconds(1), Duration.ofSeconds(5));
 
     private final int limitForPeriod;
