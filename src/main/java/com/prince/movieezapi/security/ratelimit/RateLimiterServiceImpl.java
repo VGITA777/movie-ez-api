@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -18,13 +19,15 @@ import java.util.Objects;
 @Service
 public class RateLimiterServiceImpl implements RateLimiterService {
 
-    private static final long EXPIRY_DURATION_MINUTES = 3;
+
+    private final long expiryDurationMinutes;
     private final Cache<String, RateLimiterEntry> rateLimiters;
 
-    public RateLimiterServiceImpl() {
+    public RateLimiterServiceImpl(@Value("${app.rate-limiter.expiry-duration-minutes:3}") long expiryDurationMinutes) {
+        this.expiryDurationMinutes = expiryDurationMinutes;
         rateLimiters = Caffeine.newBuilder()
                 .maximumSize(10_000)
-                .expireAfterAccess(Duration.ofMinutes(EXPIRY_DURATION_MINUTES))
+                .expireAfterAccess(Duration.ofMinutes(expiryDurationMinutes))
                 .build();
     }
 
@@ -45,7 +48,7 @@ public class RateLimiterServiceImpl implements RateLimiterService {
         log.debug("Saving rate limiter: {}", rateLimiterIdentifier.getId());
         verifyRateLimiterIdentifier(rateLimiterIdentifier);
         var key = keyFor(rateLimiterIdentifier);
-        var newExpiryTime = Instant.now().plus(EXPIRY_DURATION_MINUTES, ChronoUnit.MINUTES);
+        var newExpiryTime = Instant.now().plus(expiryDurationMinutes, ChronoUnit.MINUTES);
 
         if (rateLimiters.getIfPresent(key) != null) {
             throw new IllegalStateException("Rate limiter with key: " + key + " already exists. Use get() method to retrieve it.");
@@ -56,18 +59,12 @@ public class RateLimiterServiceImpl implements RateLimiterService {
         var rateLimiterConfig = rateLimiterIdentifier.getRole().getRateLimiterConfig();
         var rateLimiter = RateLimiter.of(rateLimiterIdentifier.getId(), rateLimiterConfig);
         var newRateLimiterEntry = new RateLimiterEntry(newExpiryTime, rateLimiterIdentifier, rateLimiter);
-
-        // atomic insert to avoid races
-        var previous = rateLimiters.asMap().putIfAbsent(key, newRateLimiterEntry);
-        if (previous != null) {
-            throw new IllegalStateException("Rate limiter with key: " + key + " already exists (race). Use get() method to retrieve it.");
-        }
-
+        rateLimiters.asMap().put(key, newRateLimiterEntry);
         return newRateLimiterEntry;
     }
 
     private void updateEntry(RateLimiterEntry entry, RateLimiterIdentifier identifier) {
-        var newExpiryTime = Instant.now().plus(EXPIRY_DURATION_MINUTES, ChronoUnit.MINUTES);
+        var newExpiryTime = Instant.now().plus(expiryDurationMinutes, ChronoUnit.MINUTES);
         entry.setExpiryTime(newExpiryTime);
         if (!entry.getRateLimiterIdentifier().equals(identifier)) {
             log.debug("Updating rate limiter: {}", identifier);
