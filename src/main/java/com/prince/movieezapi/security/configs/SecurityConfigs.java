@@ -6,6 +6,9 @@ import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationPro
 import com.prince.movieezapi.security.authprovider.MovieEzOneTimeTokenAuthenticationProvider;
 import com.prince.movieezapi.security.authprovider.MovieEzUsernameAuthenticationProvider;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
+import com.prince.movieezapi.security.ratelimit.RateLimiterFilter;
+import com.prince.movieezapi.security.ratelimit.RateLimiterFilterImpl;
+import com.prince.movieezapi.security.ratelimit.RateLimiterService;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -60,9 +63,10 @@ public class SecurityConfigs {
     public SecurityFilterChain userSecurityFilterChain(
             HttpSecurity http,
             MovieEzOneTimeTokenAuthenticationProvider ottAuthProvider,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            RateLimiterFilter rateLimiterFilter
     ) throws Exception {
-        return applyCommonSecuritySettings(http)
+        return applyCommonSecuritySettings(http, rateLimiterFilter)
                 .securityMatcher("/user/**")
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
@@ -82,8 +86,10 @@ public class SecurityConfigs {
      * Security filter chain for the /media/** endpoint.
      */
     @Bean
-    public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http, BasicUtils basicUtils) throws Exception {
-        return applyCommonSecuritySettings(http)
+    public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http,
+                                                        BasicUtils basicUtils,
+                                                        RateLimiterFilter rateLimiterFilter) throws Exception {
+        return applyCommonSecuritySettings(http, rateLimiterFilter)
                 .securityMatcher("/media/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
@@ -121,8 +127,15 @@ public class SecurityConfigs {
         return new JdbcOneTimeTokenService(jdbcOperations);
     }
 
-    private HttpSecurity applyCommonSecuritySettings(HttpSecurity http) throws Exception {
-        return http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).httpBasic(AbstractHttpConfigurer::disable).formLogin(AbstractHttpConfigurer::disable);
+    @Bean
+    public RateLimiterFilter rateLimiterFilter(RateLimiterService rateLimiterService) {
+        return new RateLimiterFilterImpl(rateLimiterService);
+    }
+
+    private HttpSecurity applyCommonSecuritySettings(HttpSecurity http, RateLimiterFilter filter) throws Exception {
+        return http.httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .addFilterAfter(filter, AuthorizationFilter.class);
     }
 
     private static void configureCsrf(CsrfConfigurer<HttpSecurity> csrf) {

@@ -1,12 +1,14 @@
 package com.prince.movieezapi.security.authenticationtokens;
 
 import com.prince.movieezapi.shared.models.UserIdentifierModel;
+import com.prince.movieezapi.user.models.MovieEzAppRole;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.UUID;
 
 /**
@@ -57,5 +59,12 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
     @Override
     public void setDetails(Object details) {
         throw new UnsupportedOperationException("Cannot change authentication state");
+    }
+
+    public MovieEzAppRole getHighestPriorityRole() {
+        return getAuthorities().stream()
+                .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
+                .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
+                .orElse(MovieEzAppRole.GUEST);
     }
 }

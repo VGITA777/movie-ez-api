@@ -1,0 +1,101 @@
+// java
+// File: `src/main/java/com/prince/movieezapi/security/ratelimit/RateLimiterServiceImpl.java`
+package com.prince.movieezapi.security.ratelimit;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+
+/**
+ * Implementation of the {@linkplain RateLimiterService} that manages rate limiters in memory.
+ */
+@Slf4j
+@Service
+public class RateLimiterServiceImpl implements RateLimiterService {
+
+    private static final long EXPIRY_DURATION_MINUTES = 3;
+    private final Cache<String, RateLimiterEntry> rateLimiters;
+
+    public RateLimiterServiceImpl() {
+        rateLimiters = Caffeine.newBuilder()
+                .maximumSize(10_000)
+                .expireAfterAccess(Duration.ofMinutes(EXPIRY_DURATION_MINUTES))
+                .build();
+    }
+
+    @Override
+    public RateLimiterEntry get(RateLimiterIdentifier identifier) {
+        verifyRateLimiterIdentifier(identifier);
+        var key = keyFor(identifier);
+        var entry = rateLimiters.getIfPresent(key);
+        if (entry == null) {
+            return null;
+        }
+        updateEntry(entry, identifier);
+        return entry;
+    }
+
+    @Override
+    public RateLimiterEntry create(RateLimiterIdentifier rateLimiterIdentifier) {
+        log.debug("Saving rate limiter: {}", rateLimiterIdentifier.getId());
+        verifyRateLimiterIdentifier(rateLimiterIdentifier);
+        var key = keyFor(rateLimiterIdentifier);
+        var newExpiryTime = Instant.now().plus(EXPIRY_DURATION_MINUTES, ChronoUnit.MINUTES);
+
+        if (rateLimiters.getIfPresent(key) != null) {
+            throw new IllegalStateException("Rate limiter with key: " + key + " already exists. Use get() method to retrieve it.");
+        }
+
+        // Create new rate limiter entry
+        log.debug("Creating a new rate limiter for key: {}", key);
+        var rateLimiterConfig = rateLimiterIdentifier.getRole().getRateLimiterConfig();
+        var rateLimiter = RateLimiter.of(rateLimiterIdentifier.getId(), rateLimiterConfig);
+        var newRateLimiterEntry = new RateLimiterEntry(newExpiryTime, rateLimiterIdentifier, rateLimiter);
+
+        // atomic insert to avoid races
+        var previous = rateLimiters.asMap().putIfAbsent(key, newRateLimiterEntry);
+        if (previous != null) {
+            throw new IllegalStateException("Rate limiter with key: " + key + " already exists (race). Use get() method to retrieve it.");
+        }
+
+        return newRateLimiterEntry;
+    }
+
+    private void updateEntry(RateLimiterEntry entry, RateLimiterIdentifier identifier) {
+        var newExpiryTime = Instant.now().plus(EXPIRY_DURATION_MINUTES, ChronoUnit.MINUTES);
+        entry.setExpiryTime(newExpiryTime);
+        if (!entry.getRateLimiterIdentifier().equals(identifier)) {
+            log.debug("Updating rate limiter: {}", identifier);
+            var newRateLimiterConfig = identifier.getRole().getRateLimiterConfig();
+            var newRateLimiter = RateLimiter.of(identifier.getId(), newRateLimiterConfig);
+            entry.setRateLimiterIdentifier(identifier);
+            entry.setRateLimiter(newRateLimiter);
+        }
+    }
+
+    private void verifyRateLimiterIdentifier(RateLimiterIdentifier identifier) {
+        if (identifier == null) {
+            throw new IllegalArgumentException("RateLimiterIdentifier is null");
+        }
+        var id = identifier.getId();
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Invalid RateLimiterIdentifier: id is null or empty");
+        }
+        if (identifier.getRole() == null) {
+            throw new IllegalArgumentException("Invalid RateLimiterIdentifier: role is null");
+        }
+    }
+
+    private String keyFor(RateLimiterIdentifier identifier) {
+        // include id, role and details string to avoid collisions
+        var detailsStr = Objects.toString(identifier.getDetails(), "");
+        return identifier.getId() + "|" + identifier.getRole().name() + "|" + detailsStr;
+    }
+}
