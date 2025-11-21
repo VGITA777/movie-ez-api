@@ -1,5 +1,3 @@
-// java
-// File: `src/main/java/com/prince/movieezapi/security/ratelimit/RateLimiterServiceImpl.java`
 package com.prince.movieezapi.security.ratelimit;
 
 import com.github.benmanes.caffeine.cache.Cache;
