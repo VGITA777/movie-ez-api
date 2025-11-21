@@ -31,32 +31,31 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         RateLimiterIdentifier rateLimiterIdentifier;
         var requestURI = request.getRequestURI();
-        var ip = getIp(request);
+        var identifier = getIp(request);
 
-        logger.info("Processing rate limiting for request: " + requestURI);
+        logger.debug("Processing rate limiting for user: " + identifier + " and request URI: " + requestURI);
 
         if (!SecurityUtils.isAuthenticated()) {
-            rateLimiterIdentifier = new RateLimiterIdentifier(ip, RateLimiterUserRoles.GUEST, null);
+            rateLimiterIdentifier = new RateLimiterIdentifier(identifier, RateLimiterUserRoles.GUEST, null);
         } else {
             var authentication = (MovieEzFullyAuthenticatedUser) contextHolderStrategy.getContext().getAuthentication();
             var role = RateLimiterUserRoles.from(authentication.getHighestPriorityRole());
-            rateLimiterIdentifier = new RateLimiterIdentifier(ip, role, authentication.getDetails());
+            rateLimiterIdentifier = new RateLimiterIdentifier(identifier, role, authentication.getDetails());
         }
 
         var rateLimiter = getOrCreateRateLimiter(rateLimiterIdentifier);
 
         if (!rateLimiter.acquirePermission()) {
-            logger.info("User with ip address: " + ip + " has reached its request limit. (" + requestURI + ")");
             returnFailResponse(response);
             return;
         }
 
         filterChain.doFilter(request, response);
-        logger.info("Filter completed for request: " + requestURI);
     }
 
     protected String getIp(HttpServletRequest request) {
-        // In production, consider using X-Forwarded-For header to get the real client IP behind proxies/load balancers
+        // In production, consider using X-Forwarded-For header
+        // to get the real client IP behind proxies/load balancers
         return request.getRemoteAddr();
     }
 
