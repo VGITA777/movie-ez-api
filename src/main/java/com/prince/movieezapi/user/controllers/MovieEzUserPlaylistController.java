@@ -9,7 +9,6 @@ import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import com.prince.movieezapi.user.services.MovieEzPlaylistAndPlaylistContentService;
 import com.prince.movieezapi.user.services.MovieEzUserPlaylistService;
 import com.prince.movieezapi.user.validators.annotations.Alphanumeric;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RateLimiter(name = "userPlaylistEndpoints")
 @RestController
 @RequestMapping("/user/v1/playlist")
 public class MovieEzUserPlaylistController {
