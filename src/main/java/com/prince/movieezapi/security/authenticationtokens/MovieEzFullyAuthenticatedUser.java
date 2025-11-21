@@ -38,6 +38,11 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
         return userIdentifierModel.id();
     }
 
+    @Override
+    public String getName() {
+        return userIdentifierModel.username();
+    }
+
     /**
      * Will always return true.
      */
