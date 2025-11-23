@@ -1,5 +1,6 @@
 package com.prince.movieezapi.security.ratelimit;
 
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class RateLimiterIdentifier implements Serializable {
 
     private String id;
     private RateLimiterUserRoles role;
-    private Object details;
+    private UserIdentifierModel details;
 
     @Override
     public boolean equals(Object o) {
