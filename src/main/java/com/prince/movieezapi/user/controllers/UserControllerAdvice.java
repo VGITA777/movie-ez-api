@@ -1,7 +1,7 @@
 package com.prince.movieezapi.user.controllers;
 
-import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
-import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
+import com.prince.movieezapi.shared.models.ErrorModel;
+import com.prince.movieezapi.shared.models.responses.ServerErrorResponse;
 import com.prince.movieezapi.user.exceptions.*;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.context.MessageSource;
@@ -36,7 +36,7 @@ public class UserControllerAdvice {
         String title = msg("auth.userNotFound.title", "User Not Found");
         String base = msg("auth.userNotFound.message", "No matching user account found.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -44,7 +44,7 @@ public class UserControllerAdvice {
         String title = msg("auth.badCredentials.title", "Invalid Credentials");
         String base = msg("auth.badCredentials.message", "The username or password is incorrect.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(CredentialException.class)
@@ -52,7 +52,7 @@ public class UserControllerAdvice {
         String title = msg("auth.credentialFailure.title", "Authentication Failed");
         String base = msg("auth.credentialFailure.message", "Authentication could not be completed.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MalformedEmailException.class)
@@ -60,7 +60,7 @@ public class UserControllerAdvice {
         String title = msg("auth.invalidEmail.title", "Invalid Email");
         String base = msg("auth.invalidEmail.message", "Provided email is not valid.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MalformedPasswordException.class)
@@ -68,7 +68,7 @@ public class UserControllerAdvice {
         String title = msg("auth.invalidPassword.title", "Invalid Password");
         String base = msg("auth.invalidPassword.message", "Password does not meet the required format.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -76,7 +76,7 @@ public class UserControllerAdvice {
         String title = msg("auth.userNotFound.title", "User Not Found");
         String base = msg("auth.userNotFound.message", "No matching user account found.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -87,7 +87,7 @@ public class UserControllerAdvice {
         String title = msg("error.invalidInput.title", "Invalid Input");
         String base = msg("error.invalidInput.message", "Request contains invalid parameters.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -98,7 +98,7 @@ public class UserControllerAdvice {
         String title = msg("auth.ott.invalid.title", "Invalid One-Time Token");
         String base = msg("auth.ott.invalid.message", "The one-time token provided is invalid or expired.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ServerAuthenticationResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -115,12 +115,12 @@ public class UserControllerAdvice {
             if (!detail.contains("for key")) {
                 body = appendDetail(base, detail);
             }
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerAuthenticationResponse.failure(title, body));
+            return createErrorResponse(title, body, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         String title = msg("sql.error.title", "Database Error");
         String base = msg("sql.error.message", "An unexpected database error occurred.");
         String body = appendDetail(base, detail);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerAuthenticationResponse.failure(title, body));
+        return createErrorResponse(title, body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -128,15 +128,16 @@ public class UserControllerAdvice {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
-        List<String> errors = e.getBindingResult()
+        List<ErrorModel> errors = e.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .filter(message -> message != null && !message.isBlank())
                 .distinct()
+                .map(ErrorModel::new)
                 .toList();
         String title = msg("validation.invalid.title", "Invalid Input");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, errors));
+        return createErrorResponse(title, errors, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -147,7 +148,7 @@ public class UserControllerAdvice {
         String title = msg("rateLimit.exceeded.title", "Rate Limit Exceeded");
         String base = msg("rateLimit.exceeded.message", "You have exceeded the rate limit for this endpoint.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ServerGenericResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.TOO_MANY_REQUESTS);
     }
 
 
@@ -158,7 +159,7 @@ public class UserControllerAdvice {
         String title = msg("resource.notFound.title", "Resource Error");
         String base = msg("resource.notFound.message", "Requested resource not found.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ServerGenericResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MalformedInput.class)
@@ -166,7 +167,7 @@ public class UserControllerAdvice {
         String title = msg("input.malformed.title", "Malformed Input");
         String base = msg("input.malformed.message", "Request contains malformed input.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ServerGenericResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
@@ -174,7 +175,7 @@ public class UserControllerAdvice {
         String title = msg("resource.alreadyExists.title", "Resource Already Exists");
         String base = msg("resource.alreadyExists.message", "Requested resource already exists.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ServerGenericResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
@@ -182,7 +183,18 @@ public class UserControllerAdvice {
         String title = msg("error.internal.unknown.title", "Internal Server Error");
         String base = msg("error.internal.unknown.message", "An unexpected error occurred.");
         String message = appendDetail(base, e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ServerGenericResponse.failure(title, message));
+        return createErrorResponse(title, message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
+        var error = new ErrorModel(message);
+        var response = new ServerErrorResponse(title, error);
+        return ResponseEntity.status(status).body(response);
+    }
+
+    private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, List<ErrorModel> errors, HttpStatus status) {
+        var response = new ServerErrorResponse(title, errors);
+        return ResponseEntity.status(status).body(response);
     }
 
     private String msg(String key, String defaultMessage, Object... args) {
