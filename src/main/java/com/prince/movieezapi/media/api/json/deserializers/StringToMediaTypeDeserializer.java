@@ -1,15 +1,16 @@
 package com.prince.movieezapi.media.api.json.deserializers;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.prince.movieezapi.media.api.models.enums.MediaType;
+import lombok.NonNull;
+import org.springframework.boot.jackson.ObjectValueDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
 
-import java.io.IOException;
+public class StringToMediaTypeDeserializer extends ObjectValueDeserializer<@NonNull MediaType> {
 
-public class StringToMediaTypeDeserializer extends JsonDeserializer<MediaType> {
     @Override
-    public MediaType deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        return MediaType.fromValue(jsonParser.getText().trim().toLowerCase());
+    protected MediaType deserializeObject(JsonParser jsonParser, @NonNull DeserializationContext context, @NonNull JsonNode tree) {
+        return MediaType.fromValue(jsonParser.getString().trim().toLowerCase());
     }
 }

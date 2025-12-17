@@ -1,6 +1,5 @@
 package com.prince.movieezapi.security.configs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import com.prince.movieezapi.security.authprovider.MovieEzEmailAuthenticationProvider;
 import com.prince.movieezapi.security.authprovider.MovieEzOneTimeTokenAuthenticationProvider;
@@ -12,6 +11,7 @@ import com.prince.movieezapi.security.ratelimit.RateLimiterService;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +25,7 @@ import org.springframework.security.authentication.ott.JdbcOneTimeTokenService;
 import org.springframework.security.authentication.ott.OneTimeTokenService;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -43,6 +44,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -181,7 +183,7 @@ public class SecurityConfigs {
 
     private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
         @Override
-        public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
+        public @Nullable AuthorizationResult authorize(Supplier<? extends @Nullable Authentication> authentication, RequestAuthorizationContext object) {
             if (authentication.get() instanceof MovieEzFullyAuthenticatedUser) {
                 return new AuthorizationDecision(true);
             }

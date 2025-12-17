@@ -81,6 +81,6 @@ public class TestRunner implements ApplicationRunner {
         user2Playlist2.addContents(user2Playlist2Content2);
 
         // Saving Users
-        movieEzUserService.save(List.of(user1, user2));
+            movieEzUserService.save(List.of(user1, user2));
     }
 }

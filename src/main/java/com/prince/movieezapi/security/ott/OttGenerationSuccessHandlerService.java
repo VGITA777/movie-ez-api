@@ -1,6 +1,5 @@
 package com.prince.movieezapi.security.ott;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 

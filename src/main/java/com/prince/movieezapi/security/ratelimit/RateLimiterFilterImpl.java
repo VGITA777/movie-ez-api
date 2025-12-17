@@ -1,6 +1,5 @@
 package com.prince.movieezapi.security.ratelimit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.SecurityUtils;
@@ -11,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class RateLimiterFilterImpl extends RateLimiterFilter {
 
     private static final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = JsonMapper.shared();
     private final RateLimiterService rateLimiterService;
 
     public RateLimiterFilterImpl(RateLimiterService rateLimiterService) {

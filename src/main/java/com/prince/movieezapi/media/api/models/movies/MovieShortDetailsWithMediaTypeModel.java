@@ -1,12 +1,12 @@
 package com.prince.movieezapi.media.api.models.movies;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prince.movieezapi.media.api.json.deserializers.StringToMediaTypeDeserializer;
 import com.prince.movieezapi.media.api.json.serailizers.MediaTypeToStringSerializer;
 import com.prince.movieezapi.media.api.models.enums.MediaType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

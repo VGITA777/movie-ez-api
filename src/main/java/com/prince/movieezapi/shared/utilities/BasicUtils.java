@@ -1,11 +1,12 @@
 package com.prince.movieezapi.shared.utilities;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Service
 public class BasicUtils {
@@ -13,7 +14,7 @@ public class BasicUtils {
     @Value("${app.email.regexp}")
     private String emailRegex;
 
-    private final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final ObjectMapper OBJECT_MAPPER = JsonMapper.shared();
 
     @SneakyThrows
     public void sendJson(HttpStatus status, Object message, HttpServletResponse response) {

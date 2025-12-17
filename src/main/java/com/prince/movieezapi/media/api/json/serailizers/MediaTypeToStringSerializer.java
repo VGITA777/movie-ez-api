@@ -1,15 +1,16 @@
 package com.prince.movieezapi.media.api.json.serailizers;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.prince.movieezapi.media.api.models.enums.MediaType;
+import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.jackson.ObjectValueSerializer;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
 
-import java.io.IOException;
+public class MediaTypeToStringSerializer extends ObjectValueSerializer<@NonNull MediaType> {
 
-public class MediaTypeToStringSerializer extends JsonSerializer<MediaType> {
     @Override
-    public void serialize(MediaType mediaType, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeString(mediaType.getType());
+    protected void serializeObject(MediaType value, JsonGenerator jgen, @NotNull SerializationContext context) {
+        jgen.writeString(value.toString().toLowerCase());
     }
 }
