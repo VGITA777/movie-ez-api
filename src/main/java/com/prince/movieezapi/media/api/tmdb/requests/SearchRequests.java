@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 
-@HttpExchange(url = "https://api.themoviedb.org/3/search")
-public interface SearchRequests {
+@HttpExchange(url = "https://api.themoviedb.org/3/search") public interface SearchRequests {
 
   @GetExchange("/movie")
   SearchMovieResultsModel searchMovies(

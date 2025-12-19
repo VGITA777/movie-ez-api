@@ -25,14 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * A model representing a user.
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "movieez_users")
-public class MovieEzUserModel implements UserDetails {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) @Data @Builder @NoArgsConstructor @AllArgsConstructor @Entity
+@Table(name = "movieez_users") public class MovieEzUserModel implements UserDetails {
 
   @Id
   @UuidGenerator

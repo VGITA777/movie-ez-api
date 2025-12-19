@@ -11,9 +11,7 @@ import java.lang.annotation.Target;
 /**
  * A validator that ensures a username is valid.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-@Constraint(validatedBy = {UsernameValidator.class})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD}) @Constraint(validatedBy = {UsernameValidator.class})
 public @interface Username {
 
   String message() default "{constraint.Username.message}";

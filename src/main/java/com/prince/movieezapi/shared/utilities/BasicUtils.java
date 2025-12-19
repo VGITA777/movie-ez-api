@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
-@Service
-public class BasicUtils {
+@Service public class BasicUtils {
 
   @Value("${app.email.regexp}")
   private String emailRegex;
