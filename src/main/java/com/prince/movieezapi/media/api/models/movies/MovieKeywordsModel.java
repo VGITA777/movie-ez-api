@@ -9,7 +9,5 @@ import lombok.EqualsAndHashCode;
  *
  * @see <a href="https://developer.themoviedb.org/reference/movie-keywords">TMDB Movie Keywords API</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MovieKeywordsModel extends Keywords {
+@Data @EqualsAndHashCode(callSuper = true) public class MovieKeywordsModel extends Keywords {
 }

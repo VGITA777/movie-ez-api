@@ -257,9 +257,9 @@ public enum Country {
     ZAIRE("ZR"),
     ZIMBABWE("ZW");
 
-    private static final Map<String, Country> ISO_TO_COUNTRIES_MAP = Arrays.stream(Country.values()).collect(
-            Collectors.toMap(Country::getIsoCode, country -> country)
-    );
+    private static final Map<String, Country> ISO_TO_COUNTRIES_MAP = Arrays.stream(Country.values())
+                                                                           .collect(Collectors.toMap(Country::getIsoCode,
+                                                                                                     country -> country));
 
     private final String isoCode;
 

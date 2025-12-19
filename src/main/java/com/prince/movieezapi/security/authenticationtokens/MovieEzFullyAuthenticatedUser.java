@@ -23,7 +23,10 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
 
     private final UserIdentifierModel userIdentifierModel;
 
-    public MovieEzFullyAuthenticatedUser(UserIdentifierModel userIdentifierModel, Collection<? extends GrantedAuthority> authorities) {
+    public MovieEzFullyAuthenticatedUser(
+            UserIdentifierModel userIdentifierModel,
+            Collection<? extends GrantedAuthority> authorities
+    ) {
         super(authorities);
         this.userIdentifierModel = userIdentifierModel;
     }
@@ -68,8 +71,8 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
 
     public MovieEzAppRole getHighestPriorityRole() {
         return getAuthorities().stream()
-                .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
-                .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
-                .orElse(MovieEzAppRole.GUEST);
+                               .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
+                               .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
+                               .orElse(MovieEzAppRole.GUEST);
     }
 }

@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DiscoverTvInput {
+@Data @Builder @NoArgsConstructor @AllArgsConstructor public class DiscoverTvInput {
     private Integer firstAirDateYear;
     @Builder.Default
     private boolean includeAdult = true;

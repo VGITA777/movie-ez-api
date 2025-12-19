@@ -10,8 +10,7 @@ import java.util.UUID;
 /**
  * Used to find users' sessions.
  */
-@Service
-public class UserSessionService {
+@Service public class UserSessionService {
 
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
@@ -25,9 +24,9 @@ public class UserSessionService {
 
     public void deleteSessionById(String sessionId, UUID userId) {
         boolean present = sessionRepository.findByPrincipalName(userId.toString())
-                .entrySet()
-                .stream()
-                .anyMatch(e -> e.getKey().equals(sessionId));
+                                           .entrySet()
+                                           .stream()
+                                           .anyMatch(e -> e.getKey().equals(sessionId));
         if (!present) {
             throw new IllegalArgumentException("Session not found");
         }
@@ -39,12 +38,11 @@ public class UserSessionService {
     }
 
     public void deleteAllSessionsByPrincipalNameExcludeSessionId(UUID userId, String id) {
-        sessionRepository.findByPrincipalName(userId.toString())
-                .forEach((k, v) -> {
-                    if (k.equals(id)) {
-                        return;
-                    }
-                    sessionRepository.deleteById(k);
-                });
+        sessionRepository.findByPrincipalName(userId.toString()).forEach((k, v) -> {
+            if (k.equals(id)) {
+                return;
+            }
+            sessionRepository.deleteById(k);
+        });
     }
 }

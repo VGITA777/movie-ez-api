@@ -11,8 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-@Service
-public class DiscoverRequestsService {
+@Service public class DiscoverRequestsService {
     private final DiscoverRequests discoverRequests;
 
     public DiscoverRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {
@@ -21,23 +20,19 @@ public class DiscoverRequestsService {
 
     @Cacheable(cacheNames = DiscoverCacheConfigurer.DISCOVER_MOVIES_CACHE)
     public Page<DiscoverMovieModel> discoverMovies(DiscoverMoviesInput input) {
-        return discoverRequests.discoverMovies(
-                input.isIncludeAdult(),
-                input.getLanguage(),
-                input.getPrimaryReleaseYear(),
-                input.getPage(),
-                input.getRegion(),
-                input.getYear()
-        );
+        return discoverRequests.discoverMovies(input.isIncludeAdult(),
+                                               input.getLanguage(),
+                                               input.getPrimaryReleaseYear(),
+                                               input.getPage(),
+                                               input.getRegion(),
+                                               input.getYear());
     }
 
     @Cacheable(cacheNames = DiscoverCacheConfigurer.DISCOVER_TV_SERIES_CACHE)
     public Page<DiscoverTvModel> discoverTv(DiscoverTvInput input) {
-        return discoverRequests.discoverTvSeries(
-                input.isIncludeAdult(),
-                input.getLanguage(),
-                input.getFirstAirDateYear(),
-                input.getPage()
-        );
+        return discoverRequests.discoverTvSeries(input.isIncludeAdult(),
+                                                 input.getLanguage(),
+                                                 input.getFirstAirDateYear(),
+                                                 input.getPage());
     }
 }

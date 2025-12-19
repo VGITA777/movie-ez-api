@@ -5,7 +5,6 @@ import com.prince.movieezapi.media.api.models.tvseries.TvSeriesShortDetailsModel
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class SearchTvSeriesResultsModel extends Page<TvSeriesShortDetailsModelWithMediaTypeModel> {
+@Data @EqualsAndHashCode(callSuper = true) public class SearchTvSeriesResultsModel
+        extends Page<TvSeriesShortDetailsModelWithMediaTypeModel> {
 }

@@ -31,6 +31,7 @@ public final class MovieEzUsernamePasswordAuthenticationToken extends Unauthenti
      *
      * @param principal   the username of the user.
      * @param credentials the password of the user
+     *
      * @return an unauthenticated {@link MovieEzUsernamePasswordAuthenticationToken}
      */
     public static MovieEzUsernamePasswordAuthenticationToken unauthenticated(Object principal, String credentials) {

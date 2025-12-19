@@ -20,16 +20,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RestController()
-@RequestMapping("/user/account/security")
-public class UserAccountSecurityController {
+@RestController() @RequestMapping("/user/account/security") public class UserAccountSecurityController {
     private final MovieEzUserService movieEzUserService;
     private final UserSessionService userSessionService;
     private final MovieEzUserDtoMapper movieEzUserDtoMapper;
     private final MovieEzUserSessionDtoMapper movieEzUserSessionDtoMapper;
     private final SpringSessionMapper springSessionMapper;
 
-    public UserAccountSecurityController(MovieEzUserService movieEzUserService, UserSessionService userSessionService, MovieEzUserDtoMapper movieEzUserDtoMapper, MovieEzUserSessionDtoMapper movieEzUserSessionDtoMapper, SpringSessionMapper springSessionMapper) {
+    public UserAccountSecurityController(
+            MovieEzUserService movieEzUserService,
+            UserSessionService userSessionService,
+            MovieEzUserDtoMapper movieEzUserDtoMapper,
+            MovieEzUserSessionDtoMapper movieEzUserSessionDtoMapper,
+            SpringSessionMapper springSessionMapper
+    ) {
         this.movieEzUserService = movieEzUserService;
         this.userSessionService = userSessionService;
         this.movieEzUserDtoMapper = movieEzUserDtoMapper;
@@ -39,22 +43,22 @@ public class UserAccountSecurityController {
 
     @GetMapping("/client")
     public ResponseEntity<?> getCurrentClient(@AuthenticationPrincipal UUID uuid) {
-        MovieEzUserModel user = movieEzUserService.findById(uuid).orElseThrow(() -> new RuntimeException("User not found with ID: '" + uuid + "'"));
+        MovieEzUserModel user = movieEzUserService.findById(uuid)
+                                                  .orElseThrow(() -> new RuntimeException("User not found with ID: '" + uuid + "'"));
         MovieEzUserDto mapped = movieEzUserDtoMapper.toDto(user);
         return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
     }
 
     @GetMapping("/sessions")
     public ResponseEntity<?> getAllSessions(@AuthenticationPrincipal UUID uuid) {
-        return ResponseEntity.ok(ServerGenericResponse.success("All sessions", userSessionService
-                .getSessionsByPrincipalName(uuid)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        (e) -> e.getValue().getId(),
-                        (e) -> movieEzUserSessionDtoMapper.toDto(e.getValue())
-                ))
-        ));
+        return ResponseEntity.ok(ServerGenericResponse.success("All sessions",
+                                                               userSessionService.getSessionsByPrincipalName(uuid)
+                                                                                 .entrySet()
+                                                                                 .stream()
+                                                                                 .collect(Collectors.toMap((e) -> e.getValue()
+                                                                                                                   .getId(),
+                                                                                                           (e) -> movieEzUserSessionDtoMapper.toDto(
+                                                                                                                   e.getValue())))));
     }
 
     @GetMapping("/sessions/current")
@@ -63,14 +67,26 @@ public class UserAccountSecurityController {
     }
 
     @PatchMapping("/update-password")
-    public ResponseEntity<?> updatePassword(@RequestBody @Valid UpdatePasswordInput input, @AuthenticationPrincipal UUID uuid, HttpSession session) {
+    public ResponseEntity<?> updatePassword(
+            @RequestBody @Valid UpdatePasswordInput input,
+            @AuthenticationPrincipal UUID uuid,
+            HttpSession session
+    ) {
         validateUpdatePasswordInput(input);
-        movieEzUserService.updatePasswordById(uuid, input.oldPassword(), input.newPassword(), session, input.invalidateSessions(), input.invalidateAllSessions());
+        movieEzUserService.updatePasswordById(uuid,
+                                              input.oldPassword(),
+                                              input.newPassword(),
+                                              session,
+                                              input.invalidateSessions(),
+                                              input.invalidateAllSessions());
         return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
     }
 
     @PatchMapping("/update-username")
-    public ResponseEntity<?> updateUsername(@RequestBody @Valid UpdateUsernameInput input, @AuthenticationPrincipal UUID uuid) {
+    public ResponseEntity<?> updateUsername(
+            @RequestBody @Valid UpdateUsernameInput input,
+            @AuthenticationPrincipal UUID uuid
+    ) {
         movieEzUserService.updateUsernameById(uuid, input.username());
         return ResponseEntity.ok(ServerGenericResponse.success("Username updated successfully", null));
     }
@@ -88,13 +104,20 @@ public class UserAccountSecurityController {
     }
 
     @DeleteMapping("/sessions/invalidate/all/exclude-current")
-    public ResponseEntity<?> invalidateAllSessionsExcludeCurrent(HttpSession session, @AuthenticationPrincipal UUID uuid) {
+    public ResponseEntity<?> invalidateAllSessionsExcludeCurrent(
+            HttpSession session,
+            @AuthenticationPrincipal UUID uuid
+    ) {
         userSessionService.deleteAllSessionsByPrincipalNameExcludeSessionId(uuid, session.getId());
-        return ResponseEntity.ok(ServerGenericResponse.success("All sessions invalidated successfully except current", null));
+        return ResponseEntity.ok(ServerGenericResponse.success("All sessions invalidated successfully except current",
+                                                               null));
     }
 
     @DeleteMapping("/close-account")
-    public ResponseEntity<?> closeAccount(@RequestBody PasswordInput passwordInput, @AuthenticationPrincipal UUID uuid) {
+    public ResponseEntity<?> closeAccount(
+            @RequestBody PasswordInput passwordInput,
+            @AuthenticationPrincipal UUID uuid
+    ) {
         movieEzUserService.delete(uuid, passwordInput.password());
         return ResponseEntity.ok(ServerGenericResponse.success("Account closed successfully", null));
     }

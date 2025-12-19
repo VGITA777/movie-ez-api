@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class SearchMovieResultsModel extends Page<MovieShortDetailsWithMediaTypeModel> {
+@Data @EqualsAndHashCode(callSuper = true) public class SearchMovieResultsModel
+        extends Page<MovieShortDetailsWithMediaTypeModel> {
 }

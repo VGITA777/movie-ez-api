@@ -9,8 +9,7 @@ import lombok.Data;
  * @see <a href="https://developer.themoviedb.org/reference/genre-movie-list">Movie Genres API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/genre-tv-list">TV Series Genres API Reference</a>
  */
-@Data
-public class Genre {
+@Data public class Genre {
     private long id;
     private String name;
 }

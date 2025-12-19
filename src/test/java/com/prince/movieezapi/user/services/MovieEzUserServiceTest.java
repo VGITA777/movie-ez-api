@@ -21,8 +21,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class MovieEzUserServiceTest {
+@ExtendWith(MockitoExtension.class) class MovieEzUserServiceTest {
 
     @Mock
     MovieEzUserRepository movieEzUserRepository;
@@ -234,8 +233,8 @@ class MovieEzUserServiceTest {
         when(movieEzUserRepository.findById(id)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongOld", "encoded")).thenReturn(false);
 
-        assertThrows(BadCredentialsException.class, () ->
-                service.updatePasswordById(id, "wrongOld", "new", httpSession, false, false));
+        assertThrows(BadCredentialsException.class,
+                     () -> service.updatePasswordById(id, "wrongOld", "new", httpSession, false, false));
 
         verify(movieEzUserRepository, never()).save(any());
         verifyNoInteractions(userSessionService);
@@ -256,8 +255,13 @@ class MovieEzUserServiceTest {
         // Simulate new password equals old by having matches(newPassword, userPassword) return true
         when(passwordEncoder.matches(newPassword, "encodedOld")).thenReturn(true);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                service.updatePasswordById(id, oldPassword, newPassword, httpSession, false, false));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                                                   () -> service.updatePasswordById(id,
+                                                                                    oldPassword,
+                                                                                    newPassword,
+                                                                                    httpSession,
+                                                                                    false,
+                                                                                    false));
 
         assertTrue(ex.getMessage().toLowerCase().contains("new password cannot be the same"));
         verify(movieEzUserRepository, never()).save(any());

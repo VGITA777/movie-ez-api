@@ -7,10 +7,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class RateLimiterEntry {
+@Getter @Setter @AllArgsConstructor public class RateLimiterEntry {
     private Instant expiryTime;
     private RateLimiterIdentifier rateLimiterIdentifier;
     private RateLimiter rateLimiter;

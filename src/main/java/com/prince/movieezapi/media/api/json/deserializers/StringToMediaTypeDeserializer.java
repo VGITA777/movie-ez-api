@@ -10,7 +10,11 @@ import tools.jackson.databind.JsonNode;
 public class StringToMediaTypeDeserializer extends ObjectValueDeserializer<@NonNull MediaType> {
 
     @Override
-    protected MediaType deserializeObject(JsonParser jsonParser, @NonNull DeserializationContext context, @NonNull JsonNode tree) {
+    protected MediaType deserializeObject(
+            JsonParser jsonParser,
+            @NonNull DeserializationContext context,
+            @NonNull JsonNode tree
+    ) {
         return MediaType.fromValue(jsonParser.getString().trim().toLowerCase());
     }
 }

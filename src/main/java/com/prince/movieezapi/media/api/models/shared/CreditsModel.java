@@ -11,14 +11,12 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-credits">Movie Credits API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-credits">TV Series Credits API Reference</a>
  */
-@Data
-public class CreditsModel {
+@Data public class CreditsModel {
     private long id;
     private List<Cast> cast;
     private List<Crew> crew;
 
-    @Data
-    public static class Cast {
+    @Data public static class Cast {
         private boolean adult;
         private int gender;
         private long id;
@@ -33,8 +31,7 @@ public class CreditsModel {
         private int order;
     }
 
-    @Data
-    public static class Crew {
+    @Data public static class Crew {
         private boolean adult;
         private int gender;
         private long id;

@@ -14,12 +14,7 @@ import java.util.UUID;
 /**
  * A model representing a user's playlist.
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) @Data @NoArgsConstructor @AllArgsConstructor @Builder @Entity
 @Table(name = "movieez_user_playlists")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class MovieEzUserPlaylistModel {
@@ -47,17 +42,16 @@ public class MovieEzUserPlaylistModel {
     }
 
     public void addContents(Collection<MovieEzPlaylistContentModel> contentList) {
-        List<MovieEzPlaylistContentModel> playlistToBeInserted = contentList.stream()
-                .filter(e -> {
-                    if (e == null) {
-                        return false;
-                    }
-                    String trackId = e.getTrackId();
-                    boolean isTrackIdInContents = contents.stream().map(MovieEzPlaylistContentModel::getTrackId).anyMatch(trackId::equals);
-                    return !isTrackIdInContents;
-                })
-                .peek(e -> e.setPlaylist(this))
-                .toList();
+        List<MovieEzPlaylistContentModel> playlistToBeInserted = contentList.stream().filter(e -> {
+            if (e == null) {
+                return false;
+            }
+            String trackId = e.getTrackId();
+            boolean isTrackIdInContents = contents.stream()
+                                                  .map(MovieEzPlaylistContentModel::getTrackId)
+                                                  .anyMatch(trackId::equals);
+            return !isTrackIdInContents;
+        }).peek(e -> e.setPlaylist(this)).toList();
         this.contents.addAll(playlistToBeInserted);
     }
 

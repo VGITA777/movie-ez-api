@@ -17,9 +17,7 @@ import java.util.List;
  *
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class TvSeriesDetailsModel extends MediaDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class TvSeriesDetailsModel extends MediaDetailsModel {
     private String first_air_date;
     private List<CreatedBy> created_by;
     private List<Integer> episode_run_time;
@@ -41,8 +39,7 @@ public class TvSeriesDetailsModel extends MediaDetailsModel {
     private MediaType media_type = MediaType.TV;
 
     // Submodels
-    @Data
-    public static class CreatedBy {
+    @Data public static class CreatedBy {
         private long id;
         private String credit_id;
         private String name;
@@ -50,8 +47,7 @@ public class TvSeriesDetailsModel extends MediaDetailsModel {
         private String profile_path;
     }
 
-    @Data
-    public static class LastEpisodeToAir {
+    @Data public static class LastEpisodeToAir {
         private String air_date;
         private int episode_number;
         private long id;
@@ -66,8 +62,7 @@ public class TvSeriesDetailsModel extends MediaDetailsModel {
         private int vote_count;
     }
 
-    @Data
-    public static class NextEpisodeToAir {
+    @Data public static class NextEpisodeToAir {
         private String air_date;
         private int episode_number;
         private long id;
@@ -82,16 +77,14 @@ public class TvSeriesDetailsModel extends MediaDetailsModel {
         private int vote_count;
     }
 
-    @Data
-    public static class Network {
+    @Data public static class Network {
         private long id;
         private String name;
         private String logo_path;
         private String origin_country;
     }
 
-    @Data
-    public static class Season {
+    @Data public static class Season {
         private String air_date;
         private int episode_count;
         private long id;

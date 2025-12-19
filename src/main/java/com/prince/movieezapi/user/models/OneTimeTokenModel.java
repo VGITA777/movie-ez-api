@@ -5,14 +5,8 @@ import lombok.*;
 
 import java.time.Instant;
 
-@Data
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name = "one_time_tokens")
-@NoArgsConstructor
-@AllArgsConstructor
-public class OneTimeTokenModel {
+@Data @Builder @EqualsAndHashCode(onlyExplicitlyIncluded = true) @Entity @Table(name = "one_time_tokens")
+@NoArgsConstructor @AllArgsConstructor public class OneTimeTokenModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include

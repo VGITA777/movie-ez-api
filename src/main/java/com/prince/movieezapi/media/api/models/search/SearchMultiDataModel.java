@@ -4,9 +4,8 @@ import com.prince.movieezapi.media.api.models.shared.MediaShortDetailsWithMediaT
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class SearchMultiDataModel extends MediaShortDetailsWithMediaTypeModel {
+@Data @EqualsAndHashCode(callSuper = true) public class SearchMultiDataModel
+        extends MediaShortDetailsWithMediaTypeModel {
     // For movies
     private String title;
     private String original_title;

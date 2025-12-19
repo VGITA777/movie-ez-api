@@ -21,7 +21,12 @@ public class SecurityUtils {
         return authentication instanceof MovieEzFullyAuthenticatedUser;
     }
 
-    public static void setCurrentAuthentication(Authentication authenticated, HttpSessionSecurityContextRepository securityContextRepository, HttpServletRequest request, HttpServletResponse response) {
+    public static void setCurrentAuthentication(
+            Authentication authenticated,
+            HttpSessionSecurityContextRepository securityContextRepository,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
         SecurityContext emptyContext = CONTEXT_HOLDER_STRATEGY.createEmptyContext();
         emptyContext.setAuthentication(authenticated);
         CONTEXT_HOLDER_STRATEGY.setContext(emptyContext);

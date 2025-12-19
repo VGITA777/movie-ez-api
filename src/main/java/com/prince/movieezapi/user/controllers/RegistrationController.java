@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/user")
-public class RegistrationController {
+@RestController @RequestMapping("/user") public class RegistrationController {
 
     private final MovieEzUserService movieEzUserService;
     private final MovieEzUserDtoMapper movieEzUserDtoMapper;
@@ -29,11 +27,12 @@ public class RegistrationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
         MovieEzUserModel newUser = MovieEzUserModel.builder()
-                .username(input.username())
-                .email(input.email())
-                .password(input.password())
-                .build();
+                                                   .username(input.username())
+                                                   .email(input.email())
+                                                   .password(input.password())
+                                                   .build();
         MovieEzUserModel saved = movieEzUserService.save(newUser);
-        return ResponseEntity.ok(ServerGenericResponse.success("User registration endpoint", movieEzUserDtoMapper.toDto(saved)));
+        return ResponseEntity.ok(ServerGenericResponse.success("User registration endpoint",
+                                                               movieEzUserDtoMapper.toDto(saved)));
     }
 }

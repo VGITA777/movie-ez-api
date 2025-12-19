@@ -7,15 +7,17 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-@Service
-public class AppClientService {
+@Service public class AppClientService {
 
     private final RestClient restClient;
     private final RestClientAdapter restClientAdapter;
     private final HttpServiceProxyFactory httpServiceProxyFactory;
 
     public AppClientService(TMDBSettings tmdbSettings) {
-        this.restClient = RestClient.builder().baseUrl(tmdbSettings.baseUrl()).defaultHeader("Authorization", "Bearer " + tmdbSettings.apiKey()).build();
+        this.restClient = RestClient.builder()
+                                    .baseUrl(tmdbSettings.baseUrl())
+                                    .defaultHeader("Authorization", "Bearer " + tmdbSettings.apiKey())
+                                    .build();
         this.restClientAdapter = RestClientAdapter.create(restClient);
         this.httpServiceProxyFactory = HttpServiceProxyFactory.builderFor(restClientAdapter).build();
     }

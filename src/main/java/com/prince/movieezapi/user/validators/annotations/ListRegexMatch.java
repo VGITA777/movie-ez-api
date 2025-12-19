@@ -13,10 +13,8 @@ import java.lang.annotation.Target;
  * A validator that matches the regex patterns.
  * Can be set to match all the patterns or just one.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
-@Constraint(validatedBy = {ListRegexMatchValidator.class})
-public @interface ListRegexMatch {
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.PARAMETER})
+@Constraint(validatedBy = {ListRegexMatchValidator.class}) public @interface ListRegexMatch {
     String message() default "{constraint.ListRegexMatch.message}";
 
     Class<?>[] groups() default {};

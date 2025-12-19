@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 
-@HttpExchange(url = "https://api.themoviedb.org/3/movie")
-public interface MoviesRequests {
+@HttpExchange(url = "https://api.themoviedb.org/3/movie") public interface MoviesRequests {
 
     @GetExchange("/{movieId}/alternative_titles")
-    MovieAlternativeTitlesModel getMovieAlternativeTitles(@PathVariable("movieId") long movieId, @RequestParam("country") String language);
+    MovieAlternativeTitlesModel getMovieAlternativeTitles(
+            @PathVariable("movieId") long movieId,
+            @RequestParam("country") String language
+    );
 
     @GetExchange("/{movieId}/credits")
     CreditsModel getMovieCredits(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
@@ -31,10 +33,18 @@ public interface MoviesRequests {
     MovieLatestModel getLatest();
 
     @GetExchange("/{movie_id}/recommendations")
-    MovieRecommendationsModel getMovieRecommendations(@PathVariable("movie_id") long movieId, @RequestParam("language") String language, @RequestParam("page") int page);
+    MovieRecommendationsModel getMovieRecommendations(
+            @PathVariable("movie_id") long movieId,
+            @RequestParam("language") String language,
+            @RequestParam("page") int page
+    );
 
     @GetExchange("/{movieId}/similar")
-    MovieSimilarModel getMovieSimilar(@PathVariable("movieId") long movieId, @RequestParam("language") String language, @RequestParam("page") int page);
+    MovieSimilarModel getMovieSimilar(
+            @PathVariable("movieId") long movieId,
+            @RequestParam("language") String language,
+            @RequestParam("page") int page
+    );
 
     @GetExchange("/{movieId}/videos")
     VideosModel getMovieVideos(@PathVariable("movieId") long movieId, @RequestParam("language") String language);

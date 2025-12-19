@@ -18,6 +18,8 @@ public record UserIdentifierModel(UUID id, String username, String email) implem
     private static final long serialVersionUID = 1L;
 
     public static UserIdentifierModel of(MovieEzUserModel movieEzUserModel) {
-        return new UserIdentifierModel(movieEzUserModel.getId(), movieEzUserModel.getUsername(), movieEzUserModel.getEmail());
+        return new UserIdentifierModel(movieEzUserModel.getId(),
+                                       movieEzUserModel.getUsername(),
+                                       movieEzUserModel.getEmail());
     }
 }

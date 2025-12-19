@@ -9,8 +9,7 @@ import lombok.Data;
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
-@Data
-public class ProductionCompany {
+@Data public class ProductionCompany {
     private long id;
     private String logo_path;
     private String name;

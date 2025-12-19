@@ -10,9 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@Service
-public class OttMailSenderService {
+@Slf4j @Service public class OttMailSenderService {
 
     private static final String OTT_VERIFY_PATH = "/user/auth/login/ott";
 
@@ -35,6 +33,7 @@ public class OttMailSenderService {
      * Sends an email containing a one-time token link to the user.
      *
      * @param mailModel the {@link OttMailModel} containing the recipient email and token value.
+     *
      * @return true if the email was sent successfully, false otherwise.
      * @throws Exception if there is an error sending the email.
      */
@@ -49,14 +48,14 @@ public class OttMailSenderService {
                 var loginUrl = baseUrl + OTT_VERIFY_PATH + "?token=" + mailModel.tokenValue();
 
                 message.append("Hello ")
-                        .append(mailModel.recipient())
-                        .append(",\n\n")
-                        .append("Use the link below to login to your account:\n")
-                        .append(loginUrl)
-                        .append("\n\n")
-                        .append("The link will expire in ")
-                        .append(tokenExpirationMinutes)
-                        .append(" minutes. If you did not request this, please ignore this email.");
+                       .append(mailModel.recipient())
+                       .append(",\n\n")
+                       .append("Use the link below to login to your account:\n")
+                       .append(loginUrl)
+                       .append("\n\n")
+                       .append("The link will expire in ")
+                       .append(tokenExpirationMinutes)
+                       .append(" minutes. If you did not request this, please ignore this email.");
 
                 mimeMessage.setFrom(fromEmail);
                 mimeMessage.setSubject("Login to your account");

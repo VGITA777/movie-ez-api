@@ -15,9 +15,7 @@ import tools.jackson.databind.annotation.JsonSerialize;
  *
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MovieDetailsModel extends MediaDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class MovieDetailsModel extends MediaDetailsModel {
     private BelongsToCollection belongs_to_collection;
     private long budget;
     private String imdb_id;
@@ -31,8 +29,7 @@ public class MovieDetailsModel extends MediaDetailsModel {
     @JsonSerialize(using = MediaTypeToStringSerializer.class)
     private MediaType media_type = MediaType.MOVIE;
 
-    @Data
-    public static class BelongsToCollection {
+    @Data public static class BelongsToCollection {
         private long id;
         private String name;
         private String poster_path;

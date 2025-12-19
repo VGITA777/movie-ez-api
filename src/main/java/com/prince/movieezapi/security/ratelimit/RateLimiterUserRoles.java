@@ -25,10 +25,10 @@ public enum RateLimiterUserRoles {
 
     public RateLimiterConfig getRateLimiterConfig() {
         return RateLimiterConfig.custom()
-                .limitForPeriod(limitForPeriod)
-                .limitRefreshPeriod(limitRefreshPeriod)
-                .timeoutDuration(timeoutDuration)
-                .build();
+                                .limitForPeriod(limitForPeriod)
+                                .limitRefreshPeriod(limitRefreshPeriod)
+                                .timeoutDuration(timeoutDuration)
+                                .build();
     }
 
     public static RateLimiterUserRoles from(MovieEzAppRole role) {

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
-public interface MovieEzUserPlaylistRepository extends JpaRepository<MovieEzUserPlaylistModel, UUID> {
+@Repository public interface MovieEzUserPlaylistRepository extends JpaRepository<MovieEzUserPlaylistModel, UUID> {
     List<MovieEzUserPlaylistModel> findAllByUserId(UUID userId);
 
     Optional<MovieEzUserPlaylistModel> findByNameAndUserId(String name, UUID userId);

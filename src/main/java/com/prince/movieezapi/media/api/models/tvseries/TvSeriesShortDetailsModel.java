@@ -12,9 +12,7 @@ import java.util.List;
  *
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class TvSeriesShortDetailsModel extends MediaShortDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class TvSeriesShortDetailsModel extends MediaShortDetailsModel {
     private String name;
     private String original_name;
     private String first_air_date;

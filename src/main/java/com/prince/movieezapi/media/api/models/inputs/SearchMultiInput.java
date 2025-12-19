@@ -6,11 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class SearchMultiInput {
+@Data @Builder @NoArgsConstructor @AllArgsConstructor public class SearchMultiInput {
     @Builder.Default
     private int page = 1;
     @Builder.Default

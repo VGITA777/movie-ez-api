@@ -30,12 +30,18 @@ public final class CustomSecurityHeaderFilter extends OncePerRequestFilter {
     private final BasicUtils basicUtils;
 
     public CustomSecurityHeaderFilter(String headerValue, BasicUtils basicUtils) {
-        this.headerBytesValue = (headerValue == null || headerValue.isBlank()) ? null : headerValue.getBytes(StandardCharsets.UTF_8);
+        this.headerBytesValue = (headerValue == null || headerValue.isBlank()) ?
+                                null :
+                                headerValue.getBytes(StandardCharsets.UTF_8);
         this.basicUtils = basicUtils;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
         // No header value configured, skip authentication
         if (headerBytesValue == null) {

@@ -8,9 +8,8 @@ import lombok.EqualsAndHashCode;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MovieShortDetailsWithMediaTypeModel extends MovieShortDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class MovieShortDetailsWithMediaTypeModel
+        extends MovieShortDetailsModel {
     @JsonDeserialize(using = StringToMediaTypeDeserializer.class)
     @JsonSerialize(using = MediaTypeToStringSerializer.class)
     private MediaType media_type = MediaType.MOVIE;

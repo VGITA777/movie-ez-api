@@ -9,10 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class RateLimiterIdentifier implements Serializable {
+@Getter @Setter @AllArgsConstructor public class RateLimiterIdentifier implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +19,9 @@ public class RateLimiterIdentifier implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         RateLimiterIdentifier that = (RateLimiterIdentifier) o;
         return Objects.equals(id, that.id) && role == that.role && Objects.equals(details, that.details);
     }

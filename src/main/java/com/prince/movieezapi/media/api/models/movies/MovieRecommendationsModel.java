@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
  *
  * @see <a href="https://developer.themoviedb.org/reference/movie-recommendations">Movie Recommendations API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MovieRecommendationsModel extends Page<MovieShortDetailsWithMediaTypeModel> {
+@Data @EqualsAndHashCode(callSuper = true) public class MovieRecommendationsModel
+        extends Page<MovieShortDetailsWithMediaTypeModel> {
 }

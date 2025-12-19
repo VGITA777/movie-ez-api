@@ -11,10 +11,5 @@ import java.util.UUID;
  * @param name     the name of the playlist.
  * @param contents a list of {@link MovieEzPlaylistContentSummaryDto}
  */
-public record MovieEzUserPlaylistDto(
-        UUID id,
-        UUID user,
-        String name,
-        List<MovieEzPlaylistContentSummaryDto> contents
-) {
+public record MovieEzUserPlaylistDto(UUID id, UUID user, String name, List<MovieEzPlaylistContentSummaryDto> contents) {
 }

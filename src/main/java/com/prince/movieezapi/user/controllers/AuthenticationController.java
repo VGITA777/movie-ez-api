@@ -22,15 +22,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 
-@Controller
-@RequestMapping("/user/auth")
-public class AuthenticationController {
+@Controller @RequestMapping("/user/auth") public class AuthenticationController {
 
     private final UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService;
     private final SecurityContextLogoutHandler securityContextLogoutHandler;
     private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
-    public AuthenticationController(UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService, SecurityContextLogoutHandler securityContextLogoutHandler) {
+    public AuthenticationController(
+            UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService,
+            SecurityContextLogoutHandler securityContextLogoutHandler
+    ) {
         this.userEmailAndUsernameAuthenticationService = userEmailAndUsernameAuthenticationService;
         this.securityContextLogoutHandler = securityContextLogoutHandler;
     }
@@ -41,14 +42,28 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login/email")
-    public ResponseEntity<?> emailPasswordLogin(@RequestBody @Valid EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response) {
-        userEmailAndUsernameAuthenticationService.authenticateUserWithEmail(input.email(), input.password(), request, response);
+    public ResponseEntity<?> emailPasswordLogin(
+            @RequestBody @Valid EmailPasswordInput input,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        userEmailAndUsernameAuthenticationService.authenticateUserWithEmail(input.email(),
+                                                                            input.password(),
+                                                                            request,
+                                                                            response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 
     @PostMapping("/login/username")
-    public ResponseEntity<?> usernamePasswordLogin(@RequestBody @Valid UsernamePasswordInput input, HttpServletRequest request, HttpServletResponse response) {
-        userEmailAndUsernameAuthenticationService.authenticateUserWithUsername(input.username(), input.password(), request, response);
+    public ResponseEntity<?> usernamePasswordLogin(
+            @RequestBody @Valid UsernamePasswordInput input,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        userEmailAndUsernameAuthenticationService.authenticateUserWithUsername(input.username(),
+                                                                               input.password(),
+                                                                               request,
+                                                                               response);
         return ResponseEntity.ok(ServerAuthenticationResponse.success("Successfully authenticated", null));
     }
 

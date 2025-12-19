@@ -12,9 +12,7 @@ import java.lang.annotation.Target;
 /**
  * Validator that ensures a password field is valid.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-@Constraint(validatedBy = {PasswordValidator.class})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD}) @Constraint(validatedBy = {PasswordValidator.class})
 public @interface Password {
     String message() default "{constraint.Password.message}";
 

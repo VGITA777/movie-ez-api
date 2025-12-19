@@ -2,8 +2,7 @@ package com.prince.movieezapi.media.api.resource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "app.tmdb")
-public record TMDBSettings(String baseUrl, String apiKey) {
+@ConfigurationProperties(prefix = "app.tmdb") public record TMDBSettings(String baseUrl, String apiKey) {
     public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
     public TMDBSettings {

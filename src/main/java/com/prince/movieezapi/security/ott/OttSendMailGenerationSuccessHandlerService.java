@@ -16,23 +16,27 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Profile("!dev")
-@Slf4j
-@Service
-public class OttSendMailGenerationSuccessHandlerService implements OneTimeTokenGenerationSuccessHandler {
+@Profile("!dev") @Slf4j @Service public class OttSendMailGenerationSuccessHandlerService
+        implements OneTimeTokenGenerationSuccessHandler {
 
     private final OttMailSenderService ottMailSenderService;
     private final MovieEzUserService userService;
     private final BasicUtils basicUtils;
 
-    public OttSendMailGenerationSuccessHandlerService(OttMailSenderService ottMailSenderService, MovieEzUserService userService, BasicUtils basicUtils) {
+    public OttSendMailGenerationSuccessHandlerService(
+            OttMailSenderService ottMailSenderService,
+            MovieEzUserService userService,
+            BasicUtils basicUtils
+    ) {
         this.ottMailSenderService = ottMailSenderService;
         this.userService = userService;
         this.basicUtils = basicUtils;
     }
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws
+                                                                                                            IOException,
+                                                                                                            ServletException {
         var userIdentifier = oneTimeToken.getUsername();
 
         if (!basicUtils.isValidEmail(userIdentifier)) {
@@ -46,13 +50,15 @@ public class OttSendMailGenerationSuccessHandlerService implements OneTimeTokenG
         log.info("One time token generated successfully for user: {}", userIdentifier);
 
         var mailMessage = OttMailModel.builder()
-                .recipient(userIdentifier)
-                .tokenValue(oneTimeToken.getTokenValue())
-                .build();
+                                      .recipient(userIdentifier)
+                                      .tokenValue(oneTimeToken.getTokenValue())
+                                      .build();
 
         try {
             ottMailSenderService.sendMail(mailMessage);
-            basicUtils.sendJson(HttpStatus.OK, ServerAuthenticationResponse.success("Email sent successfully", null), response);
+            basicUtils.sendJson(HttpStatus.OK,
+                                ServerAuthenticationResponse.success("Email sent successfully", null),
+                                response);
             log.info("Email sent successfully to user: '{}'", userIdentifier);
         } catch (Exception _) {
             log.info("Failed to send email to user: '{}'", userIdentifier);

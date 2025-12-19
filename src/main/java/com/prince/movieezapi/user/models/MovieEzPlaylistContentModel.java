@@ -9,16 +9,9 @@ import java.util.UUID;
 /**
  * A model representing a single content from a user's playlist.
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-@Table(
-        name = "movieez_playlist_contents",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "trackId"})}
-)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) @Data @NoArgsConstructor @AllArgsConstructor @Builder @Entity
+@Table(name = "movieez_playlist_contents",
+       uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "trackId"})})
 public class MovieEzPlaylistContentModel {
     @Id
     @UuidGenerator

@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class MovieEzRolesService {
+@Service public class MovieEzRolesService {
     private final MovieEzRolesRepository movieEzRolesRepository;
 
     public MovieEzRolesService(MovieEzRolesRepository movieEzRolesRepository) {

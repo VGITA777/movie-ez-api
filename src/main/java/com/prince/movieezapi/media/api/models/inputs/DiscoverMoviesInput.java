@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DiscoverMoviesInput {
+@Data @Builder @NoArgsConstructor @AllArgsConstructor public class DiscoverMoviesInput {
     @Builder.Default
     private boolean includeAdult = true;
     @Builder.Default

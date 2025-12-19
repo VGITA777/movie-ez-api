@@ -22,8 +22,7 @@ import javax.security.auth.login.CredentialException;
 import java.sql.SQLException;
 import java.util.List;
 
-@ControllerAdvice
-public class UserControllerAdvice {
+@ControllerAdvice public class UserControllerAdvice {
 
     private final MessageSource messageSource;
 
@@ -129,13 +128,13 @@ public class UserControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         List<ErrorModel> errors = e.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .filter(message -> message != null && !message.isBlank())
-                .distinct()
-                .map(ErrorModel::new)
-                .toList();
+                                   .getAllErrors()
+                                   .stream()
+                                   .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                   .filter(message -> message != null && !message.isBlank())
+                                   .distinct()
+                                   .map(ErrorModel::new)
+                                   .toList();
         String title = msg("validation.invalid.title", "Invalid Input");
         return createErrorResponse(title, errors, HttpStatus.BAD_REQUEST);
     }
@@ -192,7 +191,11 @@ public class UserControllerAdvice {
         return ResponseEntity.status(status).body(response);
     }
 
-    private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, List<ErrorModel> errors, HttpStatus status) {
+    private ResponseEntity<ServerErrorResponse> createErrorResponse(
+            String title,
+            List<ErrorModel> errors,
+            HttpStatus status
+    ) {
         var response = new ServerErrorResponse(title, errors);
         return ResponseEntity.status(status).body(response);
     }
@@ -206,10 +209,14 @@ public class UserControllerAdvice {
     }
 
     private String appendDetail(String base, String detail) {
-        if (detail == null || detail.isBlank()) return base;
+        if (detail == null || detail.isBlank()) {
+            return base;
+        }
         String trimmed = detail.trim();
         // avoid duplicating detail if already included
-        if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) return base;
+        if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) {
+            return base;
+        }
         return base + " (" + trimmed + ")";
     }
 

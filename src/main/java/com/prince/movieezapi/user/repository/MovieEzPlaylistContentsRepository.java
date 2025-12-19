@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository
-public interface MovieEzPlaylistContentsRepository extends JpaRepository<MovieEzPlaylistContentModel, UUID> {
+@Repository public interface MovieEzPlaylistContentsRepository
+        extends JpaRepository<MovieEzPlaylistContentModel, UUID> {
 }

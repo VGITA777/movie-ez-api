@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Getter
-public enum Language {
+@Getter public enum Language {
     ABKHAZIAN("ab"),
     AFAR("aa"),
     AFRIKAANS("af"),
@@ -191,7 +190,8 @@ public enum Language {
     NO_LANGUAGE("xx");
 
     public static final Map<String, Language> ISO_TO_LANGUAGE_MAP = Arrays.stream(Language.values())
-            .collect(Collectors.toMap(Language::getIsoCode, language -> language));
+                                                                          .collect(Collectors.toMap(Language::getIsoCode,
+                                                                                                    language -> language));
 
     private final String isoCode;
 

@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/media/v1/discover")
-public class DiscoverController {
+@RestController @RequestMapping("/media/v1/discover") public class DiscoverController {
 
     private final DiscoverRequestsService discoverRequestsService;
 

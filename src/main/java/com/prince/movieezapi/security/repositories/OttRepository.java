@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 
-@Repository
-public interface OttRepository extends JpaRepository<OneTimeTokenModel, Long> {
+@Repository public interface OttRepository extends JpaRepository<OneTimeTokenModel, Long> {
 
     Optional<OneTimeTokenModel> findByTokenValue(String tokenValue);
 }

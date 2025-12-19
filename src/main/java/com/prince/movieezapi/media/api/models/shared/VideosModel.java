@@ -9,8 +9,7 @@ import java.util.List;
  *
  * @see <a href="https://developer.themoviedb.org/reference/movie-videos">TMDB Movie Videos API</a>
  */
-@Data
-public class VideosModel {
+@Data public class VideosModel {
     private long id;
     private List<Video> results;
 }

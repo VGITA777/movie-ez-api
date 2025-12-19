@@ -15,9 +15,7 @@ import java.util.Objects;
 /**
  * Implementation of the {@linkplain RateLimiterService} that manages rate limiters in memory.
  */
-@Slf4j
-@Service
-public class RateLimiterServiceImpl implements RateLimiterService {
+@Slf4j @Service public class RateLimiterServiceImpl implements RateLimiterService {
 
 
     private final long expiryDurationMinutes;
@@ -26,9 +24,9 @@ public class RateLimiterServiceImpl implements RateLimiterService {
     public RateLimiterServiceImpl(@Value("${app.rate-limiter.expiry-duration-minutes:3}") long expiryDurationMinutes) {
         this.expiryDurationMinutes = expiryDurationMinutes;
         rateLimiters = Caffeine.newBuilder()
-                .maximumSize(10_000)
-                .expireAfterAccess(Duration.ofMinutes(expiryDurationMinutes))
-                .build();
+                               .maximumSize(10_000)
+                               .expireAfterAccess(Duration.ofMinutes(expiryDurationMinutes))
+                               .build();
     }
 
     @Override

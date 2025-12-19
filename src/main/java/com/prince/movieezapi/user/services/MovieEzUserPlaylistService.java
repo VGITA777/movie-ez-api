@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class MovieEzUserPlaylistService {
+@Service public class MovieEzUserPlaylistService {
     private final MovieEzUserPlaylistRepository movieEzUserPlaylistRepository;
 
 

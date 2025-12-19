@@ -14,9 +14,7 @@ import java.util.List;
  *
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-keywords">TV Series Keywords API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class TvSeriesKeywordsModel extends Keywords {
+@Data @EqualsAndHashCode(callSuper = true) public class TvSeriesKeywordsModel extends Keywords {
     @JsonProperty("results")
     private List<Keyword> keywords;
 }

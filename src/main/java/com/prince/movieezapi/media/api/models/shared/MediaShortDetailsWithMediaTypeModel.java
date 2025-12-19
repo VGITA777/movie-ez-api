@@ -15,9 +15,8 @@ import tools.jackson.databind.annotation.JsonSerialize;
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MediaShortDetailsWithMediaTypeModel extends MediaShortDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class MediaShortDetailsWithMediaTypeModel
+        extends MediaShortDetailsModel {
     @JsonDeserialize(using = StringToMediaTypeDeserializer.class)
     @JsonSerialize(using = MediaTypeToStringSerializer.class)
     private MediaType media_type;

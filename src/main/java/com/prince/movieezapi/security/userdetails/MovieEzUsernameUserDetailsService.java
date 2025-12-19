@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * Used by {@link MovieEzUsernameAuthenticationProvider} to find users using their username.
  */
-@Service
-public class MovieEzUsernameUserDetailsService implements UserDetailsService {
+@Service public class MovieEzUsernameUserDetailsService implements UserDetailsService {
 
     private final MovieEzUserService userService;
 
@@ -21,6 +20,7 @@ public class MovieEzUsernameUserDetailsService implements UserDetailsService {
 
     @Override
     public MovieEzUserModel loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return userService.findByUsername(username)
+                          .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }

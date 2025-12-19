@@ -10,14 +10,12 @@ import java.util.List;
  *
  * @see <a href="https://developer.themoviedb.org/reference/movie-alternative-titles">Movie Alternative Titles API Reference</a>
  */
-@Data
-public class MovieAlternativeTitlesModel {
+@Data public class MovieAlternativeTitlesModel {
 
     private long id;
     private List<AlternativeTitle> titles;
 
-    @Data
-    public static class AlternativeTitle {
+    @Data public static class AlternativeTitle {
         private String iso_3166_1;
         private String title;
         private String type; // Nullable, may be missing from some results

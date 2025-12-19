@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class MovieEzPlaylistContentsService {
+@Service public class MovieEzPlaylistContentsService {
     private final MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository;
 
     public MovieEzPlaylistContentsService(MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository) {

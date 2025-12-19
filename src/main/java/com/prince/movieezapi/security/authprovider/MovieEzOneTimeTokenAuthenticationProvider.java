@@ -14,16 +14,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@Service
-public class MovieEzOneTimeTokenAuthenticationProvider implements AuthenticationProvider {
+@Slf4j @Service public class MovieEzOneTimeTokenAuthenticationProvider implements AuthenticationProvider {
 
     private final OneTimeTokenService oneTimeTokenService;
     private final MovieEzUsernameUserDetailsService usernameUserDetailsService;
     private final MovieEzEmailUserDetailsService emailUserDetailsService;
     private final BasicUtils basicUtils;
 
-    public MovieEzOneTimeTokenAuthenticationProvider(OneTimeTokenService oneTimeTokenService, MovieEzUsernameUserDetailsService usernameUserDetailsService, MovieEzEmailUserDetailsService emailUserDetailsService, BasicUtils basicUtils) {
+    public MovieEzOneTimeTokenAuthenticationProvider(
+            OneTimeTokenService oneTimeTokenService,
+            MovieEzUsernameUserDetailsService usernameUserDetailsService,
+            MovieEzEmailUserDetailsService emailUserDetailsService,
+            BasicUtils basicUtils
+    ) {
         this.oneTimeTokenService = oneTimeTokenService;
         this.usernameUserDetailsService = usernameUserDetailsService;
         this.emailUserDetailsService = emailUserDetailsService;
@@ -36,13 +39,14 @@ public class MovieEzOneTimeTokenAuthenticationProvider implements Authentication
         var consumedToken = oneTimeTokenService.consume(oneTimeTokenAuthenticationToken);
 
         if (consumedToken == null) {
-            log.warn("Invalid One Time Token provided for token ID '{}'", oneTimeTokenAuthenticationToken.getTokenValue());
+            log.warn("Invalid One Time Token provided for token ID '{}'",
+                     oneTimeTokenAuthenticationToken.getTokenValue());
             throw new InvalidOneTimeTokenException("Invalid One Time Token provided");
         }
 
         var userDetails = basicUtils.isValidEmail(consumedToken.getUsername()) ?
-                emailUserDetailsService.loadUserByUsername(consumedToken.getUsername()) :
-                usernameUserDetailsService.loadUserByUsername(consumedToken.getUsername());
+                          emailUserDetailsService.loadUserByUsername(consumedToken.getUsername()) :
+                          usernameUserDetailsService.loadUserByUsername(consumedToken.getUsername());
         var userIdentifier = UserIdentifierModel.of(userDetails);
         return new MovieEzFullyAuthenticatedUser(userIdentifier, userDetails.getAuthorities());
     }

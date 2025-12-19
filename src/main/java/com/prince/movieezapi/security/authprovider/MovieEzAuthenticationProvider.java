@@ -17,8 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * A base class used for authenticating authentication tokens.
  */
-@Slf4j
-public abstract class MovieEzAuthenticationProvider implements AuthenticationProvider {
+@Slf4j public abstract class MovieEzAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -46,7 +45,9 @@ public abstract class MovieEzAuthenticationProvider implements AuthenticationPro
 
         log.info("Authentication successful for user: {}", authentication.getName());
         eraseCredentials(searchResult);
-        UserIdentifierModel userIdentifier = new UserIdentifierModel(searchResult.getId(), searchResult.getUsername(), searchResult.getEmail());
+        UserIdentifierModel userIdentifier = new UserIdentifierModel(searchResult.getId(),
+                                                                     searchResult.getUsername(),
+                                                                     searchResult.getEmail());
         return new MovieEzFullyAuthenticatedUser(userIdentifier, searchResult.getAuthorities());
     }
 

@@ -29,7 +29,11 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
         RateLimiterIdentifier rateLimiterIdentifier;
         var requestURI = request.getRequestURI();
         var identifier = getIp(request);
@@ -62,7 +66,9 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
 
     private RateLimiter getOrCreateRateLimiter(RateLimiterIdentifier identifier) {
         var rateLimiter = rateLimiterService.get(identifier);
-        return (rateLimiter == null) ? rateLimiterService.create(identifier).getRateLimiter() : rateLimiter.getRateLimiter();
+        return (rateLimiter == null) ?
+               rateLimiterService.create(identifier).getRateLimiter() :
+               rateLimiter.getRateLimiter();
     }
 
     private void returnFailResponse(HttpServletResponse response) throws IOException {

@@ -49,10 +49,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.function.Supplier;
 
-@Configuration
-@EnableWebSecurity
-@CrossOrigin(allowedHeaders = "*", origins = "*")
-public class SecurityConfigs {
+@Configuration @EnableWebSecurity @CrossOrigin(allowedHeaders = "*", origins = "*") public class SecurityConfigs {
 
     @Value("${app.movieez.security.header:#{null}}")
     private String mediaSecurityHeader;
@@ -68,36 +65,50 @@ public class SecurityConfigs {
             ObjectMapper objectMapper,
             RateLimiterFilter rateLimiterFilter
     ) throws Exception {
-        return applyCommonSecuritySettings(http, rateLimiterFilter)
-                .securityMatcher("/user/**")
-                .logout(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .csrf(SecurityConfigs::configureCsrf)
-                .oneTimeTokenLogin(ott -> configureUserOneTimeTokenLogin(ott, ottAuthProvider, objectMapper))
-                .exceptionHandling(ex -> configureUserExceptionHandling(ex, objectMapper))
-                .authorizeHttpRequests(endpoints -> {
-                    endpoints.requestMatchers("/user/auth/logout").access(new UserFullyAuthenticatedAuthorizationManager());
-                    endpoints.requestMatchers("/user/auth/**").permitAll();
-                    endpoints.requestMatchers("/user/register/**").permitAll();
-                    endpoints.anyRequest().authenticated();
-                })
-                .build();
+        return applyCommonSecuritySettings(http, rateLimiterFilter).securityMatcher("/user/**")
+                                                                   .logout(AbstractHttpConfigurer::disable)
+                                                                   .sessionManagement(session -> session.sessionCreationPolicy(
+                                                                           SessionCreationPolicy.ALWAYS))
+                                                                   .csrf(SecurityConfigs::configureCsrf)
+                                                                   .oneTimeTokenLogin(ott -> configureUserOneTimeTokenLogin(
+                                                                           ott,
+                                                                           ottAuthProvider,
+                                                                           objectMapper))
+                                                                   .exceptionHandling(ex -> configureUserExceptionHandling(
+                                                                           ex,
+                                                                           objectMapper))
+                                                                   .authorizeHttpRequests(endpoints -> {
+                                                                       endpoints.requestMatchers("/user/auth/logout")
+                                                                                .access(new UserFullyAuthenticatedAuthorizationManager());
+                                                                       endpoints.requestMatchers("/user/auth/**")
+                                                                                .permitAll();
+                                                                       endpoints.requestMatchers("/user/register/**")
+                                                                                .permitAll();
+                                                                       endpoints.anyRequest().authenticated();
+                                                                   })
+                                                                   .build();
     }
 
     /**
      * Security filter chain for the /media/** endpoint.
      */
     @Bean
-    public SecurityFilterChain mediaSecurityFilterChain(HttpSecurity http,
-                                                        BasicUtils basicUtils,
-                                                        RateLimiterFilter rateLimiterFilter) throws Exception {
-        return applyCommonSecuritySettings(http, rateLimiterFilter)
-                .securityMatcher("/media/**")
-                .csrf(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .authorizeHttpRequests(endpoints -> endpoints.anyRequest().permitAll())
-                .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader, basicUtils), AuthorizationFilter.class).build();
+    public SecurityFilterChain mediaSecurityFilterChain(
+            HttpSecurity http,
+            BasicUtils basicUtils,
+            RateLimiterFilter rateLimiterFilter
+    ) throws Exception {
+        return applyCommonSecuritySettings(http, rateLimiterFilter).securityMatcher("/media/**")
+                                                                   .csrf(AbstractHttpConfigurer::disable)
+                                                                   .logout(AbstractHttpConfigurer::disable)
+                                                                   .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
+                                                                           SessionCreationPolicy.IF_REQUIRED))
+                                                                   .authorizeHttpRequests(endpoints -> endpoints.anyRequest()
+                                                                                                                .permitAll())
+                                                                   .addFilterBefore(new CustomSecurityHeaderFilter(
+                                                                           mediaSecurityHeader,
+                                                                           basicUtils), AuthorizationFilter.class)
+                                                                   .build();
     }
 
     @Bean
@@ -106,7 +117,10 @@ public class SecurityConfigs {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(@Lazy MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider, @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider) {
+    public AuthenticationManager authenticationManager(
+            @Lazy MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider,
+            @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider
+    ) {
         return new ProviderManager(List.of(movieEzUsernameAuthenticationProvider, movieEzEmailAuthenticationProvider));
     }
 
@@ -116,7 +130,9 @@ public class SecurityConfigs {
     }
 
     @Bean
-    public SecurityContextLogoutHandler securityContextLogoutHandler(@Lazy HttpSessionSecurityContextRepository httpSessionSecurityContextRepository) {
+    public SecurityContextLogoutHandler securityContextLogoutHandler(
+            @Lazy HttpSessionSecurityContextRepository httpSessionSecurityContextRepository
+    ) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.setClearAuthentication(true);
         securityContextLogoutHandler.setInvalidateHttpSession(true);
@@ -136,8 +152,8 @@ public class SecurityConfigs {
 
     private HttpSecurity applyCommonSecuritySettings(HttpSecurity http, RateLimiterFilter filter) throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterAfter(filter, AuthorizationFilter.class);
+                   .formLogin(AbstractHttpConfigurer::disable)
+                   .addFilterAfter(filter, AuthorizationFilter.class);
     }
 
     private static void configureCsrf(CsrfConfigurer<HttpSecurity> csrf) {
@@ -145,7 +161,11 @@ public class SecurityConfigs {
         csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
     }
 
-    private static void configureUserOneTimeTokenLogin(OneTimeTokenLoginConfigurer<HttpSecurity> ott, AuthenticationProvider ottAuthProvider, ObjectMapper objectMapper) {
+    private static void configureUserOneTimeTokenLogin(
+            OneTimeTokenLoginConfigurer<HttpSecurity> ott,
+            AuthenticationProvider ottAuthProvider,
+            ObjectMapper objectMapper
+    ) {
         ott.tokenGeneratingUrl("/user/auth/request/ott");
         ott.loginProcessingUrl("/user/auth/login/ott");
         ott.authenticationProvider(ottAuthProvider);
@@ -154,36 +174,39 @@ public class SecurityConfigs {
         ott.successHandler((_, response, _) -> {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
-            var body = objectMapper.writeValueAsString(
-                    ServerAuthenticationResponse.success("Login successful", null)
-            );
+            var body = objectMapper.writeValueAsString(ServerAuthenticationResponse.success("Login successful", null));
             response.getWriter().write(body);
         });
     }
 
-    private static void configureUserExceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> ex, ObjectMapper objectMapper) {
+    private static void configureUserExceptionHandling(
+            ExceptionHandlingConfigurer<HttpSecurity> ex,
+            ObjectMapper objectMapper
+    ) {
         ex.authenticationEntryPoint((_, response, authException) -> {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
-            var body = objectMapper.writeValueAsString(
-                    ServerAuthenticationResponse.failure("Unauthorized", authException.getMessage())
-            );
+            var body = objectMapper.writeValueAsString(ServerAuthenticationResponse.failure("Unauthorized",
+                                                                                            authException.getMessage()));
             response.getWriter().write(body);
         });
 
         ex.accessDeniedHandler((_, response, accessDeniedException) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
-            var body = objectMapper.writeValueAsString(
-                    ServerAuthenticationResponse.failure("Access Denied", accessDeniedException.getMessage())
-            );
+            var body = objectMapper.writeValueAsString(ServerAuthenticationResponse.failure("Access Denied",
+                                                                                            accessDeniedException.getMessage()));
             response.getWriter().write(body);
         });
     }
 
-    private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+    private static class UserFullyAuthenticatedAuthorizationManager
+            implements AuthorizationManager<RequestAuthorizationContext> {
         @Override
-        public @Nullable AuthorizationResult authorize(Supplier<? extends @Nullable Authentication> authentication, RequestAuthorizationContext object) {
+        public @Nullable AuthorizationResult authorize(
+                Supplier<? extends @Nullable Authentication> authentication,
+                RequestAuthorizationContext object
+        ) {
             if (authentication.get() instanceof MovieEzFullyAuthenticatedUser) {
                 return new AuthorizationDecision(true);
             }

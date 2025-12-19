@@ -4,8 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
-public class Keywords {
+@Data public class Keywords {
     private long id;
     private List<Keyword> keywords;
 }

@@ -12,10 +12,8 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-@Profile("dev")
-@Slf4j
-@Service
-public class OttGenerationSuccessHandlerService implements OneTimeTokenGenerationSuccessHandler {
+@Profile("dev") @Slf4j @Service public class OttGenerationSuccessHandlerService
+        implements OneTimeTokenGenerationSuccessHandler {
 
     private final ObjectMapper objectMapper;
 
@@ -24,10 +22,13 @@ public class OttGenerationSuccessHandlerService implements OneTimeTokenGeneratio
     }
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws
+                                                                                                            IOException {
         log.info("One time token generated successfully for user: {}", oneTimeToken.getUsername());
         var writer = response.getWriter();
-        var message = objectMapper.writeValueAsString(ServerAuthenticationResponse.success("One time token generated successfully", oneTimeToken));
+        var message = objectMapper.writeValueAsString(ServerAuthenticationResponse.success(
+                "One time token generated successfully",
+                oneTimeToken));
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         writer.write(message);

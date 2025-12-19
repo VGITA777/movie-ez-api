@@ -9,14 +9,8 @@ import java.util.UUID;
 /**
  * A model representing a role of a user.
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "movieez_roles")
-public class MovieEzUserRoleModel {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) @Data @Builder @NoArgsConstructor @AllArgsConstructor @Entity
+@Table(name = "movieez_roles") public class MovieEzUserRoleModel {
 
     @Id
     @UuidGenerator

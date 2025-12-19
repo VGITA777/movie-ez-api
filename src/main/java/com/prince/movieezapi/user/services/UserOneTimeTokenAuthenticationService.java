@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 
-@Service
-public class UserOneTimeTokenAuthenticationService {
+@Service public class UserOneTimeTokenAuthenticationService {
 
     @Value("${app.security.ott.token-expiration-minutes}")
     private long tokenExpirationMinutes;
@@ -21,7 +20,9 @@ public class UserOneTimeTokenAuthenticationService {
     }
 
     public OneTimeToken generateToken(String username) {
-        GenerateOneTimeTokenRequest ottRequest = new GenerateOneTimeTokenRequest(username, Duration.ofMinutes(tokenExpirationMinutes));
+        GenerateOneTimeTokenRequest ottRequest = new GenerateOneTimeTokenRequest(username,
+                                                                                 Duration.ofMinutes(
+                                                                                         tokenExpirationMinutes));
         return oneTimeTokenService.generate(ottRequest);
     }
 

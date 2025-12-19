@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
-public interface MovieEzUserRepository extends JpaRepository<MovieEzUserModel, UUID> {
+@Repository public interface MovieEzUserRepository extends JpaRepository<MovieEzUserModel, UUID> {
     Optional<MovieEzUserModel> findByEmail(String email);
 
     Optional<MovieEzUserModel> findByUsername(String username);

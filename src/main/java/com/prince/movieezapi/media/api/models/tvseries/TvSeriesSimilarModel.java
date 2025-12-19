@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
  *
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-similar">TV Series Similar API Reference</a>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class TvSeriesSimilarModel extends Page<TvSeriesShortDetailsModelWithMediaTypeModel> {
+@Data @EqualsAndHashCode(callSuper = true) public class TvSeriesSimilarModel
+        extends Page<TvSeriesShortDetailsModelWithMediaTypeModel> {
 }

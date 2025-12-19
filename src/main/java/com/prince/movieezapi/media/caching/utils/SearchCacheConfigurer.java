@@ -17,24 +17,27 @@ public class SearchCacheConfigurer {
     }
 
     private static void configureSearchMultiResultsCache(CaffeineCacheManager cacheManager) {
-        cacheManager.registerCustomCache(SEARCH_MULTI_RESULTS_CACHE, Caffeine.newBuilder()
-                .maximumSize(1000)
-                .expireAfterWrite(Duration.ofHours(1))
-                .build());
+        cacheManager.registerCustomCache(SEARCH_MULTI_RESULTS_CACHE,
+                                         Caffeine.newBuilder()
+                                                 .maximumSize(1000)
+                                                 .expireAfterWrite(Duration.ofHours(1))
+                                                 .build());
     }
 
     public static void configureSearchMovieResultsCache(CaffeineCacheManager cacheManager) {
-        cacheManager.registerCustomCache(SEARCH_MOVIE_RESULTS_CACHE, Caffeine.newBuilder()
-                .maximumSize(1000)
-                .expireAfterWrite(Duration.ofHours(1))
-                .build());
+        cacheManager.registerCustomCache(SEARCH_MOVIE_RESULTS_CACHE,
+                                         Caffeine.newBuilder()
+                                                 .maximumSize(1000)
+                                                 .expireAfterWrite(Duration.ofHours(1))
+                                                 .build());
     }
 
     public static void configureSearchTvSeriesResultsCache(CaffeineCacheManager cacheManager) {
-        cacheManager.registerCustomCache(SEARCH_TV_SERIES_RESULTS_CACHE, Caffeine.newBuilder()
-                .maximumSize(1000)
-                .expireAfterWrite(Duration.ofHours(1))
-                .build());
+        cacheManager.registerCustomCache(SEARCH_TV_SERIES_RESULTS_CACHE,
+                                         Caffeine.newBuilder()
+                                                 .maximumSize(1000)
+                                                 .expireAfterWrite(Duration.ofHours(1))
+                                                 .build());
     }
 
 }

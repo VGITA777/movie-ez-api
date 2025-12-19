@@ -10,8 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-@Service
-public class TvSeriesRequestsService {
+@Service public class TvSeriesRequestsService {
     private final TvSeriesRequests tvSeriesRequests;
 
     public TvSeriesRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {

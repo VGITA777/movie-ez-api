@@ -17,8 +17,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class UserEmailAndUsernameAuthenticationServiceTest {
+@ExtendWith(MockitoExtension.class) class UserEmailAndUsernameAuthenticationServiceTest {
 
     @Mock
     AuthenticationManager authenticationManager;
@@ -47,8 +46,7 @@ class UserEmailAndUsernameAuthenticationServiceTest {
         String email = "foo@example.com";
         String password = "s3cr3t";
 
-        when(authenticationManager.authenticate(authenticationCaptor.capture()))
-                .thenReturn(authenticated);
+        when(authenticationManager.authenticate(authenticationCaptor.capture())).thenReturn(authenticated);
 
         // Act + Assert static mocking of SecurityUtils
         try (MockedStatic<SecurityUtils> securityUtilsMock = mockStatic(SecurityUtils.class)) {
@@ -58,15 +56,17 @@ class UserEmailAndUsernameAuthenticationServiceTest {
             Authentication passed = authenticationCaptor.getValue();
             assertNotNull(passed, "Authentication passed to manager should not be null");
             assertTrue(passed instanceof MovieEzEmailPasswordAuthenticationToken,
-                    "Expected MovieEzEmailPasswordAuthenticationToken to be used");
+                       "Expected MovieEzEmailPasswordAuthenticationToken to be used");
 
             // Check principal and credentials are what we supplied (token contracts usually put them here)
             assertEquals(email, passed.getPrincipal(), "Principal should be the email supplied");
             assertEquals(password, passed.getCredentials(), "Credentials should be the password supplied");
 
             // Verify that SecurityUtils.setCurrentAuthentication(...) was called with the authenticated object
-            securityUtilsMock.verify(() ->
-                    SecurityUtils.setCurrentAuthentication(authenticated, securityContextRepository, request, response));
+            securityUtilsMock.verify(() -> SecurityUtils.setCurrentAuthentication(authenticated,
+                                                                                  securityContextRepository,
+                                                                                  request,
+                                                                                  response));
         }
     }
 
@@ -76,13 +76,15 @@ class UserEmailAndUsernameAuthenticationServiceTest {
         String email = "bad@example.com";
         String password = "badpass";
 
-        when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException("bad credentials"));
+        when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("bad credentials"));
 
         // Act + Assert
         try (MockedStatic<SecurityUtils> securityUtilsMock = mockStatic(SecurityUtils.class)) {
             BadCredentialsException ex = assertThrows(BadCredentialsException.class,
-                    () -> service.authenticateUserWithEmail(email, password, request, response));
+                                                      () -> service.authenticateUserWithEmail(email,
+                                                                                              password,
+                                                                                              request,
+                                                                                              response));
 
             assertEquals("bad credentials", ex.getMessage());
 
@@ -100,8 +102,7 @@ class UserEmailAndUsernameAuthenticationServiceTest {
         String username = "theuser";
         String password = "pass123";
 
-        when(authenticationManager.authenticate(authenticationCaptor.capture()))
-                .thenReturn(authenticated);
+        when(authenticationManager.authenticate(authenticationCaptor.capture())).thenReturn(authenticated);
 
         try (MockedStatic<SecurityUtils> securityUtilsMock = mockStatic(SecurityUtils.class)) {
             // Act
@@ -110,13 +111,17 @@ class UserEmailAndUsernameAuthenticationServiceTest {
             // Verify token type and contents
             Authentication passed = authenticationCaptor.getValue();
             assertNotNull(passed);
-            assertInstanceOf(MovieEzUsernamePasswordAuthenticationToken.class, passed, "Expected MovieEzUsernamePasswordAuthenticationToken to be used");
+            assertInstanceOf(MovieEzUsernamePasswordAuthenticationToken.class,
+                             passed,
+                             "Expected MovieEzUsernamePasswordAuthenticationToken to be used");
             assertEquals(username, passed.getPrincipal());
             assertEquals(password, passed.getCredentials());
 
             // Verify static call
-            securityUtilsMock.verify(() ->
-                    SecurityUtils.setCurrentAuthentication(authenticated, securityContextRepository, request, response));
+            securityUtilsMock.verify(() -> SecurityUtils.setCurrentAuthentication(authenticated,
+                                                                                  securityContextRepository,
+                                                                                  request,
+                                                                                  response));
         }
     }
 
@@ -126,13 +131,12 @@ class UserEmailAndUsernameAuthenticationServiceTest {
         String username = "baduser";
         String password = "nopass";
 
-        when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException("invalid"));
+        when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("invalid"));
 
         try (MockedStatic<SecurityUtils> securityUtilsMock = mockStatic(SecurityUtils.class)) {
             // Act + Assert
             assertThrows(BadCredentialsException.class,
-                    () -> service.authenticateUserWithUsername(username, password, request, response));
+                         () -> service.authenticateUserWithUsername(username, password, request, response));
 
             // Ensure repository/static helper not used
             verifyNoInteractions(securityContextRepository);

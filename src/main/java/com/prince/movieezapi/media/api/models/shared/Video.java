@@ -9,8 +9,7 @@ import lombok.Data;
  * @see <a href="https://developer.themoviedb.org/reference/movie-videos">Movie Videos API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-videos">TV Series Videos API Reference</a>
  */
-@Data
-public class Video {
+@Data public class Video {
     private String iso_639_1;
     private String iso_3166_1;
     private String name;

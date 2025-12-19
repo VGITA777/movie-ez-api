@@ -11,8 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
-@Data
-public class MediaDetailsModel {
+@Data public class MediaDetailsModel {
     private boolean adult;
     private String backdrop_path;
     private List<Genre> genres;

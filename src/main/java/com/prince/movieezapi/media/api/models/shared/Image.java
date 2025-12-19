@@ -9,8 +9,7 @@ import lombok.Data;
  * @see <a href="https://developer.themoviedb.org/reference/movie-images">Movie Images API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-images">TV Series Images API Reference</a>
  */
-@Data
-public class Image {
+@Data public class Image {
     private double aspect_ratio;
     private String file_path;
     private int height;

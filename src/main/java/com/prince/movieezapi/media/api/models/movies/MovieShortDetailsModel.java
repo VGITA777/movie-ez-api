@@ -4,9 +4,7 @@ import com.prince.movieezapi.media.api.models.shared.MediaShortDetailsModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MovieShortDetailsModel extends MediaShortDetailsModel {
+@Data @EqualsAndHashCode(callSuper = true) public class MovieShortDetailsModel extends MediaShortDetailsModel {
     private boolean adult;
     private String title;
     private String original_title;

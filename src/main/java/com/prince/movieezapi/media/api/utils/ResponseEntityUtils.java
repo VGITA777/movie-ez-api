@@ -7,8 +7,7 @@ import java.time.Duration;
 
 public class ResponseEntityUtils {
     public static ResponseEntity.BodyBuilder okPrivateWithCacheControl(Duration duration) {
-        return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(duration).cachePrivate().mustRevalidate());
+        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(duration).cachePrivate().mustRevalidate());
     }
 
     public static ResponseEntity.BodyBuilder okPrivateOneDay() {

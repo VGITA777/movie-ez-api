@@ -14,13 +14,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class MovieEzUserService {
+@Service public class MovieEzUserService {
     private final MovieEzUserRepository movieEzUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserSessionService userSessionService;
 
-    public MovieEzUserService(MovieEzUserRepository movieEzUserRepository, PasswordEncoder passwordEncoder, UserSessionService userSessionService) {
+    public MovieEzUserService(
+            MovieEzUserRepository movieEzUserRepository,
+            PasswordEncoder passwordEncoder,
+            UserSessionService userSessionService
+    ) {
         this.movieEzUserRepository = movieEzUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.userSessionService = userSessionService;
@@ -55,7 +58,8 @@ public class MovieEzUserService {
 
     @Transactional
     public void delete(UUID uuid, String password) {
-        MovieEzUserModel movieEzUserModel = findById(uuid).orElseThrow(() -> new UserNotFoundException("Failed to delete user with UUID: '" + uuid + "' because user does not exists"));
+        MovieEzUserModel movieEzUserModel = findById(uuid).orElseThrow(() -> new UserNotFoundException(
+                "Failed to delete user with UUID: '" + uuid + "' because user does not exists"));
         if (!passwordEncoder.matches(password, movieEzUserModel.getPassword())) {
             throw new BadCredentialsException("Failed to delete user with id: '" + uuid + "' because password does not match");
         }
@@ -72,7 +76,14 @@ public class MovieEzUserService {
     }
 
     @Transactional
-    public MovieEzUserModel updatePasswordById(UUID id, String oldPassword, String newPassword, HttpSession httpSession, boolean invalidateSessions, boolean invalidateAllSessions) {
+    public MovieEzUserModel updatePasswordById(
+            UUID id,
+            String oldPassword,
+            String newPassword,
+            HttpSession httpSession,
+            boolean invalidateSessions,
+            boolean invalidateAllSessions
+    ) {
         MovieEzUserModel user = findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: '" + id + "'"));
         String userPassword = user.getPassword();
         if (!passwordEncoder.matches(oldPassword, userPassword)) {
@@ -97,7 +108,8 @@ public class MovieEzUserService {
 
     @Transactional
     public MovieEzUserModel updateUsernameById(UUID uuid, String username) {
-        MovieEzUserModel user = findById(uuid).orElseThrow(() -> new UserNotFoundException("User not found with email: '" + uuid + "'"));
+        MovieEzUserModel user = findById(uuid).orElseThrow(() -> new UserNotFoundException(
+                "User not found with email: '" + uuid + "'"));
         if (user.getUsername().equalsIgnoreCase(username)) {
             return user;
         }

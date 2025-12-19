@@ -11,8 +11,7 @@ import java.util.List;
  * @see <a href="https://developer.themoviedb.org/reference/movie-details">Movie Details API Reference</a>
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-details">TV Series Details API Reference</a>
  */
-@Data
-public class MediaShortDetailsModel {
+@Data public class MediaShortDetailsModel {
     private String backdrop_path;
     private long id;
     private String overview;
