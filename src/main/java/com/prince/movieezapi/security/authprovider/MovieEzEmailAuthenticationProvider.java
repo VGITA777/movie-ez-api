@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MovieEzEmailAuthenticationProvider extends MovieEzAuthenticationProvider {
-    public MovieEzEmailAuthenticationProvider(MovieEzEmailUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        super(userDetailsService, passwordEncoder);
-    }
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return MovieEzEmailPasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
+  public MovieEzEmailAuthenticationProvider(
+      MovieEzEmailUserDetailsService userDetailsService,
+      PasswordEncoder passwordEncoder
+  ) {
+    super(userDetailsService, passwordEncoder);
+  }
+
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return MovieEzEmailPasswordAuthenticationToken.class.isAssignableFrom(authentication);
+  }
 }

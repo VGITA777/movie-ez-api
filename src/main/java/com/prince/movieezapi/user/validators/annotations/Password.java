@@ -3,7 +3,6 @@ package com.prince.movieezapi.user.validators.annotations;
 import com.prince.movieezapi.user.validators.PasswordValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,13 +15,14 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {PasswordValidator.class})
 public @interface Password {
-    String message() default "{constraint.Password.message}";
 
-    Class<?>[] groups() default {};
+  String message() default "{constraint.Password.message}";
 
-    Class<? extends Payload>[] payload() default {};
+  Class<?>[] groups() default {};
 
-    int minLength() default 8;
+  Class<? extends Payload>[] payload() default {};
 
-    int maxLength() default 32;
+  int minLength() default 8;
+
+  int maxLength() default 32;
 }

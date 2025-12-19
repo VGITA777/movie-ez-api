@@ -14,44 +14,46 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Service
 public class SearchRequestsService {
-    private final SearchRequests searchRequests;
 
-    public SearchRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {
-        this.searchRequests = httpServiceProxyFactory.createClient(SearchRequests.class);
-    }
+  private final SearchRequests searchRequests;
 
-    @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MOVIE_RESULTS_CACHE)
-    public SearchMovieResultsModel searchMovies(SearchMovieInput input) {
-        return searchRequests.searchMovies(
-                input.getQuery(),
-                input.isIncludeAdult(),
-                input.getLanguage().getIsoCode(),
-                input.getPrimaryReleaseYear(),
-                input.getPage(),
-                input.getRegion(),
-                input.getYear()
-        );
-    }
+  public SearchRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {
+    this.searchRequests = httpServiceProxyFactory.createClient(SearchRequests.class);
+  }
 
-    @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_TV_SERIES_RESULTS_CACHE)
-    public SearchTvSeriesResultsModel searchTvSeries(SearchTvInput input) {
-        return searchRequests.searchTvSeries(
-                input.getQuery(),
-                input.getFirstAirDateYear(),
-                input.isIncludeAdult(),
-                input.getLanguage().getIsoCode(),
-                input.getPage(),
-                input.getPage());
-    }
+  @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MOVIE_RESULTS_CACHE)
+  public SearchMovieResultsModel searchMovies(SearchMovieInput input) {
+    return searchRequests.searchMovies(
+        input.getQuery(),
+        input.isIncludeAdult(),
+        input.getLanguage().getIsoCode(),
+        input.getPrimaryReleaseYear(),
+        input.getPage(),
+        input.getRegion(),
+        input.getYear()
+    );
+  }
 
-    @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MULTI_RESULTS_CACHE)
-    public SearchMultiResultsModel searchMulti(SearchMultiInput input) {
-        return searchRequests.searchMulti(
-                input.getQuery(),
-                input.isIncludeAdult(),
-                input.getLanguage().getIsoCode(),
-                input.getPage()
-        );
-    }
+  @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_TV_SERIES_RESULTS_CACHE)
+  public SearchTvSeriesResultsModel searchTvSeries(SearchTvInput input) {
+    return searchRequests.searchTvSeries(
+        input.getQuery(),
+        input.getFirstAirDateYear(),
+        input.isIncludeAdult(),
+        input.getLanguage().getIsoCode(),
+        input.getPage(),
+        input.getPage()
+    );
+  }
+
+  @Cacheable(cacheNames = SearchCacheConfigurer.SEARCH_MULTI_RESULTS_CACHE)
+  public SearchMultiResultsModel searchMulti(SearchMultiInput input) {
+    return searchRequests.searchMulti(
+        input.getQuery(),
+        input.isIncludeAdult(),
+        input.getLanguage().getIsoCode(),
+        input.getPage()
+    );
+  }
 }
 

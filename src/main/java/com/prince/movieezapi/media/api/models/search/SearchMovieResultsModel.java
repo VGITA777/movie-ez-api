@@ -9,4 +9,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SearchMovieResultsModel extends Page<MovieShortDetailsWithMediaTypeModel> {
+
 }

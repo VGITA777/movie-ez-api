@@ -2,32 +2,32 @@ package com.prince.movieezapi.user.services;
 
 import com.prince.movieezapi.user.models.MovieEzPlaylistContentModel;
 import com.prince.movieezapi.user.repository.MovieEzPlaylistContentsRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieEzPlaylistContentsService {
-    private final MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository;
 
-    public MovieEzPlaylistContentsService(MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository) {
-        this.movieEzPlaylistContentsRepository = movieEzPlaylistContentsRepository;
-    }
+  private final MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository;
 
-    public MovieEzPlaylistContentModel save(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
-        return movieEzPlaylistContentsRepository.save(movieEzPlaylistContentModel);
-    }
+  public MovieEzPlaylistContentsService(MovieEzPlaylistContentsRepository movieEzPlaylistContentsRepository) {
+    this.movieEzPlaylistContentsRepository = movieEzPlaylistContentsRepository;
+  }
 
-    public Optional<MovieEzPlaylistContentModel> get(UUID id) {
-        return movieEzPlaylistContentsRepository.findById(id);
-    }
+  public MovieEzPlaylistContentModel save(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
+    return movieEzPlaylistContentsRepository.save(movieEzPlaylistContentModel);
+  }
 
-    public void delete(UUID id) {
-        movieEzPlaylistContentsRepository.deleteById(id);
-    }
+  public Optional<MovieEzPlaylistContentModel> get(UUID id) {
+    return movieEzPlaylistContentsRepository.findById(id);
+  }
 
-    public void delete(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
-        movieEzPlaylistContentsRepository.delete(movieEzPlaylistContentModel);
-    }
+  public void delete(UUID id) {
+    movieEzPlaylistContentsRepository.deleteById(id);
+  }
+
+  public void delete(MovieEzPlaylistContentModel movieEzPlaylistContentModel) {
+    movieEzPlaylistContentsRepository.delete(movieEzPlaylistContentModel);
+  }
 }

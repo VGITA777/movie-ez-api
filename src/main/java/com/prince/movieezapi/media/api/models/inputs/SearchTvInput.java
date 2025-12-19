@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SearchTvInput extends SearchMultiInput {
-    private int firstAirDateYear;
+
+  private int firstAirDateYear;
 }

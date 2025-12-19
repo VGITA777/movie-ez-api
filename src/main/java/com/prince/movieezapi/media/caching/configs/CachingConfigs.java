@@ -13,15 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 @Configuration
 public class CachingConfigs {
-    @Bean
-    public CacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-        cacheManager.setAllowNullValues(false);
-        cacheManager.setAsyncCacheMode(true);
-        MovieCacheConfigurer.configureMovieCaches(cacheManager);
-        TvSeriesCacheConfigurer.configureTvSeriesCaches(cacheManager);
-        DiscoverCacheConfigurer.configureDiscoverCaches(cacheManager);
-        SearchCacheConfigurer.configureSearchCaches(cacheManager);
-        return cacheManager;
-    }
+
+  @Bean
+  public CacheManager cacheManager() {
+    CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+    cacheManager.setAllowNullValues(false);
+    cacheManager.setAsyncCacheMode(true);
+    MovieCacheConfigurer.configureMovieCaches(cacheManager);
+    TvSeriesCacheConfigurer.configureTvSeriesCaches(cacheManager);
+    DiscoverCacheConfigurer.configureDiscoverCaches(cacheManager);
+    SearchCacheConfigurer.configureSearchCaches(cacheManager);
+    return cacheManager;
+  }
 }

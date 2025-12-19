@@ -9,8 +9,8 @@ import tools.jackson.databind.SerializationContext;
 
 public class MediaTypeToStringSerializer extends ObjectValueSerializer<@NonNull MediaType> {
 
-    @Override
-    protected void serializeObject(MediaType value, JsonGenerator jgen, @NotNull SerializationContext context) {
-        jgen.writeString(value.toString().toLowerCase());
-    }
+  @Override
+  protected void serializeObject(MediaType value, JsonGenerator jgen, @NotNull SerializationContext context) {
+    jgen.writeString(value.toString().toLowerCase());
+  }
 }

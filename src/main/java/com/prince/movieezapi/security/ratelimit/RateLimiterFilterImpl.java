@@ -8,67 +8,70 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
-
 /**
- * Implementation of the {@linkplain RateLimiterFilter} that applies rate limiting based on user roles and IP addresses.
+ * Implementation of the {@linkplain RateLimiterFilter} that applies rate limiting based on user roles and IP
+ * addresses.
  */
 public class RateLimiterFilterImpl extends RateLimiterFilter {
 
-    private static final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-    private static final ObjectMapper mapper = JsonMapper.shared();
-    private final RateLimiterService rateLimiterService;
+  private static final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
+  private static final ObjectMapper mapper = JsonMapper.shared();
+  private final RateLimiterService rateLimiterService;
 
-    public RateLimiterFilterImpl(RateLimiterService rateLimiterService) {
-        this.rateLimiterService = rateLimiterService;
+  public RateLimiterFilterImpl(RateLimiterService rateLimiterService) {
+    this.rateLimiterService = rateLimiterService;
+  }
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    RateLimiterIdentifier rateLimiterIdentifier;
+    var requestURI = request.getRequestURI();
+    var identifier = getIp(request);
+
+    logger.debug("Processing rate limiting for user: " + identifier + " and request URI: " + requestURI);
+
+    if (!SecurityUtils.isAuthenticated()) {
+      rateLimiterIdentifier = new RateLimiterIdentifier(identifier, RateLimiterUserRoles.GUEST, null);
+    } else {
+      var authentication = (MovieEzFullyAuthenticatedUser) contextHolderStrategy.getContext().getAuthentication();
+      var role = RateLimiterUserRoles.from(authentication.getHighestPriorityRole());
+      rateLimiterIdentifier = new RateLimiterIdentifier(identifier, role, authentication.getDetails());
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        RateLimiterIdentifier rateLimiterIdentifier;
-        var requestURI = request.getRequestURI();
-        var identifier = getIp(request);
+    var rateLimiter = getOrCreateRateLimiter(rateLimiterIdentifier);
 
-        logger.debug("Processing rate limiting for user: " + identifier + " and request URI: " + requestURI);
-
-        if (!SecurityUtils.isAuthenticated()) {
-            rateLimiterIdentifier = new RateLimiterIdentifier(identifier, RateLimiterUserRoles.GUEST, null);
-        } else {
-            var authentication = (MovieEzFullyAuthenticatedUser) contextHolderStrategy.getContext().getAuthentication();
-            var role = RateLimiterUserRoles.from(authentication.getHighestPriorityRole());
-            rateLimiterIdentifier = new RateLimiterIdentifier(identifier, role, authentication.getDetails());
-        }
-
-        var rateLimiter = getOrCreateRateLimiter(rateLimiterIdentifier);
-
-        if (!rateLimiter.acquirePermission()) {
-            returnFailResponse(response);
-            return;
-        }
-
-        filterChain.doFilter(request, response);
+    if (!rateLimiter.acquirePermission()) {
+      returnFailResponse(response);
+      return;
     }
 
-    protected String getIp(HttpServletRequest request) {
-        // In production, consider using X-Forwarded-For header
-        // to get the real client IP behind proxies/load balancers
-        return request.getRemoteAddr();
-    }
+    filterChain.doFilter(request, response);
+  }
 
-    private RateLimiter getOrCreateRateLimiter(RateLimiterIdentifier identifier) {
-        var rateLimiter = rateLimiterService.get(identifier);
-        return (rateLimiter == null) ? rateLimiterService.create(identifier).getRateLimiter() : rateLimiter.getRateLimiter();
-    }
+  protected String getIp(HttpServletRequest request) {
+    // In production, consider using X-Forwarded-For header
+    // to get the real client IP behind proxies/load balancers
+    return request.getRemoteAddr();
+  }
 
-    private void returnFailResponse(HttpServletResponse response) throws IOException {
-        var message = ServerGenericResponse.failure("Too many requests. Please try again later.", null);
-        response.setStatus(429);
-        response.setContentType("application/json");
-        response.getWriter().write(mapper.writeValueAsString(message));
-    }
+  private RateLimiter getOrCreateRateLimiter(RateLimiterIdentifier identifier) {
+    var rateLimiter = rateLimiterService.get(identifier);
+    return (rateLimiter == null)
+           ? rateLimiterService.create(identifier).getRateLimiter()
+           : rateLimiter.getRateLimiter();
+  }
+
+  private void returnFailResponse(HttpServletResponse response) throws IOException {
+    var message = ServerGenericResponse.failure("Too many requests. Please try again later.", null);
+    response.setStatus(429);
+    response.setContentType("application/json");
+    response.getWriter().write(mapper.writeValueAsString(message));
+  }
 }

@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/media/v1/discover")
 public class DiscoverController {
 
-    private final DiscoverRequestsService discoverRequestsService;
+  private final DiscoverRequestsService discoverRequestsService;
 
-    public DiscoverController(DiscoverRequestsService discoverRequestsService) {
-        this.discoverRequestsService = discoverRequestsService;
-    }
+  public DiscoverController(DiscoverRequestsService discoverRequestsService) {
+    this.discoverRequestsService = discoverRequestsService;
+  }
 
-    @GetMapping("/movies")
-    public Page<DiscoverMovieModel> discoverMovies(@ModelAttribute DiscoverMoviesInput input) {
-        return discoverRequestsService.discoverMovies(input);
-    }
+  @GetMapping("/movies")
+  public Page<DiscoverMovieModel> discoverMovies(@ModelAttribute DiscoverMoviesInput input) {
+    return discoverRequestsService.discoverMovies(input);
+  }
 
-    @GetMapping("/tv")
-    public Page<DiscoverTvModel> discoverTv(@ModelAttribute DiscoverTvInput input) {
-        return discoverRequestsService.discoverTv(input);
-    }
+  @GetMapping("/tv")
+  public Page<DiscoverTvModel> discoverTv(@ModelAttribute DiscoverTvInput input) {
+    return discoverRequestsService.discoverTv(input);
+  }
 }

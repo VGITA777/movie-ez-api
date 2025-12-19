@@ -9,4 +9,5 @@ import java.util.UUID;
  * @param trackId the ID of the track.
  */
 public record MovieEzPlaylistContentSummaryDto(UUID id, String trackId) {
+
 }

@@ -9,4 +9,5 @@ import java.util.UUID;
  * @param name the name of the playlist.
  */
 public record MovieEzUserPlaylistSummaryDto(UUID id, String name) {
+
 }

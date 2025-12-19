@@ -3,27 +3,26 @@ package com.prince.movieezapi.user.validators.annotations;
 import com.prince.movieezapi.user.validators.ListRegexMatchValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A validator that matches the regex patterns.
- * Can be set to match all the patterns or just one.
+ * A validator that matches the regex patterns. Can be set to match all the patterns or just one.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = {ListRegexMatchValidator.class})
 public @interface ListRegexMatch {
-    String message() default "{constraint.ListRegexMatch.message}";
 
-    Class<?>[] groups() default {};
+  String message() default "{constraint.ListRegexMatch.message}";
 
-    Class<? extends Payload>[] payload() default {};
+  Class<?>[] groups() default {};
 
-    String[] patterns() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    boolean matchAll() default false;
+  String[] patterns() default {};
+
+  boolean matchAll() default false;
 }

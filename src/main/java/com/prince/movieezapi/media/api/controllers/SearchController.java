@@ -14,25 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/media/v1/search")
 public class SearchController {
-    private final SearchRequestsService searchRequestsService;
 
-    @Autowired
-    public SearchController(SearchRequestsService searchRequestsService) {
-        this.searchRequestsService = searchRequestsService;
-    }
+  private final SearchRequestsService searchRequestsService;
 
-    @GetMapping("/movie")
-    public ResponseEntity<?> searchMovie(@ModelAttribute SearchMovieInput input) {
-        return ResponseEntity.ok(searchRequestsService.searchMovies(input));
-    }
+  @Autowired
+  public SearchController(SearchRequestsService searchRequestsService) {
+    this.searchRequestsService = searchRequestsService;
+  }
 
-    @GetMapping("/tv")
-    public ResponseEntity<?> searchTvSeries(@ModelAttribute SearchTvInput input) {
-        return ResponseEntity.ok(searchRequestsService.searchTvSeries(input));
-    }
+  @GetMapping("/movie")
+  public ResponseEntity<?> searchMovie(@ModelAttribute SearchMovieInput input) {
+    return ResponseEntity.ok(searchRequestsService.searchMovies(input));
+  }
 
-    @GetMapping("/multi")
-    public ResponseEntity<?> searchMulti(@ModelAttribute SearchMultiInput input) {
-        return ResponseEntity.ok(searchRequestsService.searchMulti(input));
-    }
+  @GetMapping("/tv")
+  public ResponseEntity<?> searchTvSeries(@ModelAttribute SearchTvInput input) {
+    return ResponseEntity.ok(searchRequestsService.searchTvSeries(input));
+  }
+
+  @GetMapping("/multi")
+  public ResponseEntity<?> searchMulti(@ModelAttribute SearchMultiInput input) {
+    return ResponseEntity.ok(searchRequestsService.searchMulti(input));
+  }
 }

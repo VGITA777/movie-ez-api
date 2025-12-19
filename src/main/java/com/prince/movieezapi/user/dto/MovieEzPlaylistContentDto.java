@@ -9,9 +9,6 @@ import java.util.UUID;
  * @param playlist the {@link UUID} of the playlist where the content is from.
  * @param trackId  the ID of the track.
  */
-public record MovieEzPlaylistContentDto(
-        UUID id,
-        UUID playlist,
-        String trackId
-) {
+public record MovieEzPlaylistContentDto(UUID id, UUID playlist, String trackId) {
+
 }

@@ -1,11 +1,11 @@
 package com.prince.movieezapi.media.api.models.shared;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class Keywords {
-    private long id;
-    private List<Keyword> keywords;
+
+  private long id;
+  private List<Keyword> keywords;
 }

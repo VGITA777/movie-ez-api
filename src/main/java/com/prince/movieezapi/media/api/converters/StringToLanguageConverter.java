@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StringToLanguageConverter implements Converter<String, Language> {
-    @Override
-    public Language convert(String source) {
-        return Language.fromValue(source);
-    }
+
+  @Override
+  public Language convert(String source) {
+    return Language.fromValue(source);
+  }
 }

@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StringToCountryConverter implements Converter<String, Country> {
-    @Override
-    public Country convert(String source) {
-        return Country.fromValue(source);
-    }
+
+  @Override
+  public Country convert(String source) {
+    return Country.fromValue(source);
+  }
 }

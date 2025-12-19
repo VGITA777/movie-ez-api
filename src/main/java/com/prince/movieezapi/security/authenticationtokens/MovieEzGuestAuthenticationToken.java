@@ -9,33 +9,33 @@ import java.util.Collections;
  */
 public final class MovieEzGuestAuthenticationToken extends UnauthenticatedToken implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+  @Serial
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a fully authenticated guest user.
-     */
-    public MovieEzGuestAuthenticationToken() {
-        super(Collections.emptyList());
-    }
+  /**
+   * Creates a fully authenticated guest user.
+   */
+  public MovieEzGuestAuthenticationToken() {
+    super(Collections.emptyList());
+  }
 
-    @Override
-    public Object getCredentials() {
-        return null;
-    }
+  @Override
+  public Object getCredentials() {
+    return null;
+  }
 
-    @Override
-    public Object getPrincipal() {
-        return "EzMovie";
-    }
+  @Override
+  public Object getPrincipal() {
+    return "EzMovie";
+  }
 
-    @Override
-    public boolean isAuthenticated() {
-        return true;
-    }
+  @Override
+  public boolean isAuthenticated() {
+    return true;
+  }
 
-    @Override
-    public void setAuthenticated(boolean authenticated) {
-        throw new IllegalArgumentException("Cannot change authenticated state of MovieEzGuestAuthenticationToken");
-    }
+  @Override
+  public void setAuthenticated(boolean authenticated) {
+    throw new IllegalArgumentException("Cannot change authenticated state of MovieEzGuestAuthenticationToken");
+  }
 }

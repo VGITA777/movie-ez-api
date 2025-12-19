@@ -1,86 +1,89 @@
 package com.prince.movieezapi;
 
-import com.prince.movieezapi.user.models.*;
+import com.prince.movieezapi.user.models.MovieEzAppRole;
+import com.prince.movieezapi.user.models.MovieEzPlaylistContentModel;
+import com.prince.movieezapi.user.models.MovieEzUserModel;
+import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
+import com.prince.movieezapi.user.models.MovieEzUserRoleModel;
 import com.prince.movieezapi.user.services.MovieEzUserService;
+import java.util.List;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Profile("dev")
 @Component
 public class TestRunner implements ApplicationRunner {
 
-    private final MovieEzUserService movieEzUserService;
+  private final MovieEzUserService movieEzUserService;
 
-    public TestRunner(MovieEzUserService movieEzUserService) {
-        this.movieEzUserService = movieEzUserService;
-    }
+  public TestRunner(MovieEzUserService movieEzUserService) {
+    this.movieEzUserService = movieEzUserService;
+  }
 
-    @Override
-    public void run(ApplicationArguments args) {
+  @Override
+  public void run(ApplicationArguments args) {
 
-        MovieEzUserRoleModel adminRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
-        MovieEzUserRoleModel userRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
-        MovieEzUserModel user1 = MovieEzUserModel.builder()
-                .username("prince")
-                .email("prince@mail.com")
-                .password("Password1!")
-                .build();
-        MovieEzUserPlaylistModel user1Playlist = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
-        MovieEzPlaylistContentModel user1PlaylistContent1 = MovieEzPlaylistContentModel.builder()
-                .trackId("abc1")
-                .build();
-        MovieEzPlaylistContentModel user1PlaylistContent2 = MovieEzPlaylistContentModel.builder()
-                .trackId("zzz123")
-                .build();
-        MovieEzPlaylistContentModel user1PlaylistContent3 = MovieEzPlaylistContentModel.builder()
-                .trackId("rrr123")
-                .build();
+    MovieEzUserRoleModel adminRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
+    MovieEzUserRoleModel userRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
+    MovieEzUserModel user1 = MovieEzUserModel
+        .builder()
+        .username("prince")
+        .email("prince@mail.com")
+        .password("Password1!")
+        .build();
+    MovieEzUserPlaylistModel user1Playlist = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
+    MovieEzPlaylistContentModel user1PlaylistContent1 = MovieEzPlaylistContentModel.builder().trackId("abc1").build();
+    MovieEzPlaylistContentModel user1PlaylistContent2 = MovieEzPlaylistContentModel.builder().trackId("zzz123").build();
+    MovieEzPlaylistContentModel user1PlaylistContent3 = MovieEzPlaylistContentModel.builder().trackId("rrr123").build();
 
-        // Adding Roles
-        user1.addRole(adminRole);
-        user1.addRole(userRole);
+    // Adding Roles
+    user1.addRole(adminRole);
+    user1.addRole(userRole);
 
-        // Adding Playlist and Contents
-        user1.addPlaylist(user1Playlist);
-        user1Playlist.addContents(user1PlaylistContent1);
-        user1Playlist.addContents(user1PlaylistContent2);
-        user1Playlist.addContents(user1PlaylistContent3);
+    // Adding Playlist and Contents
+    user1.addPlaylist(user1Playlist);
+    user1Playlist.addContents(user1PlaylistContent1);
+    user1Playlist.addContents(user1PlaylistContent2);
+    user1Playlist.addContents(user1PlaylistContent3);
 
-        MovieEzUserRoleModel adminRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
-        MovieEzUserRoleModel userRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
-        MovieEzUserModel user2 = MovieEzUserModel.builder()
-                .username("horizon")
-                .email("horizon@mail.com")
-                .password("Password1!")
-                .build();
-        MovieEzUserPlaylistModel user2Playlist1 = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
-        MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel.builder().name("LoFi tracks").user(user1).build();
-        MovieEzPlaylistContentModel user2Playlist1Content1 = MovieEzPlaylistContentModel.builder()
-                .trackId("abc1")
-                .build();
-        MovieEzPlaylistContentModel user2Playlist2Content1 = MovieEzPlaylistContentModel.builder()
-                .trackId("aaa111")
-                .build();
-        MovieEzPlaylistContentModel user2Playlist2Content2 = MovieEzPlaylistContentModel.builder()
-                .trackId("bbb222")
-                .build();
+    MovieEzUserRoleModel adminRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
+    MovieEzUserRoleModel userRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
+    MovieEzUserModel user2 = MovieEzUserModel
+        .builder()
+        .username("horizon")
+        .email("horizon@mail.com")
+        .password("Password1!")
+        .build();
+    MovieEzUserPlaylistModel user2Playlist1 = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
+    MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel
+        .builder()
+        .name("LoFi tracks")
+        .user(user1)
+        .build();
+    MovieEzPlaylistContentModel user2Playlist1Content1 = MovieEzPlaylistContentModel.builder().trackId("abc1").build();
+    MovieEzPlaylistContentModel user2Playlist2Content1 = MovieEzPlaylistContentModel
+        .builder()
+        .trackId("aaa111")
+        .build();
+    MovieEzPlaylistContentModel user2Playlist2Content2 = MovieEzPlaylistContentModel
+        .builder()
+        .trackId("bbb222")
+        .build();
 
-        // Adding Roles
-        user2.addRole(adminRole2);
-        user2.addRole(userRole2);
+    // Adding Roles
+    user2.addRole(adminRole2);
+    user2.addRole(userRole2);
 
-        // Adding Playlist and Contents
-        user2.addPlaylist(user2Playlist1);
-        user2.addPlaylist(user2Playlist2);
-        user2Playlist1.addContents(user2Playlist1Content1);
-        user2Playlist2.addContents(user2Playlist2Content1);
-        user2Playlist2.addContents(user2Playlist2Content2);
+    // Adding Playlist and Contents
+    user2.addPlaylist(user2Playlist1);
+    user2.addPlaylist(user2Playlist2);
+    user2Playlist1.addContents(user2Playlist1Content1);
+    user2Playlist2.addContents(user2Playlist2Content1);
+    user2Playlist2.addContents(user2Playlist2Content2);
 
-        // Saving Users
-            movieEzUserService.save(List.of(user1, user2));
-    }
+    // Saving Users
+    movieEzUserService.save(List.of(user1, user2));
+  }
 }

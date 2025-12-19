@@ -7,13 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public enum MovieEzAppRole {
-    GUEST(0),
-    USER(1),
-    ADMIN(Integer.MAX_VALUE);
+  GUEST(0), USER(1), ADMIN(Integer.MAX_VALUE);
 
-    private final int priority;
+  private final int priority;
 
-    MovieEzAppRole(int priority) {
-        this.priority = priority;
-    }
+  MovieEzAppRole(int priority) {
+    this.priority = priority;
+  }
 }

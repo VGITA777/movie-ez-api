@@ -17,23 +17,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class RegistrationController {
 
-    private final MovieEzUserService movieEzUserService;
-    private final MovieEzUserDtoMapper movieEzUserDtoMapper;
+  private final MovieEzUserService movieEzUserService;
+  private final MovieEzUserDtoMapper movieEzUserDtoMapper;
 
-    public RegistrationController(MovieEzUserService movieEzUserService, MovieEzUserDtoMapper movieEzUserDtoMapper) {
-        this.movieEzUserService = movieEzUserService;
-        this.movieEzUserDtoMapper = movieEzUserDtoMapper;
-    }
+  public RegistrationController(MovieEzUserService movieEzUserService, MovieEzUserDtoMapper movieEzUserDtoMapper) {
+    this.movieEzUserService = movieEzUserService;
+    this.movieEzUserDtoMapper = movieEzUserDtoMapper;
+  }
 
-    @RateLimiter(name = "userRegisterEndpoint")
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
-        MovieEzUserModel newUser = MovieEzUserModel.builder()
-                .username(input.username())
-                .email(input.email())
-                .password(input.password())
-                .build();
-        MovieEzUserModel saved = movieEzUserService.save(newUser);
-        return ResponseEntity.ok(ServerGenericResponse.success("User registration endpoint", movieEzUserDtoMapper.toDto(saved)));
-    }
+  @RateLimiter(name = "userRegisterEndpoint")
+  @PostMapping("/register")
+  public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
+    MovieEzUserModel newUser = MovieEzUserModel
+        .builder()
+        .username(input.username())
+        .email(input.email())
+        .password(input.password())
+        .build();
+    MovieEzUserModel saved = movieEzUserService.save(newUser);
+    return ResponseEntity.ok(ServerGenericResponse.success(
+        "User registration endpoint",
+        movieEzUserDtoMapper.toDto(saved)
+    ));
+  }
 }

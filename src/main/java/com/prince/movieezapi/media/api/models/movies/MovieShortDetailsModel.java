@@ -7,9 +7,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MovieShortDetailsModel extends MediaShortDetailsModel {
-    private boolean adult;
-    private String title;
-    private String original_title;
-    private String release_date;
-    private boolean video;
+
+  private boolean adult;
+  private String title;
+  private String original_title;
+  private String release_date;
+  private boolean video;
 }

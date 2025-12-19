@@ -11,13 +11,13 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(config = SpringDtoMapperConfigs.class)
 public interface MovieEzUserPlaylistSummaryDtoMapper {
 
-    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    MovieEzUserPlaylistSummaryDto toDto(MovieEzUserPlaylistModel model);
+  @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "name", target = "name")
+  MovieEzUserPlaylistSummaryDto toDto(MovieEzUserPlaylistModel model);
 
-    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    MovieEzUserPlaylistModel toModel(MovieEzUserPlaylistSummaryDto dto);
+  @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "name", target = "name")
+  MovieEzUserPlaylistModel toModel(MovieEzUserPlaylistSummaryDto dto);
 }

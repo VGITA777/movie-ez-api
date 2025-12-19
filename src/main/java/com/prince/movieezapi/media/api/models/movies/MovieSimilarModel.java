@@ -11,4 +11,5 @@ import com.prince.movieezapi.media.api.models.shared.Page;
  * @see <a href="https://developer.themoviedb.org/reference/movie-similar">Movie Similar API Reference</a>
  */
 public class MovieSimilarModel extends Page<MovieShortDetailsWithMediaTypeModel> {
+
 }

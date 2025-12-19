@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication
 public class MovieEzApiApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MovieEzApiApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(MovieEzApiApplication.class, args);
+  }
 
 }

@@ -11,20 +11,20 @@ import tools.jackson.databind.json.JsonMapper;
 @Service
 public class BasicUtils {
 
-    @Value("${app.email.regexp}")
-    private String emailRegex;
+  @Value("${app.email.regexp}")
+  private String emailRegex;
 
-    private final ObjectMapper OBJECT_MAPPER = JsonMapper.shared();
+  private final ObjectMapper OBJECT_MAPPER = JsonMapper.shared();
 
-    @SneakyThrows
-    public void sendJson(HttpStatus status, Object message, HttpServletResponse response) {
-        response.setStatus(status.value());
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(OBJECT_MAPPER.writeValueAsString(message));
-    }
+  @SneakyThrows
+  public void sendJson(HttpStatus status, Object message, HttpServletResponse response) {
+    response.setStatus(status.value());
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().write(OBJECT_MAPPER.writeValueAsString(message));
+  }
 
-    public boolean isValidEmail(String email) {
-        return email.matches(emailRegex);
-    }
+  public boolean isValidEmail(String email) {
+    return email.matches(emailRegex);
+  }
 }

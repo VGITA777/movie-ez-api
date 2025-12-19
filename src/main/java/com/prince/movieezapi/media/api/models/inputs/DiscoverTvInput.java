@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscoverTvInput {
-    private Integer firstAirDateYear;
-    @Builder.Default
-    private boolean includeAdult = true;
-    private String language;
-    @Builder.Default
-    private int page = 1;
+
+  private Integer firstAirDateYear;
+  @Builder.Default
+  private boolean includeAdult = true;
+  private String language;
+  @Builder.Default
+  private int page = 1;
 }
 

@@ -1,8 +1,7 @@
 package com.prince.movieezapi.media.api.models.shared;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 /**
  * Response model for movie videos from TMDB API.
@@ -11,6 +10,7 @@ import java.util.List;
  */
 @Data
 public class VideosModel {
-    private long id;
-    private List<Video> results;
+
+  private long id;
+  private List<Video> results;
 }

@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SearchMovieInput extends SearchMultiInput {
-    private int primaryReleaseYear;
-    private String region;
-    private int year;
+
+  private int primaryReleaseYear;
+  private String region;
+  private int year;
 }

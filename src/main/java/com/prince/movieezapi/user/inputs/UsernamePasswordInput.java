@@ -6,4 +6,5 @@ import com.prince.movieezapi.user.validators.annotations.Username;
 
 public record UsernamePasswordInput(@Required(fieldName = "username") @Username String username,
                                     @Required(fieldName = "password") @Password String password) {
+
 }

@@ -11,8 +11,8 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(config = SpringDtoMapperConfigs.class)
 public interface MovieEzPlaylistContentSummaryDtoMapper {
 
-    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "trackId", target = "trackId")
-    MovieEzPlaylistContentSummaryDto toDto(MovieEzPlaylistContentModel model);
+  @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "trackId", target = "trackId")
+  MovieEzPlaylistContentSummaryDto toDto(MovieEzPlaylistContentModel model);
 }

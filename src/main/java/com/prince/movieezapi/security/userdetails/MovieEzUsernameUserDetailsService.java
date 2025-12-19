@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieEzUsernameUserDetailsService implements UserDetailsService {
 
-    private final MovieEzUserService userService;
+  private final MovieEzUserService userService;
 
-    public MovieEzUsernameUserDetailsService(MovieEzUserService userService) {
-        this.userService = userService;
-    }
+  public MovieEzUsernameUserDetailsService(MovieEzUserService userService) {
+    this.userService = userService;
+  }
 
-    @Override
-    public MovieEzUserModel loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-    }
+  @Override
+  public MovieEzUserModel loadUserByUsername(String username) throws UsernameNotFoundException {
+    return userService
+        .findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+  }
 }

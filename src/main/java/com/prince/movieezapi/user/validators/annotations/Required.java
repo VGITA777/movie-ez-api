@@ -3,7 +3,6 @@ package com.prince.movieezapi.user.validators.annotations;
 import com.prince.movieezapi.user.validators.RequiredValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,11 +15,12 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {RequiredValidator.class})
 public @interface Required {
-    String fieldName() default "";
 
-    String message() default "{constraint.Required.message}";
+  String fieldName() default "";
 
-    Class<?>[] groups() default {};
+  String message() default "{constraint.Required.message}";
 
-    Class<? extends Payload>[] payload() default {};
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
 }

@@ -5,64 +5,87 @@ import com.prince.movieezapi.media.api.tmdb.services.TvSeriesRequestsService;
 import com.prince.movieezapi.media.api.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/media/v1/tv-series")
 public class TvSeriesController {
-    private final TvSeriesRequestsService tvSeriesRequestsService;
 
-    @Autowired
-    public TvSeriesController(TvSeriesRequestsService tvSeriesRequestsService) {
-        this.tvSeriesRequestsService = tvSeriesRequestsService;
-    }
+  private final TvSeriesRequestsService tvSeriesRequestsService;
 
-    @GetMapping("/{seriesId}/credits")
-    public ResponseEntity<?> getTvSeriesCredits(@PathVariable long seriesId,
-                                                @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesCredits(seriesId, language));
-    }
+  @Autowired
+  public TvSeriesController(TvSeriesRequestsService tvSeriesRequestsService) {
+    this.tvSeriesRequestsService = tvSeriesRequestsService;
+  }
 
-    @GetMapping("/{seriesId}/details")
-    public ResponseEntity<?> getTvSeriesDetails(@PathVariable long seriesId,
-                                                @RequestParam(defaultValue = "en", required = false) String language) {
+  @GetMapping("/{seriesId}/credits")
+  public ResponseEntity<?> getTvSeriesCredits(
+      @PathVariable long seriesId,
+      @RequestParam(defaultValue = "en", required = false) String language
+  ) {
+    return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesCredits(seriesId, language));
+  }
 
-        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesDetails(seriesId, language));
-    }
+  @GetMapping("/{seriesId}/details")
+  public ResponseEntity<?> getTvSeriesDetails(
+      @PathVariable long seriesId,
+      @RequestParam(defaultValue = "en", required = false) String language
+  ) {
 
-    @GetMapping("/{seriesId}/images")
-    public ResponseEntity<?> getTvSeriesImages(@PathVariable long seriesId,
-                                               @RequestParam(defaultValue = "en", required = false) String language) {
-        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesImages(seriesId, language));
-    }
+    return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesDetails(seriesId, language));
+  }
 
-    @GetMapping("/{seriesId}/keywords")
-    public ResponseEntity<?> getTvSeriesKeywords(@PathVariable long seriesId) {
-        return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesKeywords(seriesId));
-    }
+  @GetMapping("/{seriesId}/images")
+  public ResponseEntity<?> getTvSeriesImages(
+      @PathVariable long seriesId,
+      @RequestParam(defaultValue = "en", required = false) String language
+  ) {
+    return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesImages(seriesId, language));
+  }
 
-    @GetMapping("/latest")
-    public ResponseEntity<?> getLatestTvSeries() {
-        return ResponseEntity.ok(tvSeriesRequestsService.getLatestTvSeries());
-    }
+  @GetMapping("/{seriesId}/keywords")
+  public ResponseEntity<?> getTvSeriesKeywords(@PathVariable long seriesId) {
+    return ResponseEntityUtils.okPrivateOneWeek().body(tvSeriesRequestsService.getTvSeriesKeywords(seriesId));
+  }
 
-    @GetMapping("/{seriesId}/recommendations")
-    public ResponseEntity<?> getTvSeriesRecommendations(@PathVariable long seriesId,
-                                                        @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
-                                                        @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
-    }
+  @GetMapping("/latest")
+  public ResponseEntity<?> getLatestTvSeries() {
+    return ResponseEntity.ok(tvSeriesRequestsService.getLatestTvSeries());
+  }
 
-    @GetMapping("/{seriesId}/similar")
-    public ResponseEntity<?> getTvSeriesSimilar(@PathVariable long seriesId,
-                                                @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
-                                                @RequestParam(defaultValue = "1", required = false) int page) {
-        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
-    }
+  @GetMapping("/{seriesId}/recommendations")
+  public ResponseEntity<?> getTvSeriesRecommendations(
+      @PathVariable long seriesId,
+      @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
+      @RequestParam(defaultValue = "1", required = false) int page
+  ) {
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(tvSeriesRequestsService.getTvSeriesRecommendations(seriesId, language.getIsoCode(), page));
+  }
 
-    @GetMapping("/{seriesId}/videos")
-    public ResponseEntity<?> getTvSeriesVideos(@PathVariable long seriesId,
-                                               @RequestParam(value = "language", defaultValue = "en", required = false) Language language) {
-        return ResponseEntityUtils.okPrivateOneDay().body(tvSeriesRequestsService.getTvSeriesVideos(seriesId, language.getIsoCode()));
-    }
+  @GetMapping("/{seriesId}/similar")
+  public ResponseEntity<?> getTvSeriesSimilar(
+      @PathVariable long seriesId,
+      @RequestParam(value = "language", defaultValue = "en", required = false) Language language,
+      @RequestParam(defaultValue = "1", required = false) int page
+  ) {
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(tvSeriesRequestsService.getTvSeriesSimilar(seriesId, language.getIsoCode(), page));
+  }
+
+  @GetMapping("/{seriesId}/videos")
+  public ResponseEntity<?> getTvSeriesVideos(
+      @PathVariable long seriesId,
+      @RequestParam(value = "language", defaultValue = "en", required = false) Language language
+  ) {
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(tvSeriesRequestsService.getTvSeriesVideos(seriesId, language.getIsoCode()));
+  }
 }

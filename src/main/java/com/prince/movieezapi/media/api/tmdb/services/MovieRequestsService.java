@@ -1,6 +1,11 @@
 package com.prince.movieezapi.media.api.tmdb.services;
 
-import com.prince.movieezapi.media.api.models.movies.*;
+import com.prince.movieezapi.media.api.models.movies.MovieAlternativeTitlesModel;
+import com.prince.movieezapi.media.api.models.movies.MovieDetailsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieKeywordsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieLatestModel;
+import com.prince.movieezapi.media.api.models.movies.MovieRecommendationsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieSimilarModel;
 import com.prince.movieezapi.media.api.models.shared.CreditsModel;
 import com.prince.movieezapi.media.api.models.shared.ImagesModel;
 import com.prince.movieezapi.media.api.models.shared.VideosModel;
@@ -12,54 +17,55 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Service
 public class MovieRequestsService {
-    private final MoviesRequests moviesRequests;
 
-    public MovieRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {
-        this.moviesRequests = httpServiceProxyFactory.createClient(MoviesRequests.class);
-    }
+  private final MoviesRequests moviesRequests;
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_ALTERNATIVE_TITLES_CACHE)
-    public MovieAlternativeTitlesModel getMovieAlternativeTitles(long movieId, String country) {
-        return moviesRequests.getMovieAlternativeTitles(movieId, country);
-    }
+  public MovieRequestsService(HttpServiceProxyFactory httpServiceProxyFactory) {
+    this.moviesRequests = httpServiceProxyFactory.createClient(MoviesRequests.class);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_CREDITS_CACHE)
-    public CreditsModel getMovieCredits(long movieId, String language) {
-        return moviesRequests.getMovieCredits(movieId, language);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_ALTERNATIVE_TITLES_CACHE)
+  public MovieAlternativeTitlesModel getMovieAlternativeTitles(long movieId, String country) {
+    return moviesRequests.getMovieAlternativeTitles(movieId, country);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_DETAILS_CACHE)
-    public MovieDetailsModel getMovieDetails(long movieId, String language) {
-        return moviesRequests.getMovieDetails(movieId, language);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_CREDITS_CACHE)
+  public CreditsModel getMovieCredits(long movieId, String language) {
+    return moviesRequests.getMovieCredits(movieId, language);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_IMAGES_CACHE)
-    public ImagesModel getMovieImages(long movieId, String language) {
-        return moviesRequests.getMovieImages(movieId, language);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_DETAILS_CACHE)
+  public MovieDetailsModel getMovieDetails(long movieId, String language) {
+    return moviesRequests.getMovieDetails(movieId, language);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_KEYWORDS_CACHE)
-    public MovieKeywordsModel getMovieKeywords(long movieId) {
-        return moviesRequests.getMovieKeywords(movieId);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_IMAGES_CACHE)
+  public ImagesModel getMovieImages(long movieId, String language) {
+    return moviesRequests.getMovieImages(movieId, language);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_LATEST_CACHE)
-    public MovieLatestModel getLatest() {
-        return moviesRequests.getLatest();
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_KEYWORDS_CACHE)
+  public MovieKeywordsModel getMovieKeywords(long movieId) {
+    return moviesRequests.getMovieKeywords(movieId);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_RECOMMENDATIONS_CACHE)
-    public MovieRecommendationsModel getMovieRecommendations(long movieId, String language, int page) {
-        return moviesRequests.getMovieRecommendations(movieId, language, page);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_LATEST_CACHE)
+  public MovieLatestModel getLatest() {
+    return moviesRequests.getLatest();
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_SIMILAR_CACHE)
-    public MovieSimilarModel getMovieSimilar(long movieId, String language, int page) {
-        return moviesRequests.getMovieSimilar(movieId, language, page);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_RECOMMENDATIONS_CACHE)
+  public MovieRecommendationsModel getMovieRecommendations(long movieId, String language, int page) {
+    return moviesRequests.getMovieRecommendations(movieId, language, page);
+  }
 
-    @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_VIDEOS_CACHE)
-    public VideosModel getMovieVideos(long movieId, String language) {
-        return moviesRequests.getMovieVideos(movieId, language);
-    }
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_SIMILAR_CACHE)
+  public MovieSimilarModel getMovieSimilar(long movieId, String language, int page) {
+    return moviesRequests.getMovieSimilar(movieId, language, page);
+  }
+
+  @Cacheable(cacheNames = MovieCacheConfigurer.MOVIE_VIDEOS_CACHE)
+  public VideosModel getMovieVideos(long movieId, String language) {
+    return moviesRequests.getMovieVideos(movieId, language);
+  }
 }

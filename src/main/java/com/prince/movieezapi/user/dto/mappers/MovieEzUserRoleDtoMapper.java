@@ -11,14 +11,14 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(config = SpringDtoMapperConfigs.class)
 public interface MovieEzUserRoleDtoMapper {
 
-    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "description", target = "description")
-    MovieEzUserRoleDto toDto(MovieEzUserRoleModel model);
+  @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "description", target = "description")
+  MovieEzUserRoleDto toDto(MovieEzUserRoleModel model);
 
-    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "description", target = "description")
-    @Mapping(target = "user", ignore = true)
-    MovieEzUserRoleModel toModel(MovieEzUserRoleDto dto);
+  @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "description", target = "description")
+  @Mapping(target = "user", ignore = true)
+  MovieEzUserRoleModel toModel(MovieEzUserRoleDto dto);
 }
