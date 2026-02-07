@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,11 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/v1/playlist")
+@RequestMapping("/user/playlist")
 public class MovieEzUserPlaylistController {
 
   private final MovieEzUserPlaylistService movieEzUserPlaylistService;
@@ -45,44 +44,43 @@ public class MovieEzUserPlaylistController {
 
   @GetMapping("/all")
   public ResponseEntity<?> getAllPlaylists(
-      @AuthenticationPrincipal
-      UUID uuid
+      JwtAuthenticationToken token
   ) {
-    Map<String, MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByUserId(uuid)
-                                                                             .stream()
-                                                                             .map(userPlaylistMapper::toDto)
-                                                                             .collect(Collectors.toMap(
-                                                                                 MovieEzUserPlaylistDto::name,
-                                                                                 playlistDto -> playlistDto
-                                                                             ));
-    return ResponseEntity.ok().body(ServerGenericResponse.success("Playlists", response));
+    var uuid = UUID.fromString(token.getName());
+    Map<String, MovieEzUserPlaylistDto> response = movieEzUserPlaylistService
+        .getAllByUserId(uuid)
+        .stream()
+        .map(userPlaylistMapper::toDto)
+        .collect(Collectors.toMap(MovieEzUserPlaylistDto::name, playlistDto -> playlistDto));
+    return ResponseEntity
+        .ok()
+        .body(ServerGenericResponse.success("Playlists", response));
   }
 
   @GetMapping("/{playlistName}")
   public ResponseEntity<?> getPlaylistByName(
       @PathVariable
-      String playlistName,
-      @AuthenticationPrincipal
-      UUID uuid
+      String playlistName, JwtAuthenticationToken token
   ) {
-    MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService.getByNameAndUserId(playlistName, uuid)
-                                                                  .orElseThrow(() -> new PlaylistNotFoundException(
-                                                                      "Playlist with name: '" + playlistName +
-                                                                      "' does not exists"));
+    var uuid = UUID.fromString(token.getName());
+    MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService
+        .getByNameAndUserId(playlistName, uuid)
+        .orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
     MovieEzUserPlaylistDto mapped = userPlaylistMapper.toDto(playlist);
-    return ResponseEntity.ok().body(ServerGenericResponse.success("Playlist", mapped));
+    return ResponseEntity
+        .ok()
+        .body(ServerGenericResponse.success("Playlist", mapped));
   }
 
-  @PostMapping("/create")
+  @PostMapping("/{playlistName}")
   public ResponseEntity<?> createPlaylist(
       @Alphanumeric
-      @RequestParam(name = "name")
+      @PathVariable
       @Valid
-      String name,
-      @AuthenticationPrincipal
-      UUID uuid
+      String playlistName, JwtAuthenticationToken token
   ) {
-    MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.createPlaylist(name, uuid);
+    var uuid = UUID.fromString(token.getName());
+    MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.createPlaylist(playlistName, uuid);
     MovieEzUserPlaylistDto mapped = userPlaylistMapper.toDto(playlist);
     return ResponseEntity.ok(ServerGenericResponse.success("Playlist created successfully", mapped));
   }
@@ -95,10 +93,9 @@ public class MovieEzUserPlaylistController {
       String playlistName,
       @RequestBody
       @Valid
-      PlaylistContentsInput playlistContentsInput,
-      @AuthenticationPrincipal
-      UUID uuid
+      PlaylistContentsInput playlistContentsInput, JwtAuthenticationToken token
   ) {
+    var uuid = UUID.fromString(token.getName());
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addAllToPlaylist(
         uuid,
         playlistName,
@@ -118,10 +115,9 @@ public class MovieEzUserPlaylistController {
       @Alphanumeric
       @Valid
       @PathVariable
-      String trackId,
-      @AuthenticationPrincipal
-      UUID uuid
+      String trackId, JwtAuthenticationToken token
   ) {
+    var uuid = UUID.fromString(token.getName());
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addToPlaylist(
         uuid,
         playlistName,
@@ -139,10 +135,9 @@ public class MovieEzUserPlaylistController {
       String playlistName,
       @RequestBody
       @Valid
-      PlaylistContentsInput playlistContentsInput,
-      @AuthenticationPrincipal
-      UUID uuid
+      PlaylistContentsInput playlistContentsInput, JwtAuthenticationToken token
   ) {
+    var uuid = UUID.fromString(token.getName());
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeAllFromPlaylist(
         uuid,
         playlistName,
@@ -161,10 +156,9 @@ public class MovieEzUserPlaylistController {
       @Alphanumeric
       @Valid
       @PathVariable
-      String trackId,
-      @AuthenticationPrincipal
-      UUID uuid
+      String trackId, JwtAuthenticationToken token
   ) {
+    var uuid = UUID.fromString(token.getName());
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeFromPlaylist(
         uuid,
         playlistName,
@@ -177,10 +171,9 @@ public class MovieEzUserPlaylistController {
   @DeleteMapping("/{playlistName}")
   public ResponseEntity<?> deletePlaylist(
       @PathVariable
-      String playlistName,
-      @AuthenticationPrincipal
-      UUID uuid
+      String playlistName, JwtAuthenticationToken token
   ) {
+    var uuid = UUID.fromString(token.getName());
     boolean delete = movieEzUserPlaylistService.delete(playlistName, uuid);
     if (!delete) {
       throw new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists");
