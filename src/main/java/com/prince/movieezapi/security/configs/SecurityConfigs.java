@@ -2,11 +2,13 @@ package com.prince.movieezapi.security.configs;
 
 import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
+import com.prince.movieezapi.security.filters.UserInformationSyncFilter;
 import com.prince.movieezapi.security.ratelimit.RateLimiterFilter;
 import com.prince.movieezapi.security.ratelimit.RateLimiterFilterImpl;
 import com.prince.movieezapi.security.ratelimit.RateLimiterService;
 import com.prince.movieezapi.shared.models.responses.ServerAuthenticationResponse;
 import com.prince.movieezapi.shared.utilities.BasicUtils;
+import com.prince.movieezapi.user.repository.MovieEzUserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +57,8 @@ public class SecurityConfigs {
   public SecurityFilterChain userSecurityFilterChain(
       HttpSecurity http,
       ObjectMapper objectMapper,
-      RateLimiterFilter rateLimiterFilter
+      RateLimiterFilter rateLimiterFilter,
+      MovieEzUserRepository movieEzUserRepository
   ) throws Exception {
     return applyCommonSecuritySettings(http, rateLimiterFilter)
         .securityMatcher("/user/**")
@@ -70,6 +73,7 @@ public class SecurityConfigs {
               .anyRequest()
               .authenticated();
         })
+        .addFilterAfter(new UserInformationSyncFilter(movieEzUserRepository), AuthorizationFilter.class)
         .build();
   }
 
