@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
 
 /**
  * A model representing a role of a user.
@@ -30,7 +29,6 @@ import org.hibernate.annotations.UuidGenerator;
 public class MovieEzUserRoleModel {
 
   @Id
-  @UuidGenerator
   @EqualsAndHashCode.Include
   private UUID id;
 

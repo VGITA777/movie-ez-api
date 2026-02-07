@@ -17,7 +17,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +34,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class MovieEzUserModel implements UserDetails {
 
   @Id
-  @UuidGenerator
   @EqualsAndHashCode.Include
   private UUID id;
 
