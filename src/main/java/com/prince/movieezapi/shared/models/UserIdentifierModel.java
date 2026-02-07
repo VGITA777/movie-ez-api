@@ -4,6 +4,7 @@ import com.prince.movieezapi.user.models.MovieEzUserModel;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 /**
  * A model that should be used as the Principal for a fully authenticated user.
@@ -24,6 +25,14 @@ public record UserIdentifierModel(UUID id,
         movieEzUserModel.getId(),
                                    movieEzUserModel.getUsername(),
                                    movieEzUserModel.getEmail()
+    );
+  }
+
+  public static UserIdentifierModel of(Jwt jwt) {
+    return new UserIdentifierModel(
+        UUID.fromString(jwt.getSubject()),
+                                   jwt.getClaimAsString("preferred_username"),
+                                   jwt.getClaimAsString("email")
     );
   }
 }
