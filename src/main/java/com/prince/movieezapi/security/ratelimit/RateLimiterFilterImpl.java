@@ -1,16 +1,19 @@
 package com.prince.movieezapi.security.ratelimit;
 
-import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
+import com.prince.movieezapi.shared.models.UserIdentifierModel;
 import com.prince.movieezapi.shared.models.responses.ServerGenericResponse;
 import com.prince.movieezapi.shared.utilities.SecurityUtils;
+import com.prince.movieezapi.user.models.MovieEzAppRole;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Comparator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -37,12 +40,16 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
 
     logger.debug("Processing rate limiting for user: " + identifier + " and request URI: " + requestURI);
 
-    if (!SecurityUtils.isAuthenticated()) {
+    var authentication = contextHolderStrategy
+        .getContext()
+        .getAuthentication();
+
+    if (authentication == null || !SecurityUtils.isAuthenticated()) {
       rateLimiterIdentifier = new RateLimiterIdentifier(identifier, RateLimiterUserRoles.GUEST, null);
     } else {
-      var authentication = (MovieEzFullyAuthenticatedUser) contextHolderStrategy.getContext().getAuthentication();
-      var role = RateLimiterUserRoles.from(authentication.getHighestPriorityRole());
-      rateLimiterIdentifier = new RateLimiterIdentifier(identifier, role, authentication.getDetails());
+      var token = (JwtAuthenticationToken) authentication;
+      var role = RateLimiterUserRoles.from(getHighestPriorityRole(token));
+      rateLimiterIdentifier = new RateLimiterIdentifier(identifier, role, UserIdentifierModel.of(token.getToken()));
     }
 
     var rateLimiter = getOrCreateRateLimiter(rateLimiterIdentifier);
@@ -61,17 +68,31 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
     return request.getRemoteAddr();
   }
 
+  private MovieEzAppRole getHighestPriorityRole(JwtAuthenticationToken authentication) {
+    if (authentication == null) {
+      return MovieEzAppRole.GUEST;
+    }
+    return authentication
+        .getAuthorities()
+        .stream()
+        .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
+        .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
+        .orElse(MovieEzAppRole.GUEST);
+  }
+
   private RateLimiter getOrCreateRateLimiter(RateLimiterIdentifier identifier) {
     var rateLimiter = rateLimiterService.get(identifier);
-    return (rateLimiter == null)
-           ? rateLimiterService.create(identifier).getRateLimiter()
-           : rateLimiter.getRateLimiter();
+    return (rateLimiter == null) ? rateLimiterService
+        .create(identifier)
+        .getRateLimiter() : rateLimiter.getRateLimiter();
   }
 
   private void returnFailResponse(HttpServletResponse response) throws IOException {
     var message = ServerGenericResponse.failure("Too many requests. Please try again later.", null);
     response.setStatus(429);
     response.setContentType("application/json");
-    response.getWriter().write(mapper.writeValueAsString(message));
+    response
+        .getWriter()
+        .write(mapper.writeValueAsString(message));
   }
 }
