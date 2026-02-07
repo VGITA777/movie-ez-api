@@ -4,7 +4,6 @@ services:
     ports:
       - "5000:5432"
     environment:
-      POSTGRES_DB: app
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     volumes:
