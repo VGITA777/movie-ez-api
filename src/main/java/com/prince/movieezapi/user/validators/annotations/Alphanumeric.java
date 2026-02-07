@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
  * A validator that ensures a field is alphanumeric.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
-@Constraint(validatedBy = {AlphanumericValidator.class})
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Constraint(validatedBy = { AlphanumericValidator.class })
 public @interface Alphanumeric {
 
   String message() default "{constraint.Alphanumeric.message}";

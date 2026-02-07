@@ -21,17 +21,17 @@ public class RateLimiterIdentifier implements Serializable {
   private UserIdentifierModel details;
 
   @Override
+  public int hashCode() {
+    return Objects.hash(id, role, details);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
     RateLimiterIdentifier that = (RateLimiterIdentifier) o;
     return Objects.equals(id, that.id) && role == that.role && Objects.equals(details, that.details);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, role, details);
   }
 }
 

@@ -22,20 +22,19 @@ public enum RateLimiterUserRoles {
     this.timeoutDuration = timeoutDuration;
   }
 
-  public RateLimiterConfig getRateLimiterConfig() {
-    return RateLimiterConfig
-        .custom()
-        .limitForPeriod(limitForPeriod)
-        .limitRefreshPeriod(limitRefreshPeriod)
-        .timeoutDuration(timeoutDuration)
-        .build();
-  }
-
   public static RateLimiterUserRoles from(MovieEzAppRole role) {
     return switch (role) {
       case USER -> USER;
       case ADMIN -> ADMIN;
       default -> GUEST;
     };
+  }
+
+  public RateLimiterConfig getRateLimiterConfig() {
+    return RateLimiterConfig.custom()
+                            .limitForPeriod(limitForPeriod)
+                            .limitRefreshPeriod(limitRefreshPeriod)
+                            .timeoutDuration(timeoutDuration)
+                            .build();
   }
 }

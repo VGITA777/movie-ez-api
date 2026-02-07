@@ -27,12 +27,11 @@ public class TestRunner implements ApplicationRunner {
 
     MovieEzUserRoleModel adminRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
     MovieEzUserRoleModel userRole = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
-    MovieEzUserModel user1 = MovieEzUserModel
-        .builder()
-        .username("prince")
-        .email("prince@mail.com")
-        .password("Password1!")
-        .build();
+    MovieEzUserModel user1 = MovieEzUserModel.builder()
+                                             .username("prince")
+                                             .email("prince@mail.com")
+                                             .password("Password1!")
+                                             .build();
     MovieEzUserPlaylistModel user1Playlist = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
     MovieEzPlaylistContentModel user1PlaylistContent1 = MovieEzPlaylistContentModel.builder().trackId("abc1").build();
     MovieEzPlaylistContentModel user1PlaylistContent2 = MovieEzPlaylistContentModel.builder().trackId("zzz123").build();
@@ -50,27 +49,23 @@ public class TestRunner implements ApplicationRunner {
 
     MovieEzUserRoleModel adminRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.ADMIN).build();
     MovieEzUserRoleModel userRole2 = MovieEzUserRoleModel.builder().description(MovieEzAppRole.USER).build();
-    MovieEzUserModel user2 = MovieEzUserModel
-        .builder()
-        .username("horizon")
-        .email("horizon@mail.com")
-        .password("Password1!")
-        .build();
+    MovieEzUserModel user2 = MovieEzUserModel.builder()
+                                             .username("horizon")
+                                             .email("horizon@mail.com")
+                                             .password("Password1!")
+                                             .build();
     MovieEzUserPlaylistModel user2Playlist1 = MovieEzUserPlaylistModel.builder().name("Favorites").user(user1).build();
-    MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel
-        .builder()
-        .name("LoFi tracks")
-        .user(user1)
-        .build();
+    MovieEzUserPlaylistModel user2Playlist2 = MovieEzUserPlaylistModel.builder()
+                                                                      .name("LoFi tracks")
+                                                                      .user(user1)
+                                                                      .build();
     MovieEzPlaylistContentModel user2Playlist1Content1 = MovieEzPlaylistContentModel.builder().trackId("abc1").build();
-    MovieEzPlaylistContentModel user2Playlist2Content1 = MovieEzPlaylistContentModel
-        .builder()
-        .trackId("aaa111")
-        .build();
-    MovieEzPlaylistContentModel user2Playlist2Content2 = MovieEzPlaylistContentModel
-        .builder()
-        .trackId("bbb222")
-        .build();
+    MovieEzPlaylistContentModel user2Playlist2Content1 = MovieEzPlaylistContentModel.builder()
+                                                                                    .trackId("aaa111")
+                                                                                    .build();
+    MovieEzPlaylistContentModel user2Playlist2Content2 = MovieEzPlaylistContentModel.builder()
+                                                                                    .trackId("bbb222")
+                                                                                    .build();
 
     // Adding Roles
     user2.addRole(adminRole2);

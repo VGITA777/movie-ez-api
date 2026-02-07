@@ -9,9 +9,11 @@ import lombok.Getter;
 public enum MediaType {
   MOVIE("movie"), TV("tv"), PERSON("person");
 
-  public static final Map<String, MediaType> MEDIA_TYPE_MAP = Arrays
-      .stream(MediaType.values())
-      .collect(Collectors.toMap(MediaType::getType, type -> type));
+  public static final Map<String, MediaType> MEDIA_TYPE_MAP = Arrays.stream(MediaType.values())
+                                                                    .collect(Collectors.toMap(
+                                                                        MediaType::getType,
+                                                                        type -> type
+                                                                    ));
   private final String type;
 
   MediaType(String type) {

@@ -1,6 +1,8 @@
 package com.prince.movieezapi.shared.models.responses;
 
-public record ServerGenericResponse(String message, Object details, boolean success) {
+public record ServerGenericResponse(String message,
+                                    Object details,
+                                    boolean success) {
 
   public static ServerGenericResponse success(String message, Object details) {
     return new ServerGenericResponse(message, details, true);

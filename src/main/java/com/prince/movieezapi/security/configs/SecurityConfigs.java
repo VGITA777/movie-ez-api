@@ -67,85 +67,35 @@ public class SecurityConfigs {
       ObjectMapper objectMapper,
       RateLimiterFilter rateLimiterFilter
   ) throws Exception {
-    return applyCommonSecuritySettings(http, rateLimiterFilter)
-        .securityMatcher("/user/**")
-        .logout(AbstractHttpConfigurer::disable)
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-        .csrf(SecurityConfigs::configureCsrf)
-        .oneTimeTokenLogin(ott -> configureUserOneTimeTokenLogin(ott, ottAuthProvider, objectMapper))
-        .exceptionHandling(ex -> configureUserExceptionHandling(ex, objectMapper))
-        .authorizeHttpRequests(endpoints -> {
-          endpoints.requestMatchers("/user/auth/logout").access(new UserFullyAuthenticatedAuthorizationManager());
-          endpoints.requestMatchers("/user/auth/**").permitAll();
-          endpoints.requestMatchers("/user/register/**").permitAll();
-          endpoints.anyRequest().authenticated();
-        })
-        .build();
-  }
-
-  /**
-   * Security filter chain for the /media/** endpoint.
-   */
-  @Bean
-  public SecurityFilterChain mediaSecurityFilterChain(
-      HttpSecurity http,
-      BasicUtils basicUtils,
-      RateLimiterFilter rateLimiterFilter
-  ) throws Exception {
-    return applyCommonSecuritySettings(http, rateLimiterFilter)
-        .securityMatcher("/media/**")
-        .csrf(AbstractHttpConfigurer::disable)
-        .logout(AbstractHttpConfigurer::disable)
-        .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-        .authorizeHttpRequests(endpoints -> endpoints.anyRequest().permitAll())
-        .addFilterBefore(new CustomSecurityHeaderFilter(mediaSecurityHeader, basicUtils), AuthorizationFilter.class)
-        .build();
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  public AuthenticationManager authenticationManager(
-      @Lazy MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider,
-      @Lazy MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider
-  ) {
-    return new ProviderManager(List.of(movieEzUsernameAuthenticationProvider, movieEzEmailAuthenticationProvider));
-  }
-
-  @Bean
-  public HttpSessionSecurityContextRepository httpSessionSecurityContextRepository() {
-    return new HttpSessionSecurityContextRepository();
-  }
-
-  @Bean
-  public SecurityContextLogoutHandler securityContextLogoutHandler(
-      @Lazy HttpSessionSecurityContextRepository httpSessionSecurityContextRepository
-  ) {
-    SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
-    securityContextLogoutHandler.setClearAuthentication(true);
-    securityContextLogoutHandler.setInvalidateHttpSession(true);
-    securityContextLogoutHandler.setSecurityContextRepository(httpSessionSecurityContextRepository);
-    return securityContextLogoutHandler;
-  }
-
-  @Bean
-  public OneTimeTokenService oneTimeTokenService(JdbcOperations jdbcOperations) {
-    return new JdbcOneTimeTokenService(jdbcOperations);
-  }
-
-  @Bean
-  public RateLimiterFilter rateLimiterFilter(RateLimiterService rateLimiterService) {
-    return new RateLimiterFilterImpl(rateLimiterService);
+    return applyCommonSecuritySettings(http, rateLimiterFilter).securityMatcher("/user/**")
+                                                               .logout(AbstractHttpConfigurer::disable)
+                                                               .sessionManagement(session -> session.sessionCreationPolicy(
+                                                                   SessionCreationPolicy.ALWAYS))
+                                                               .csrf(SecurityConfigs::configureCsrf)
+                                                               .oneTimeTokenLogin(ott -> configureUserOneTimeTokenLogin(
+                                                                   ott,
+                                                                   ottAuthProvider,
+                                                                   objectMapper
+                                                               ))
+                                                               .exceptionHandling(ex -> configureUserExceptionHandling(
+                                                                   ex,
+                                                                   objectMapper
+                                                               ))
+                                                               .authorizeHttpRequests(endpoints -> {
+                                                                 endpoints.requestMatchers("/user/auth/logout")
+                                                                          .access(new UserFullyAuthenticatedAuthorizationManager());
+                                                                 endpoints.requestMatchers("/user/auth/**").permitAll();
+                                                                 endpoints.requestMatchers("/user/register/**")
+                                                                          .permitAll();
+                                                                 endpoints.anyRequest().authenticated();
+                                                               })
+                                                               .build();
   }
 
   private HttpSecurity applyCommonSecuritySettings(HttpSecurity http, RateLimiterFilter filter) throws Exception {
-    return http
-        .httpBasic(AbstractHttpConfigurer::disable)
-        .formLogin(AbstractHttpConfigurer::disable)
-        .addFilterAfter(filter, AuthorizationFilter.class);
+    return http.httpBasic(AbstractHttpConfigurer::disable)
+               .formLogin(AbstractHttpConfigurer::disable)
+               .addFilterAfter(filter, AuthorizationFilter.class);
   }
 
   private static void configureCsrf(CsrfConfigurer<HttpSecurity> csrf) {
@@ -194,6 +144,73 @@ public class SecurityConfigs {
       ));
       response.getWriter().write(body);
     });
+  }
+
+  /**
+   * Security filter chain for the /media/** endpoint.
+   */
+  @Bean
+  public SecurityFilterChain mediaSecurityFilterChain(
+      HttpSecurity http,
+      BasicUtils basicUtils,
+      RateLimiterFilter rateLimiterFilter
+  ) throws Exception {
+    return applyCommonSecuritySettings(http, rateLimiterFilter).securityMatcher("/media/**")
+                                                               .csrf(AbstractHttpConfigurer::disable)
+                                                               .logout(AbstractHttpConfigurer::disable)
+                                                               .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
+                                                                   SessionCreationPolicy.IF_REQUIRED))
+                                                               .authorizeHttpRequests(endpoints -> endpoints.anyRequest()
+                                                                                                            .permitAll())
+                                                               .addFilterBefore(
+                                                                   new CustomSecurityHeaderFilter(
+                                                                       mediaSecurityHeader,
+                                                                       basicUtils
+                                                                   ), AuthorizationFilter.class
+                                                               )
+                                                               .build();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(
+      @Lazy
+      MovieEzUsernameAuthenticationProvider movieEzUsernameAuthenticationProvider,
+      @Lazy
+      MovieEzEmailAuthenticationProvider movieEzEmailAuthenticationProvider
+  ) {
+    return new ProviderManager(List.of(movieEzUsernameAuthenticationProvider, movieEzEmailAuthenticationProvider));
+  }
+
+  @Bean
+  public HttpSessionSecurityContextRepository httpSessionSecurityContextRepository() {
+    return new HttpSessionSecurityContextRepository();
+  }
+
+  @Bean
+  public SecurityContextLogoutHandler securityContextLogoutHandler(
+      @Lazy
+      HttpSessionSecurityContextRepository httpSessionSecurityContextRepository
+  ) {
+    SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
+    securityContextLogoutHandler.setClearAuthentication(true);
+    securityContextLogoutHandler.setInvalidateHttpSession(true);
+    securityContextLogoutHandler.setSecurityContextRepository(httpSessionSecurityContextRepository);
+    return securityContextLogoutHandler;
+  }
+
+  @Bean
+  public OneTimeTokenService oneTimeTokenService(JdbcOperations jdbcOperations) {
+    return new JdbcOneTimeTokenService(jdbcOperations);
+  }
+
+  @Bean
+  public RateLimiterFilter rateLimiterFilter(RateLimiterService rateLimiterService) {
+    return new RateLimiterFilterImpl(rateLimiterService);
   }
 
   private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {

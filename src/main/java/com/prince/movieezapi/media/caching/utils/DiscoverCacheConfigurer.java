@@ -17,22 +17,20 @@ public class DiscoverCacheConfigurer {
   private static void configureCacheMovies(CaffeineCacheManager caffeineCacheManager) {
     caffeineCacheManager.registerCustomCache(
         DISCOVER_MOVIES_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofMinutes(5))
+                .build()
     );
   }
 
   private static void configureCacheTvSeries(CaffeineCacheManager caffeineCacheManager) {
     caffeineCacheManager.registerCustomCache(
         DISCOVER_TV_SERIES_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofMinutes(5))
+                .build()
     );
   }
 }

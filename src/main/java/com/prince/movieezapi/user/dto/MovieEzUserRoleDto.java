@@ -9,6 +9,7 @@ import java.util.UUID;
  * @param id          the {@link UUID} of the content.
  * @param description the {@link MovieEzAppRole}.
  */
-public record MovieEzUserRoleDto(UUID id, MovieEzAppRole description) {
+public record MovieEzUserRoleDto(UUID id,
+                                 MovieEzAppRole description) {
 
 }

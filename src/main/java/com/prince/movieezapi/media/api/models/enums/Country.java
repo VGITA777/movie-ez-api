@@ -257,21 +257,16 @@ public enum Country {
   ZAIRE("ZR"),
   ZIMBABWE("ZW");
 
-  private static final Map<String, Country> ISO_TO_COUNTRIES_MAP = Arrays
-      .stream(Country.values())
-      .collect(Collectors.toMap(Country::getIsoCode, country -> country));
+  private static final Map<String, Country> ISO_TO_COUNTRIES_MAP = Arrays.stream(Country.values())
+                                                                         .collect(Collectors.toMap(
+                                                                             Country::getIsoCode,
+                                                                             country -> country
+                                                                         ));
 
   private final String isoCode;
 
   Country(String isoCode) {
     this.isoCode = isoCode;
-  }
-
-  public static Country fromIsoCode(String code) {
-    if (code == null || code.isEmpty()) {
-      return null;
-    }
-    return ISO_TO_COUNTRIES_MAP.get(code.toUpperCase());
   }
 
   public static Country fromValue(String value) {
@@ -289,6 +284,13 @@ public enum Country {
       return null;
     }
 
+  }
+
+  public static Country fromIsoCode(String code) {
+    if (code == null || code.isEmpty()) {
+      return null;
+    }
+    return ISO_TO_COUNTRIES_MAP.get(code.toUpperCase());
   }
 
   public String getIsoCode() {

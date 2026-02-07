@@ -25,8 +25,10 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "movieez_playlist_contents",
-       uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "trackId"})})
+@Table(
+    name = "movieez_playlist_contents",
+    uniqueConstraints = { @UniqueConstraint(columnNames = { "playlist_id", "trackId" }) }
+)
 public class MovieEzPlaylistContentModel {
 
   @Id

@@ -27,13 +27,16 @@ public class RegistrationController {
 
   @RateLimiter(name = "userRegisterEndpoint")
   @PostMapping("/register")
-  public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationInput input) {
-    MovieEzUserModel newUser = MovieEzUserModel
-        .builder()
-        .username(input.username())
-        .email(input.email())
-        .password(input.password())
-        .build();
+  public ResponseEntity<?> registerUser(
+      @RequestBody
+      @Valid
+      UserRegistrationInput input
+  ) {
+    MovieEzUserModel newUser = MovieEzUserModel.builder()
+                                               .username(input.username())
+                                               .email(input.email())
+                                               .password(input.password())
+                                               .build();
     MovieEzUserModel saved = movieEzUserService.save(newUser);
     return ResponseEntity.ok(ServerGenericResponse.success(
         "User registration endpoint",

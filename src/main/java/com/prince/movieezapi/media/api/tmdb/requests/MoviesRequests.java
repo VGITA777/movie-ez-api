@@ -19,39 +19,70 @@ public interface MoviesRequests {
 
   @GetExchange("/{movieId}/alternative_titles")
   MovieAlternativeTitlesModel getMovieAlternativeTitles(
-      @PathVariable("movieId") long movieId,
-      @RequestParam("country") String language
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("country")
+      String language
   );
 
   @GetExchange("/{movieId}/credits")
-  CreditsModel getMovieCredits(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+  CreditsModel getMovieCredits(
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("language")
+      String language
+  );
 
   @GetExchange("/{movieId}")
-  MovieDetailsModel getMovieDetails(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+  MovieDetailsModel getMovieDetails(
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("language")
+      String language
+  );
 
   @GetExchange("/{movieId}/images")
-  ImagesModel getMovieImages(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+  ImagesModel getMovieImages(
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("language")
+      String language
+  );
 
   @GetExchange("/{movieId}/keywords")
-  MovieKeywordsModel getMovieKeywords(@PathVariable("movieId") long movieId);
+  MovieKeywordsModel getMovieKeywords(
+      @PathVariable("movieId")
+      long movieId
+  );
 
   @GetExchange("/latest")
   MovieLatestModel getLatest();
 
   @GetExchange("/{movie_id}/recommendations")
   MovieRecommendationsModel getMovieRecommendations(
-      @PathVariable("movie_id") long movieId,
-      @RequestParam("language") String language,
-      @RequestParam("page") int page
+      @PathVariable("movie_id")
+      long movieId,
+      @RequestParam("language")
+      String language,
+      @RequestParam("page")
+      int page
   );
 
   @GetExchange("/{movieId}/similar")
   MovieSimilarModel getMovieSimilar(
-      @PathVariable("movieId") long movieId,
-      @RequestParam("language") String language,
-      @RequestParam("page") int page
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("language")
+      String language,
+      @RequestParam("page")
+      int page
   );
 
   @GetExchange("/{movieId}/videos")
-  VideosModel getMovieVideos(@PathVariable("movieId") long movieId, @RequestParam("language") String language);
+  VideosModel getMovieVideos(
+      @PathVariable("movieId")
+      long movieId,
+      @RequestParam("language")
+      String language
+  );
 }

@@ -50,26 +50,31 @@ public class UserAccountSecurityController {
   }
 
   @GetMapping("/client")
-  public ResponseEntity<?> getCurrentClient(@AuthenticationPrincipal UUID uuid) {
-    MovieEzUserModel user = movieEzUserService
-        .findById(uuid)
-        .orElseThrow(() -> new RuntimeException("User not found with ID: '" + uuid + "'"));
+  public ResponseEntity<?> getCurrentClient(
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
+    MovieEzUserModel user = movieEzUserService.findById(uuid)
+                                              .orElseThrow(() -> new RuntimeException(
+                                                  "User not found with ID: '" + uuid + "'"));
     MovieEzUserDto mapped = movieEzUserDtoMapper.toDto(user);
     return ResponseEntity.ok().body(ServerGenericResponse.success("User Details", mapped));
   }
 
   @GetMapping("/sessions")
-  public ResponseEntity<?> getAllSessions(@AuthenticationPrincipal UUID uuid) {
+  public ResponseEntity<?> getAllSessions(
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
     return ResponseEntity.ok(ServerGenericResponse.success(
         "All sessions",
-        userSessionService
-            .getSessionsByPrincipalName(uuid)
-            .entrySet()
-            .stream()
-            .collect(Collectors.toMap(
-                (e) -> e.getValue().getId(),
-                (e) -> movieEzUserSessionDtoMapper.toDto(e.getValue())
-            ))
+        userSessionService.getSessionsByPrincipalName(uuid)
+                          .entrySet()
+                          .stream()
+                          .collect(Collectors.toMap(
+                              (e) -> e.getValue().getId(),
+                              (e) -> movieEzUserSessionDtoMapper.toDto(e.getValue())
+                          ))
     ));
   }
 
@@ -80,9 +85,11 @@ public class UserAccountSecurityController {
 
   @PatchMapping("/update-password")
   public ResponseEntity<?> updatePassword(
-      @RequestBody @Valid UpdatePasswordInput input,
-      @AuthenticationPrincipal UUID uuid,
-      HttpSession session
+      @RequestBody
+      @Valid
+      UpdatePasswordInput input,
+      @AuthenticationPrincipal
+      UUID uuid, HttpSession session
   ) {
     validateUpdatePasswordInput(input);
     movieEzUserService.updatePasswordById(
@@ -96,23 +103,40 @@ public class UserAccountSecurityController {
     return ResponseEntity.ok(ServerGenericResponse.success("Password updated successfully", null));
   }
 
+  private void validateUpdatePasswordInput(UpdatePasswordInput input) {
+    if (input.newPassword().equals(input.oldPassword())) {
+      throw new IllegalArgumentException("New password cannot be the same as old password");
+    }
+  }
+
   @PatchMapping("/update-username")
   public ResponseEntity<?> updateUsername(
-      @RequestBody @Valid UpdateUsernameInput input,
-      @AuthenticationPrincipal UUID uuid
+      @RequestBody
+      @Valid
+      UpdateUsernameInput input,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     movieEzUserService.updateUsernameById(uuid, input.username());
     return ResponseEntity.ok(ServerGenericResponse.success("Username updated successfully", null));
   }
 
   @DeleteMapping("/sessions/invalidate/{id}")
-  public ResponseEntity<?> invalidateSession(@PathVariable String id, @AuthenticationPrincipal UUID uuid) {
+  public ResponseEntity<?> invalidateSession(
+      @PathVariable
+      String id,
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
     userSessionService.deleteSessionById(id, uuid);
     return ResponseEntity.ok(ServerGenericResponse.success("Session invalidated successfully", null));
   }
 
   @DeleteMapping("/sessions/invalidate/all")
-  public ResponseEntity<?> invalidateAllSessions(@AuthenticationPrincipal UUID uuid) {
+  public ResponseEntity<?> invalidateAllSessions(
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
     userSessionService.deleteAllSessionsByPrincipalName(uuid);
     return ResponseEntity.ok(ServerGenericResponse.success("All sessions invalidated successfully", null));
   }
@@ -120,7 +144,8 @@ public class UserAccountSecurityController {
   @DeleteMapping("/sessions/invalidate/all/exclude-current")
   public ResponseEntity<?> invalidateAllSessionsExcludeCurrent(
       HttpSession session,
-      @AuthenticationPrincipal UUID uuid
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     userSessionService.deleteAllSessionsByPrincipalNameExcludeSessionId(uuid, session.getId());
     return ResponseEntity.ok(ServerGenericResponse.success(
@@ -130,14 +155,13 @@ public class UserAccountSecurityController {
   }
 
   @DeleteMapping("/close-account")
-  public ResponseEntity<?> closeAccount(@RequestBody PasswordInput passwordInput, @AuthenticationPrincipal UUID uuid) {
+  public ResponseEntity<?> closeAccount(
+      @RequestBody
+      PasswordInput passwordInput,
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
     movieEzUserService.delete(uuid, passwordInput.password());
     return ResponseEntity.ok(ServerGenericResponse.success("Account closed successfully", null));
-  }
-
-  private void validateUpdatePasswordInput(UpdatePasswordInput input) {
-    if (input.newPassword().equals(input.oldPassword())) {
-      throw new IllegalArgumentException("New password cannot be the same as old password");
-    }
   }
 }

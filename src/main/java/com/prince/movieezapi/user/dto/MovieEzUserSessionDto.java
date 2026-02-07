@@ -10,6 +10,9 @@ import java.time.Instant;
  * @param lastAccessedTime a {@link Instant} representing the last accessed time of a session.
  * @param expired          whether a session is expired or not.
  */
-public record MovieEzUserSessionDto(String id, Instant creationTime, Instant lastAccessedTime, boolean expired) {
+public record MovieEzUserSessionDto(String id,
+                                    Instant creationTime,
+                                    Instant lastAccessedTime,
+                                    boolean expired) {
 
 }

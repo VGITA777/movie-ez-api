@@ -17,37 +17,63 @@ import org.springframework.web.service.annotation.HttpExchange;
 public interface TvSeriesRequests {
 
   @GetExchange("/{seriesId}/credits")
-  CreditsModel getTvSeriesCredits(@PathVariable("seriesId") long seriesId, @RequestParam("language") String language);
+  CreditsModel getTvSeriesCredits(
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language
+  );
 
   @GetExchange("/{seriesId}")
   TvSeriesDetailsModel getTvSeriesDetails(
-      @PathVariable("seriesId") long seriesId,
-      @RequestParam("language") String language
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language
   );
 
   @GetExchange("/{seriesId}/images")
-  ImagesModel getTvSeriesImages(@PathVariable("seriesId") long seriesId, @RequestParam("language") String language);
+  ImagesModel getTvSeriesImages(
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language
+  );
 
   @GetExchange("/{seriesId}/keywords")
-  TvSeriesKeywordsModel getTvSeriesKeywords(@PathVariable("seriesId") long seriesId);
+  TvSeriesKeywordsModel getTvSeriesKeywords(
+      @PathVariable("seriesId")
+      long seriesId
+  );
 
   @GetExchange("/latest")
   TvSeriesLatestModel getLatestTvSeries();
 
   @GetExchange("/{seriesId}/recommendations")
   TvSeriesRecommendationsModel getTvSeriesRecommendations(
-      @PathVariable("seriesId") long seriesId,
-      @RequestParam("language") String language,
-      @RequestParam("page") int page
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language,
+      @RequestParam("page")
+      int page
   );
 
   @GetExchange("/{seriesId}/similar")
   TvSeriesSimilarModel getTvSeriesSimilar(
-      @PathVariable("seriesId") long seriesId,
-      @RequestParam("language") String language,
-      @RequestParam("page") int page
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language,
+      @RequestParam("page")
+      int page
   );
 
   @GetExchange("/{seriesId}/videos")
-  VideosModel getTvSeriesVideos(@PathVariable("seriesId") long seriesId, @RequestParam("language") String language);
+  VideosModel getTvSeriesVideos(
+      @PathVariable("seriesId")
+      long seriesId,
+      @RequestParam("language")
+      String language
+  );
 }

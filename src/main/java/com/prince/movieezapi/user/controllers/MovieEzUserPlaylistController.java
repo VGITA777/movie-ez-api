@@ -44,28 +44,43 @@ public class MovieEzUserPlaylistController {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<?> getAllPlaylists(@AuthenticationPrincipal UUID uuid) {
-    Map<String, MovieEzUserPlaylistDto> response = movieEzUserPlaylistService
-        .getAllByUserId(uuid)
-        .stream()
-        .map(userPlaylistMapper::toDto)
-        .collect(Collectors.toMap(MovieEzUserPlaylistDto::name, playlistDto -> playlistDto));
+  public ResponseEntity<?> getAllPlaylists(
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
+    Map<String, MovieEzUserPlaylistDto> response = movieEzUserPlaylistService.getAllByUserId(uuid)
+                                                                             .stream()
+                                                                             .map(userPlaylistMapper::toDto)
+                                                                             .collect(Collectors.toMap(
+                                                                                 MovieEzUserPlaylistDto::name,
+                                                                                 playlistDto -> playlistDto
+                                                                             ));
     return ResponseEntity.ok().body(ServerGenericResponse.success("Playlists", response));
   }
 
   @GetMapping("/{playlistName}")
-  public ResponseEntity<?> getPlaylistByName(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
-    MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService
-        .getByNameAndUserId(playlistName, uuid)
-        .orElseThrow(() -> new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists"));
+  public ResponseEntity<?> getPlaylistByName(
+      @PathVariable
+      String playlistName,
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
+    MovieEzUserPlaylistModel playlist = movieEzUserPlaylistService.getByNameAndUserId(playlistName, uuid)
+                                                                  .orElseThrow(() -> new PlaylistNotFoundException(
+                                                                      "Playlist with name: '" + playlistName +
+                                                                      "' does not exists"));
     MovieEzUserPlaylistDto mapped = userPlaylistMapper.toDto(playlist);
     return ResponseEntity.ok().body(ServerGenericResponse.success("Playlist", mapped));
   }
 
   @PostMapping("/create")
   public ResponseEntity<?> createPlaylist(
-      @Alphanumeric @RequestParam(name = "name") @Valid String name,
-      @AuthenticationPrincipal UUID uuid
+      @Alphanumeric
+      @RequestParam(name = "name")
+      @Valid
+      String name,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.createPlaylist(name, uuid);
     MovieEzUserPlaylistDto mapped = userPlaylistMapper.toDto(playlist);
@@ -74,9 +89,15 @@ public class MovieEzUserPlaylistController {
 
   @PatchMapping("/{playlistName}/add")
   public ResponseEntity<?> addAllToPlaylistByName(
-      @Alphanumeric @Valid @PathVariable String playlistName,
-      @RequestBody @Valid PlaylistContentsInput playlistContentsInput,
-      @AuthenticationPrincipal UUID uuid
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String playlistName,
+      @RequestBody
+      @Valid
+      PlaylistContentsInput playlistContentsInput,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addAllToPlaylist(
         uuid,
@@ -90,9 +111,16 @@ public class MovieEzUserPlaylistController {
 
   @PatchMapping("/{playlistName}/add/{trackId}")
   public ResponseEntity<?> addToPlaylistByName(
-      @Alphanumeric @Valid @PathVariable String playlistName,
-      @Alphanumeric @Valid @PathVariable String trackId,
-      @AuthenticationPrincipal UUID uuid
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String playlistName,
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String trackId,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.addToPlaylist(
         uuid,
@@ -105,9 +133,15 @@ public class MovieEzUserPlaylistController {
 
   @DeleteMapping("/{playlistName}/remove")
   public ResponseEntity<?> removeAllToPlaylistByName(
-      @Alphanumeric @Valid @PathVariable String playlistName,
-      @RequestBody @Valid PlaylistContentsInput playlistContentsInput,
-      @AuthenticationPrincipal UUID uuid
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String playlistName,
+      @RequestBody
+      @Valid
+      PlaylistContentsInput playlistContentsInput,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeAllFromPlaylist(
         uuid,
@@ -120,9 +154,16 @@ public class MovieEzUserPlaylistController {
 
   @DeleteMapping("/{playlistName}/remove/{trackId}")
   public ResponseEntity<?> removeFromPlaylistByName(
-      @Alphanumeric @Valid @PathVariable String playlistName,
-      @Alphanumeric @Valid @PathVariable String trackId,
-      @AuthenticationPrincipal UUID uuid
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String playlistName,
+      @Alphanumeric
+      @Valid
+      @PathVariable
+      String trackId,
+      @AuthenticationPrincipal
+      UUID uuid
   ) {
     MovieEzUserPlaylistModel playlist = movieEzPlaylistAndPlaylistContentService.removeFromPlaylist(
         uuid,
@@ -134,7 +175,12 @@ public class MovieEzUserPlaylistController {
   }
 
   @DeleteMapping("/{playlistName}")
-  public ResponseEntity<?> deletePlaylist(@PathVariable String playlistName, @AuthenticationPrincipal UUID uuid) {
+  public ResponseEntity<?> deletePlaylist(
+      @PathVariable
+      String playlistName,
+      @AuthenticationPrincipal
+      UUID uuid
+  ) {
     boolean delete = movieEzUserPlaylistService.delete(playlistName, uuid);
     if (!delete) {
       throw new PlaylistNotFoundException("Playlist with name: '" + playlistName + "' does not exists");

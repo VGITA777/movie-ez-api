@@ -23,17 +23,26 @@ public class SearchController {
   }
 
   @GetMapping("/movie")
-  public ResponseEntity<?> searchMovie(@ModelAttribute SearchMovieInput input) {
+  public ResponseEntity<?> searchMovie(
+      @ModelAttribute
+      SearchMovieInput input
+  ) {
     return ResponseEntity.ok(searchRequestsService.searchMovies(input));
   }
 
   @GetMapping("/tv")
-  public ResponseEntity<?> searchTvSeries(@ModelAttribute SearchTvInput input) {
+  public ResponseEntity<?> searchTvSeries(
+      @ModelAttribute
+      SearchTvInput input
+  ) {
     return ResponseEntity.ok(searchRequestsService.searchTvSeries(input));
   }
 
   @GetMapping("/multi")
-  public ResponseEntity<?> searchMulti(@ModelAttribute SearchMultiInput input) {
+  public ResponseEntity<?> searchMulti(
+      @ModelAttribute
+      SearchMultiInput input
+  ) {
     return ResponseEntity.ok(searchRequestsService.searchMulti(input));
   }
 }

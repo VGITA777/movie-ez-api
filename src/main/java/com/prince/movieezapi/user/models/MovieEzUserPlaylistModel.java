@@ -63,10 +63,9 @@ public class MovieEzUserPlaylistModel {
         return false;
       }
       String trackId = e.getTrackId();
-      boolean isTrackIdInContents = contents
-          .stream()
-          .map(MovieEzPlaylistContentModel::getTrackId)
-          .anyMatch(trackId::equals);
+      boolean isTrackIdInContents = contents.stream()
+                                            .map(MovieEzPlaylistContentModel::getTrackId)
+                                            .anyMatch(trackId::equals);
       return !isTrackIdInContents;
     }).peek(e -> e.setPlaylist(this)).toList();
     this.contents.addAll(playlistToBeInserted);

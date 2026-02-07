@@ -11,7 +11,9 @@ import java.lang.annotation.Target;
 /**
  * A validator that ensures a field has value (not null).
  */
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD}) @Constraint(validatedBy = {RequiredValidator.class})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD })
+@Constraint(validatedBy = { RequiredValidator.class })
 public @interface Required {
 
   String fieldName() default "";

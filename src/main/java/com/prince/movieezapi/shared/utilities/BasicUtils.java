@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
-@Service public class BasicUtils {
-
-  @Value("${app.email.regexp}")
-  private String emailRegex;
+@Service
+public class BasicUtils {
 
   private final ObjectMapper OBJECT_MAPPER = JsonMapper.shared();
+  @Value("${app.email.regexp}")
+  private String emailRegex;
 
   @SneakyThrows
   public void sendJson(HttpStatus status, Object message, HttpServletResponse response) {

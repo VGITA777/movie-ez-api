@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserOneTimeTokenAuthenticationService {
 
+  private final OneTimeTokenService oneTimeTokenService;
   @Value("${app.security.ott.token-expiration-minutes}")
   private long tokenExpirationMinutes;
-
-  private final OneTimeTokenService oneTimeTokenService;
 
   public UserOneTimeTokenAuthenticationService(OneTimeTokenService oneTimeTokenService) {
     this.oneTimeTokenService = oneTimeTokenService;

@@ -8,7 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(config = SpringDtoMapperConfigs.class) public interface MovieEzPlaylistContentSummaryDtoMapper {
+@Mapper(config = SpringDtoMapperConfigs.class)
+public interface MovieEzPlaylistContentSummaryDtoMapper {
 
   @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
   @Mapping(source = "id", target = "id")

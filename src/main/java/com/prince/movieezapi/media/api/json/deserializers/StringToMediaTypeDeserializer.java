@@ -12,8 +12,10 @@ public class StringToMediaTypeDeserializer extends ObjectValueDeserializer<@NonN
   @Override
   protected MediaType deserializeObject(
       JsonParser jsonParser,
-      @NonNull DeserializationContext context,
-      @NonNull JsonNode tree
+      @NonNull
+      DeserializationContext context,
+      @NonNull
+      JsonNode tree
   ) {
     return MediaType.fromValue(jsonParser.getString().trim().toLowerCase());
   }

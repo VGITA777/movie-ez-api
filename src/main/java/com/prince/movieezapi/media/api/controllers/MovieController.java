@@ -25,46 +25,59 @@ public class MovieController {
 
   @GetMapping("/{movieId}/alternative-titles")
   public ResponseEntity<?> getMovieAlternativeTitles(
-      @PathVariable long movieId,
-      @RequestParam(required = false) Country country
+      @PathVariable
+      long movieId,
+      @RequestParam(required = false)
+      Country country
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneWeek()
-        .body(movieRequestsService.getMovieAlternativeTitles(movieId, (country == null) ? "" : country.getIsoCode()));
+    return ResponseEntityUtils.okPrivateOneWeek()
+                              .body(movieRequestsService.getMovieAlternativeTitles(
+                                  movieId,
+                                  (country == null) ? "" : country.getIsoCode()
+                              ));
   }
 
   @GetMapping("/{movieId}/credits")
   public ResponseEntity<?> getMovieCredits(
-      @PathVariable long movieId,
-      @RequestParam(defaultValue = "en", required = false) Language language
+      @PathVariable
+      long movieId,
+      @RequestParam(defaultValue = "en", required = false)
+      Language language
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneWeek()
-        .body(movieRequestsService.getMovieCredits(movieId, language.getIsoCode()));
+    return ResponseEntityUtils.okPrivateOneWeek()
+                              .body(movieRequestsService.getMovieCredits(movieId, language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/details")
   public ResponseEntity<?> getMovieDetails(
-      @PathVariable long movieId,
-      @RequestParam(defaultValue = "en", required = false) Language language
+      @PathVariable
+      long movieId,
+      @RequestParam(defaultValue = "en", required = false)
+      Language language
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneWeek()
-        .body(movieRequestsService.getMovieDetails(movieId, language.getIsoCode()));
+    return ResponseEntityUtils.okPrivateOneWeek()
+                              .body(movieRequestsService.getMovieDetails(movieId, language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/images")
   public ResponseEntity<?> getMovieImages(
-      @PathVariable long movieId,
-      @RequestParam(required = false) Language language
+      @PathVariable
+      long movieId,
+      @RequestParam(required = false)
+      Language language
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneWeek()
-        .body(movieRequestsService.getMovieImages(movieId, (language == null) ? "" : language.getIsoCode()));
+    return ResponseEntityUtils.okPrivateOneWeek()
+                              .body(movieRequestsService.getMovieImages(
+                                  movieId,
+                                  (language == null) ? "" : language.getIsoCode()
+                              ));
   }
 
   @GetMapping("/{movieId}/keywords")
-  public ResponseEntity<?> getMovieKeywords(@PathVariable long movieId) {
+  public ResponseEntity<?> getMovieKeywords(
+      @PathVariable
+      long movieId
+  ) {
     return ResponseEntityUtils.okPrivateOneWeek().body(movieRequestsService.getMovieKeywords(movieId));
   }
 
@@ -75,33 +88,41 @@ public class MovieController {
 
   @GetMapping("/{movieId}/recommendations")
   public ResponseEntity<?> getMovieRecommendations(
-      @PathVariable long movieId,
-      @RequestParam(defaultValue = "en", required = false) Language language,
-      @RequestParam(defaultValue = "1", required = false) int page
+      @PathVariable
+      long movieId,
+      @RequestParam(defaultValue = "en", required = false)
+      Language language,
+      @RequestParam(defaultValue = "1", required = false)
+      int page
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneDay()
-        .body(movieRequestsService.getMovieRecommendations(movieId, language.getIsoCode(), page));
+    return ResponseEntityUtils.okPrivateOneDay()
+                              .body(movieRequestsService.getMovieRecommendations(movieId, language.getIsoCode(), page));
   }
 
   @GetMapping("/{movieId}/similar")
   public ResponseEntity<?> getMovieSimilar(
-      @PathVariable long movieId,
-      @RequestParam(defaultValue = "en", required = false) Language language,
-      @RequestParam(defaultValue = "1", required = false) int page
+      @PathVariable
+      long movieId,
+      @RequestParam(defaultValue = "en", required = false)
+      Language language,
+      @RequestParam(defaultValue = "1", required = false)
+      int page
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneDay()
-        .body(movieRequestsService.getMovieSimilar(movieId, language.getIsoCode(), page));
+    return ResponseEntityUtils.okPrivateOneDay()
+                              .body(movieRequestsService.getMovieSimilar(movieId, language.getIsoCode(), page));
   }
 
   @GetMapping("/{movieId}/videos")
   public ResponseEntity<?> getMovieVideos(
-      @PathVariable long movieId,
-      @RequestParam(required = false) Language language
+      @PathVariable
+      long movieId,
+      @RequestParam(required = false)
+      Language language
   ) {
-    return ResponseEntityUtils
-        .okPrivateOneDay()
-        .body(movieRequestsService.getMovieVideos(movieId, (language == null) ? "" : language.getIsoCode()));
+    return ResponseEntityUtils.okPrivateOneDay()
+                              .body(movieRequestsService.getMovieVideos(
+                                  movieId,
+                                  (language == null) ? "" : language.getIsoCode()
+                              ));
   }
 }

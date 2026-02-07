@@ -20,12 +20,12 @@ public abstract class UnauthenticatedToken extends AbstractAuthenticationToken {
   }
 
   @Override
-  public void setAuthenticated(boolean authenticated) {
-    throw new UnsupportedOperationException("Cannot change authentication state");
+  public boolean isAuthenticated() {
+    return false;
   }
 
   @Override
-  public boolean isAuthenticated() {
-    return false;
+  public void setAuthenticated(boolean authenticated) {
+    throw new UnsupportedOperationException("Cannot change authentication state");
   }
 }

@@ -189,18 +189,16 @@ public enum Language {
   MANDARIN("zh"),
   NO_LANGUAGE("xx");
 
-  public static final Map<String, Language> ISO_TO_LANGUAGE_MAP = Arrays
-      .stream(Language.values())
-      .collect(Collectors.toMap(Language::getIsoCode, language -> language));
+  public static final Map<String, Language> ISO_TO_LANGUAGE_MAP = Arrays.stream(Language.values())
+                                                                        .collect(Collectors.toMap(
+                                                                            Language::getIsoCode,
+                                                                            language -> language
+                                                                        ));
 
   private final String isoCode;
 
   Language(String isoCode) {
     this.isoCode = isoCode;
-  }
-
-  public static Language fromIsoCode(String isoCode) {
-    return ISO_TO_LANGUAGE_MAP.getOrDefault(isoCode.toLowerCase(), Language.ENGLISH);
   }
 
   public static Language fromValue(String value) {
@@ -217,6 +215,10 @@ public enum Language {
     } catch (Exception e) {
       return Language.NO_LANGUAGE;
     }
+  }
+
+  public static Language fromIsoCode(String isoCode) {
+    return ISO_TO_LANGUAGE_MAP.getOrDefault(isoCode.toLowerCase(), Language.ENGLISH);
   }
 
 }

@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user/auth")
 public class AuthenticationController {
 
+  private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
   private final UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService;
   private final SecurityContextLogoutHandler securityContextLogoutHandler;
-  private static final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
   public AuthenticationController(
       UserEmailAndUsernameAuthenticationService userEmailAndUsernameAuthenticationService,
@@ -44,9 +44,9 @@ public class AuthenticationController {
 
   @PostMapping("/login/email")
   public ResponseEntity<?> emailPasswordLogin(
-      @RequestBody @Valid EmailPasswordInput input,
-      HttpServletRequest request,
-      HttpServletResponse response
+      @RequestBody
+      @Valid
+      EmailPasswordInput input, HttpServletRequest request, HttpServletResponse response
   ) {
     userEmailAndUsernameAuthenticationService.authenticateUserWithEmail(
         input.email(),
@@ -59,9 +59,9 @@ public class AuthenticationController {
 
   @PostMapping("/login/username")
   public ResponseEntity<?> usernamePasswordLogin(
-      @RequestBody @Valid UsernamePasswordInput input,
-      HttpServletRequest request,
-      HttpServletResponse response
+      @RequestBody
+      @Valid
+      UsernamePasswordInput input, HttpServletRequest request, HttpServletResponse response
   ) {
     userEmailAndUsernameAuthenticationService.authenticateUserWithUsername(
         input.username(),

@@ -38,10 +38,6 @@ public class MovieEzUserService {
     return movieEzUserRepository.findByUsername(username);
   }
 
-  public Optional<MovieEzUserModel> findById(UUID id) {
-    return movieEzUserRepository.findById(id);
-  }
-
   @Transactional
   public MovieEzUserModel save(MovieEzUserModel movieEzUserModel) {
     movieEzUserModel.setPassword(passwordEncoder.encode(movieEzUserModel.getPassword()));
@@ -67,6 +63,10 @@ public class MovieEzUserService {
     }
     movieEzUserRepository.delete(movieEzUserModel);
     userSessionService.deleteAllSessionsByPrincipalName(movieEzUserModel.getId());
+  }
+
+  public Optional<MovieEzUserModel> findById(UUID id) {
+    return movieEzUserRepository.findById(id);
   }
 
   public boolean existsByEmail(String email) {

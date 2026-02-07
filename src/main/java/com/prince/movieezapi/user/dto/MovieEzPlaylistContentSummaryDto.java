@@ -8,6 +8,7 @@ import java.util.UUID;
  * @param id      the {@link UUID} of the content.
  * @param trackId the ID of the track.
  */
-public record MovieEzPlaylistContentSummaryDto(UUID id, String trackId) {
+public record MovieEzPlaylistContentSummaryDto(UUID id,
+                                               String trackId) {
 
 }

@@ -12,7 +12,9 @@ import java.util.UUID;
  * @param username the username of the user.
  * @param email    the email of the user.
  */
-public record UserIdentifierModel(UUID id, String username, String email) implements Serializable {
+public record UserIdentifierModel(UUID id,
+                                  String username,
+                                  String email) implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 1L;

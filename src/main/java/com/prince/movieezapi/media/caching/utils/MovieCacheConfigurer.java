@@ -38,33 +38,30 @@ public class MovieCacheConfigurer {
   private static void configureMovieCreditsCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_CREDITS_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofDays(7))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofDays(7))
+                .build()
     );
   }
 
   private static void configureMovieDetailsCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_DETAILS_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofDays(7))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofDays(7))
+                .build()
     );
   }
 
   private static void configureMovieImagesCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_IMAGES_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofDays(7))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofDays(7))
+                .build()
     );
   }
 
@@ -78,33 +75,30 @@ public class MovieCacheConfigurer {
   public static void configureLatestMovieCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_LATEST_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(500)
-            .expireAfterWrite(Duration.ofMinutes(1))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterWrite(Duration.ofMinutes(1))
+                .build()
     );
   }
 
   private static void configureMovieRecommendationsCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_RECOMMENDATIONS_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofDays(1))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofDays(1))
+                .build()
     );
   }
 
   private static void configureMovieSimilarCache(CaffeineCacheManager cacheManager) {
     cacheManager.registerCustomCache(
         MOVIE_SIMILAR_CACHE,
-        Caffeine
-            .newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(Duration.ofDays(1))
-            .build()
+        Caffeine.newBuilder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofDays(1))
+                .build()
     );
   }
 

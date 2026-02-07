@@ -43,6 +43,32 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.NOT_FOUND);
   }
 
+  private String msg(String key, String defaultMessage) {
+    return msg(key, defaultMessage, new Object[]{});
+  }
+
+  private String appendDetail(String base, String detail) {
+    if (detail == null || detail.isBlank()) {
+      return base;
+    }
+    String trimmed = detail.trim();
+    // avoid duplicating detail if already included
+    if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) {
+      return base;
+    }
+    return base + " (" + trimmed + ")";
+  }
+
+  private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
+    var error = new ErrorModel(message);
+    var response = new ServerErrorResponse(title, error);
+    return ResponseEntity.status(status).body(response);
+  }
+
+  private String msg(String key, String defaultMessage, Object... args) {
+    return messageSource.getMessage(key, args, defaultMessage, LocaleContextHolder.getLocale());
+  }
+
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
     String title = msg("auth.badCredentials.title", "Invalid Credentials");
@@ -94,6 +120,9 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
   }
 
+
+  /* BASE CLASS EXCEPTION HANDLERS */
+
   /**
    * Handles InvalidOneTimeTokenException from Spring Security OTT flow.
    */
@@ -108,7 +137,7 @@ public class UserControllerAdvice {
   /**
    * Handles SQLException thrown by Spring Data JPA.
    */
-  @ExceptionHandler({DataIntegrityViolationException.class, SQLException.class})
+  @ExceptionHandler({ DataIntegrityViolationException.class, SQLException.class })
   public ResponseEntity<?> handleSQLException(SQLException e) {
     String detail = e.getMessage();
     String message = detail != null ? detail : "Database error";
@@ -132,17 +161,25 @@ public class UserControllerAdvice {
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
-    List<ErrorModel> errors = e
-        .getBindingResult()
-        .getAllErrors()
-        .stream()
-        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-        .filter(message -> message != null && !message.isBlank())
-        .distinct()
-        .map(ErrorModel::new)
-        .toList();
+    List<ErrorModel> errors = e.getBindingResult()
+                               .getAllErrors()
+                               .stream()
+                               .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                               .filter(message -> message != null && !message.isBlank())
+                               .distinct()
+                               .map(ErrorModel::new)
+                               .toList();
     String title = msg("validation.invalid.title", "Invalid Input");
     return createErrorResponse(title, errors, HttpStatus.BAD_REQUEST);
+  }
+
+  private ResponseEntity<ServerErrorResponse> createErrorResponse(
+      String title,
+      List<ErrorModel> errors,
+      HttpStatus status
+  ) {
+    var response = new ServerErrorResponse(title, errors);
+    return ResponseEntity.status(status).body(response);
   }
 
   /**
@@ -156,10 +193,7 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.TOO_MANY_REQUESTS);
   }
 
-
-  /* BASE CLASS EXCEPTION HANDLERS */
-
-  @ExceptionHandler({NoResourceFoundException.class, NotFoundException.class})
+  @ExceptionHandler({ NoResourceFoundException.class, NotFoundException.class })
   public ResponseEntity<?> handleNotFoundException(Exception e) {
     String title = msg("resource.notFound.title", "Resource Error");
     String base = msg("resource.notFound.message", "Requested resource not found.");
@@ -189,41 +223,6 @@ public class UserControllerAdvice {
     String base = msg("error.internal.unknown.message", "An unexpected error occurred.");
     String message = appendDetail(base, e.getMessage());
     return createErrorResponse(title, message, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
-    var error = new ErrorModel(message);
-    var response = new ServerErrorResponse(title, error);
-    return ResponseEntity.status(status).body(response);
-  }
-
-  private ResponseEntity<ServerErrorResponse> createErrorResponse(
-      String title,
-      List<ErrorModel> errors,
-      HttpStatus status
-  ) {
-    var response = new ServerErrorResponse(title, errors);
-    return ResponseEntity.status(status).body(response);
-  }
-
-  private String msg(String key, String defaultMessage, Object... args) {
-    return messageSource.getMessage(key, args, defaultMessage, LocaleContextHolder.getLocale());
-  }
-
-  private String msg(String key, String defaultMessage) {
-    return msg(key, defaultMessage, new Object[]{});
-  }
-
-  private String appendDetail(String base, String detail) {
-    if (detail == null || detail.isBlank()) {
-      return base;
-    }
-    String trimmed = detail.trim();
-    // avoid duplicating detail if already included
-    if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) {
-      return base;
-    }
-    return base + " (" + trimmed + ")";
   }
 
 }

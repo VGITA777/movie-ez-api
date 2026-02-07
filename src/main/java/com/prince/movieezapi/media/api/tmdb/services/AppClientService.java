@@ -15,11 +15,10 @@ public class AppClientService {
   private final HttpServiceProxyFactory httpServiceProxyFactory;
 
   public AppClientService(TMDBSettings tmdbSettings) {
-    this.restClient = RestClient
-        .builder()
-        .baseUrl(tmdbSettings.baseUrl())
-        .defaultHeader("Authorization", "Bearer " + tmdbSettings.apiKey())
-        .build();
+    this.restClient = RestClient.builder()
+                                .baseUrl(tmdbSettings.baseUrl())
+                                .defaultHeader("Authorization", "Bearer " + tmdbSettings.apiKey())
+                                .build();
     this.restClientAdapter = RestClientAdapter.create(restClient);
     this.httpServiceProxyFactory = HttpServiceProxyFactory.builderFor(restClientAdapter).build();
   }

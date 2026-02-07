@@ -53,13 +53,13 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
   }
 
   @Override
-  public UserIdentifierModel getDetails() {
-    return userIdentifierModel;
+  public void setAuthenticated(boolean authenticated) {
+    throw new UnsupportedOperationException("Cannot change authentication state");
   }
 
   @Override
-  public void setAuthenticated(boolean authenticated) {
-    throw new UnsupportedOperationException("Cannot change authentication state");
+  public UserIdentifierModel getDetails() {
+    return userIdentifierModel;
   }
 
   @Override
@@ -68,10 +68,9 @@ public final class MovieEzFullyAuthenticatedUser extends AbstractAuthenticationT
   }
 
   public MovieEzAppRole getHighestPriorityRole() {
-    return getAuthorities()
-        .stream()
-        .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
-        .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
-        .orElse(MovieEzAppRole.GUEST);
+    return getAuthorities().stream()
+                           .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
+                           .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
+                           .orElse(MovieEzAppRole.GUEST);
   }
 }

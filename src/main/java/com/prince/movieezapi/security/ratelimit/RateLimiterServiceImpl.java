@@ -22,13 +22,15 @@ public class RateLimiterServiceImpl implements RateLimiterService {
   private final long expiryDurationMinutes;
   private final Cache<String, RateLimiterEntry> rateLimiters;
 
-  public RateLimiterServiceImpl(@Value("${app.rate-limiter.expiry-duration-minutes:3}") long expiryDurationMinutes) {
+  public RateLimiterServiceImpl(
+      @Value("${app.rate-limiter.expiry-duration-minutes:3}")
+      long expiryDurationMinutes
+  ) {
     this.expiryDurationMinutes = expiryDurationMinutes;
-    rateLimiters = Caffeine
-        .newBuilder()
-        .maximumSize(10_000)
-        .expireAfterAccess(Duration.ofMinutes(expiryDurationMinutes))
-        .build();
+    rateLimiters = Caffeine.newBuilder()
+                           .maximumSize(10_000)
+                           .expireAfterAccess(Duration.ofMinutes(expiryDurationMinutes))
+                           .build();
   }
 
   @Override
@@ -64,18 +66,6 @@ public class RateLimiterServiceImpl implements RateLimiterService {
     return newRateLimiterEntry;
   }
 
-  private void updateEntry(RateLimiterEntry entry, RateLimiterIdentifier identifier) {
-    var newExpiryTime = Instant.now().plus(expiryDurationMinutes, ChronoUnit.MINUTES);
-    entry.setExpiryTime(newExpiryTime);
-    if (!entry.getRateLimiterIdentifier().equals(identifier)) {
-      log.debug("Updating rate limiter: {}", identifier);
-      var newRateLimiterConfig = identifier.getRole().getRateLimiterConfig();
-      var newRateLimiter = RateLimiter.of(identifier.getId(), newRateLimiterConfig);
-      entry.setRateLimiterIdentifier(identifier);
-      entry.setRateLimiter(newRateLimiter);
-    }
-  }
-
   private void verifyRateLimiterIdentifier(RateLimiterIdentifier identifier) {
     if (identifier == null) {
       throw new IllegalArgumentException("RateLimiterIdentifier is null");
@@ -93,5 +83,17 @@ public class RateLimiterServiceImpl implements RateLimiterService {
     // include id, role and details string to avoid collisions
     var detailsStr = Objects.toString(identifier.getDetails(), "");
     return identifier.getId() + "|" + identifier.getRole().name() + "|" + detailsStr;
+  }
+
+  private void updateEntry(RateLimiterEntry entry, RateLimiterIdentifier identifier) {
+    var newExpiryTime = Instant.now().plus(expiryDurationMinutes, ChronoUnit.MINUTES);
+    entry.setExpiryTime(newExpiryTime);
+    if (!entry.getRateLimiterIdentifier().equals(identifier)) {
+      log.debug("Updating rate limiter: {}", identifier);
+      var newRateLimiterConfig = identifier.getRole().getRateLimiterConfig();
+      var newRateLimiter = RateLimiter.of(identifier.getId(), newRateLimiterConfig);
+      entry.setRateLimiterIdentifier(identifier);
+      entry.setRateLimiter(newRateLimiter);
+    }
   }
 }

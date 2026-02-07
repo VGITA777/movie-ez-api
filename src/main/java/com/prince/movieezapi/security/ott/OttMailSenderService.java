@@ -50,16 +50,15 @@ public class OttMailSenderService {
         var message = new StringBuilder();
         var loginUrl = baseUrl + OTT_VERIFY_PATH + "?token=" + mailModel.tokenValue();
 
-        message
-            .append("Hello ")
-            .append(mailModel.recipient())
-            .append(",\n\n")
-            .append("Use the link below to login to your account:\n")
-            .append(loginUrl)
-            .append("\n\n")
-            .append("The link will expire in ")
-            .append(tokenExpirationMinutes)
-            .append(" minutes. If you did not request this, please ignore this email.");
+        message.append("Hello ")
+               .append(mailModel.recipient())
+               .append(",\n\n")
+               .append("Use the link below to login to your account:\n")
+               .append(loginUrl)
+               .append("\n\n")
+               .append("The link will expire in ")
+               .append(tokenExpirationMinutes)
+               .append(" minutes. If you did not request this, please ignore this email.");
 
         mimeMessage.setFrom(fromEmail);
         mimeMessage.setSubject("Login to your account");

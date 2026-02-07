@@ -23,11 +23,10 @@ public class UserSessionService {
   }
 
   public void deleteSessionById(String sessionId, UUID userId) {
-    boolean present = sessionRepository
-        .findByPrincipalName(userId.toString())
-        .entrySet()
-        .stream()
-        .anyMatch(e -> e.getKey().equals(sessionId));
+    boolean present = sessionRepository.findByPrincipalName(userId.toString())
+                                       .entrySet()
+                                       .stream()
+                                       .anyMatch(e -> e.getKey().equals(sessionId));
     if (!present) {
       throw new IllegalArgumentException("Session not found");
     }
