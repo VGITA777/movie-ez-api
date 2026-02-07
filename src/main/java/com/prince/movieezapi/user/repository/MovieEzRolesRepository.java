@@ -1,7 +1,6 @@
 package com.prince.movieezapi.user.repository;
 
 import com.prince.movieezapi.user.models.MovieEzAppRole;
-import com.prince.movieezapi.user.models.MovieEzUserRoleModel;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -9,8 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-    config = SpringDtoMapperConfigs.class,
-    uses = { MovieEzUserRoleDtoMapper.class, MovieEzUserPlaylistSummaryDtoMapper.class }
+    config = SpringDtoMapperConfigs.class, uses = { MovieEzUserPlaylistSummaryDtoMapper.class }
 )
 public interface MovieEzUserDtoMapper {
 
