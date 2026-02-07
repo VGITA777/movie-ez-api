@@ -72,10 +72,10 @@ public class RateLimiterFilterImpl extends RateLimiterFilter {
     if (authentication == null) {
       return MovieEzAppRole.GUEST;
     }
-    return authentication
-        .getAuthorities()
+    var authorities = authentication.getAuthorities();
+    return authorities
         .stream()
-        .map(grantedAuthority -> MovieEzAppRole.valueOf(grantedAuthority.getAuthority()))
+        .map(grantedAuthority -> MovieEzAppRole.fromRole(grantedAuthority.getAuthority()))
         .max(Comparator.comparingInt(MovieEzAppRole::getPriority))
         .orElse(MovieEzAppRole.GUEST);
   }

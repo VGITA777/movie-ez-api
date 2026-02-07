@@ -1,6 +1,7 @@
 package com.prince.movieezapi.user.models;
 
 import lombok.Getter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An enum of available roles.
@@ -13,5 +14,17 @@ public enum MovieEzAppRole {
 
   MovieEzAppRole(int priority) {
     this.priority = priority;
+  }
+
+  public static MovieEzAppRole fromRole(@Nullable String role) {
+    if (role == null) {
+      return GUEST;
+    }
+
+    return switch (role) {
+      case "ROLE_ADMIN" -> ADMIN;
+      case "ROLE_USER" -> USER;
+      default -> GUEST;
+    };
   }
 }
