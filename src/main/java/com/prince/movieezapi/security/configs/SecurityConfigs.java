@@ -1,6 +1,5 @@
 package com.prince.movieezapi.security.configs;
 
-import com.prince.movieezapi.security.authenticationtokens.MovieEzFullyAuthenticatedUser;
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
 import com.prince.movieezapi.security.filters.UserInformationSyncFilter;
 import com.prince.movieezapi.security.ratelimit.RateLimiterFilter;
@@ -13,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,22 +19,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authorization.AuthorizationDecision;
-import org.springframework.security.authorization.AuthorizationManager;
-import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import tools.jackson.databind.ObjectMapper;
 
@@ -168,20 +161,6 @@ public class SecurityConfigs {
           .stream()
           .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
           .collect(Collectors.toList());
-    }
-  }
-
-  private static class UserFullyAuthenticatedAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
-
-    @Override
-    public @Nullable AuthorizationResult authorize(
-        Supplier<? extends @Nullable Authentication> authentication,
-        RequestAuthorizationContext object
-    ) {
-      if (authentication.get() instanceof MovieEzFullyAuthenticatedUser) {
-        return new AuthorizationDecision(true);
-      }
-      return new AuthorizationDecision(false);
     }
   }
 }
