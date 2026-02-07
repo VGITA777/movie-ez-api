@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 public class MovieEzGuestAuthenticationToken extends AbstractAuthenticationToken {
 
   public MovieEzGuestAuthenticationToken() {
-    super(List.of(new SimpleGrantedAuthority("ROLE_" + RateLimiterUserRoles.GUEST.name())));
+    super(List.of(new SimpleGrantedAuthority(RateLimiterUserRoles.GUEST.name())));
   }
 
   @Override
