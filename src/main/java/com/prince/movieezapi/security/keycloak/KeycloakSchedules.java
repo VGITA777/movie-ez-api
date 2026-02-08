@@ -31,7 +31,12 @@ public class KeycloakSchedules {
   public void syncKeycloakUsers() {
     log.info("Syncing Keycloak users");
     var userRepresentationStream = keycloakMovieEzUserClient.batchedUsers(100);
-    handleSavingUsers(userRepresentationStream);
+    try {
+      handleSavingUsers(userRepresentationStream);
+    } catch (Exception e) {
+      log.error("Error occurred while syncing Keycloak users", e);
+      return;
+    }
     log.info("Finished syncing Keycloak users");
   }
 
