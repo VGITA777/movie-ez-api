@@ -50,9 +50,11 @@ public class KeycloakUserSyncFilter extends OncePerRequestFilter {
     var user = optionalUser.get();
     var emailClaim = jwt.getClaimAsString("email");
     var usernameClaim = jwt.getClaimAsString("preferred_username");
+    var enabledClaim = jwt.getClaimAsBoolean("enabled");
 
     user.setEmail(emailClaim);
     user.setUsername(usernameClaim);
+    user.setEnabled(enabledClaim);
     movieEzUserRepository.save(user);
 
     log.info("User with ID '{}' successfully synced with database", userId);

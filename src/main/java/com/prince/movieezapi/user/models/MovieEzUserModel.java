@@ -41,6 +41,9 @@ public class MovieEzUserModel {
   @EqualsAndHashCode.Include
   private String email;
 
+  @Column(nullable = false)
+  private boolean enabled;
+
   @ToString.Exclude
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @Builder.Default

@@ -74,6 +74,7 @@ public class KeycloakSchedules {
         .id(UUID.fromString(userRepresentation.getId()))
         .username(userRepresentation.getUsername())
         .email(userRepresentation.getEmail())
+        .enabled(userRepresentation.isEnabled())
         .build();
   }
 }
