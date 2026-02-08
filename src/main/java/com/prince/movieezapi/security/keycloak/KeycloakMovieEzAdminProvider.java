@@ -18,9 +18,9 @@ public class KeycloakMovieEzAdminProvider {
         .builder()
         .clientId("movie-ez-api")
         .grantType("client_credentials")
-        .clientSecret(properties.secret())
-        .serverUrl(properties.serverUrl())
-        .realm(properties.realm())
+        .clientSecret(properties.getSecret())
+        .serverUrl(properties.getServerUrl())
+        .realm(properties.getRealm())
         .build();
   }
 
