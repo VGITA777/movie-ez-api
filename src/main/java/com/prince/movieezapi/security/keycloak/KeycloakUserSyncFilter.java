@@ -1,4 +1,4 @@
-package com.prince.movieezapi.security.filters;
+package com.prince.movieezapi.security.keycloak;
 
 import com.prince.movieezapi.user.models.MovieEzUserModel;
 import com.prince.movieezapi.user.repository.MovieEzUserRepository;
@@ -15,11 +15,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
-public class UserInformationSyncFilter extends OncePerRequestFilter {
+public class KeycloakUserSyncFilter extends OncePerRequestFilter {
 
   private final MovieEzUserRepository movieEzUserRepository;
 
-  public UserInformationSyncFilter(MovieEzUserRepository movieEzUserRepository) {
+  public KeycloakUserSyncFilter(MovieEzUserRepository movieEzUserRepository) {
     this.movieEzUserRepository = movieEzUserRepository;
   }
 

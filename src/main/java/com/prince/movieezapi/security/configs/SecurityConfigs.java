@@ -1,7 +1,7 @@
 package com.prince.movieezapi.security.configs;
 
 import com.prince.movieezapi.security.filters.CustomSecurityHeaderFilter;
-import com.prince.movieezapi.security.filters.UserInformationSyncFilter;
+import com.prince.movieezapi.security.keycloak.KeycloakUserSyncFilter;
 import com.prince.movieezapi.security.ratelimit.RateLimiterFilter;
 import com.prince.movieezapi.security.ratelimit.RateLimiterFilterImpl;
 import com.prince.movieezapi.security.ratelimit.RateLimiterService;
@@ -66,7 +66,7 @@ public class SecurityConfigs {
               .anyRequest()
               .authenticated();
         })
-        .addFilterAfter(new UserInformationSyncFilter(movieEzUserRepository), AuthorizationFilter.class)
+        .addFilterAfter(new KeycloakUserSyncFilter(movieEzUserRepository), AuthorizationFilter.class)
         .build();
   }
 
