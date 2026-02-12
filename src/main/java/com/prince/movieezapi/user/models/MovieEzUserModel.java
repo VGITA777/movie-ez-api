@@ -42,6 +42,7 @@ public class MovieEzUserModel {
   private String email;
 
   @Column(nullable = false)
+  @EqualsAndHashCode.Include
   private boolean enabled;
 
   @ToString.Exclude
