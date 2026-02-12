@@ -20,7 +20,7 @@ public class KeycloakSchedules {
 
   private final MovieEzUserRepository userRepository;
   private final KeycloakMovieEzUserClient keycloakMovieEzUserClient;
-  private static final int USER_FETCH_BATCH_SIZE = 1000;
+  private static final int USER_FETCH_BATCH_SIZE = 100;
 
   public KeycloakSchedules(MovieEzUserRepository userRepository, KeycloakMovieEzUserClient keycloakMovieEzUserClient) {
     this.userRepository = userRepository;
