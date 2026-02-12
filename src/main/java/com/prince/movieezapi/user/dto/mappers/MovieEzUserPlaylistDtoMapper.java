@@ -1,6 +1,6 @@
 package com.prince.movieezapi.user.dto.mappers;
 
-import com.prince.movieezapi.user.configurations.SpringDtoMapperConfigs;
+import com.prince.movieezapi.user.configs.SpringDtoMapperConfigs;
 import com.prince.movieezapi.user.dto.MovieEzUserPlaylistDto;
 import com.prince.movieezapi.user.models.MovieEzUserPlaylistModel;
 import org.mapstruct.BeanMapping;

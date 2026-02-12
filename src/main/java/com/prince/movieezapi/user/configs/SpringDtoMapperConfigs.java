@@ -1,4 +1,4 @@
-package com.prince.movieezapi.user.configurations;
+package com.prince.movieezapi.user.configs;
 
 import org.mapstruct.MapperConfig;
 
