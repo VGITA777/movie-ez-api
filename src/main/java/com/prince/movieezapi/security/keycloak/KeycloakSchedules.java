@@ -20,6 +20,7 @@ public class KeycloakSchedules {
 
   private final MovieEzUserRepository userRepository;
   private final KeycloakMovieEzUserClient keycloakMovieEzUserClient;
+  private static final int USER_FETCH_BATCH_SIZE = 1000;
 
   public KeycloakSchedules(MovieEzUserRepository userRepository, KeycloakMovieEzUserClient keycloakMovieEzUserClient) {
     this.userRepository = userRepository;
@@ -30,7 +31,7 @@ public class KeycloakSchedules {
   @Scheduled(cron = "0 */5 * * * *")
   public void syncKeycloakUsers() {
     log.info("Syncing Keycloak users");
-    var userRepresentationStream = keycloakMovieEzUserClient.batchedUsers(100);
+    var userRepresentationStream = keycloakMovieEzUserClient.batchedUsers(USER_FETCH_BATCH_SIZE);
     try {
       handleSavingUsers(userRepresentationStream);
     } catch (Exception e) {
