@@ -25,6 +25,7 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: password
+      KC_FEATURES: docker
     volumes:
       - ./keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
     depends_on:
