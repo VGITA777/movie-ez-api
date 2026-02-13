@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:18-alpine
     ports:
-      - "5000:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: app
       POSTGRES_USER: user
@@ -11,7 +11,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/18/docker
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U keycloak" ]
+      test: [ "CMD-SHELL", "pg_isready -U user -d app -h localhost -p 5432 || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
