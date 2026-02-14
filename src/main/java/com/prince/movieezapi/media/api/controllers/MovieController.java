@@ -104,7 +104,7 @@ public class MovieController {
       Language language,
       @RequestParam(defaultValue = "1", required = false)
       @Valid
-      @Min(1)
+      @Min(value = 1, message = "{constraint.Page.message}")
       int page
   ) {
     return ResponseEntityUtils
@@ -120,7 +120,7 @@ public class MovieController {
       Language language,
       @RequestParam(defaultValue = "1", required = false)
       @Valid
-      @Min(1)
+      @Min(value = 1, message = "{constraint.Page.message}")
       int page
   ) {
     return ResponseEntityUtils
