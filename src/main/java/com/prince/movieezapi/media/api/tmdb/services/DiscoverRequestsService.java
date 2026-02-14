@@ -24,7 +24,9 @@ public class DiscoverRequestsService {
   public Page<DiscoverMovieModel> discoverMovies(DiscoverMoviesInput input) {
     return discoverRequests.discoverMovies(
         input.isIncludeAdult(),
-        input.getLanguage(),
+        input
+            .getLanguage()
+            .getIsoCode(),
         input.getPrimaryReleaseYear(),
         input.getPage(),
         input.getRegion(),
@@ -36,7 +38,9 @@ public class DiscoverRequestsService {
   public Page<DiscoverTvModel> discoverTv(DiscoverTvInput input) {
     return discoverRequests.discoverTvSeries(
         input.isIncludeAdult(),
-        input.getLanguage(),
+        input
+            .getLanguage()
+            .getIsoCode(),
         input.getFirstAirDateYear(),
         input.getPage()
     );
