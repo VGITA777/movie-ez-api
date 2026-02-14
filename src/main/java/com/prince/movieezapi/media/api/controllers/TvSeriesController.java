@@ -11,6 +11,7 @@ import com.prince.movieezapi.media.api.models.tvseries.TvSeriesRecommendationsMo
 import com.prince.movieezapi.media.api.models.tvseries.TvSeriesSimilarModel;
 import com.prince.movieezapi.media.api.tmdb.services.TvSeriesRequestsService;
 import com.prince.movieezapi.media.api.utils.ResponseEntityUtils;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,6 +90,7 @@ public class TvSeriesController {
       @RequestParam(value = "language", defaultValue = "en", required = false)
       Language language,
       @RequestParam(defaultValue = "1", required = false)
+      @Min(value = 1, message = "{constraint.Page.message}")
       int page
   ) {
     return ResponseEntityUtils
@@ -103,6 +105,7 @@ public class TvSeriesController {
       @RequestParam(value = "language", defaultValue = "en", required = false)
       Language language,
       @RequestParam(defaultValue = "1", required = false)
+      @Min(value = 1, message = "{constraint.Page.message}")
       int page
   ) {
     return ResponseEntityUtils
