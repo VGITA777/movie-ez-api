@@ -210,7 +210,7 @@ public enum Language {
     try {
       return Language.valueOf(value.toUpperCase());
     } catch (Exception e) {
-      return Language.NO_LANGUAGE;
+      throw new IllegalArgumentException("Invalid language: " + value);
     }
   }
 
