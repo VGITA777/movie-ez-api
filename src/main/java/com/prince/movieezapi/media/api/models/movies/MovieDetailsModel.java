@@ -34,6 +34,7 @@ public class MovieDetailsModel extends MediaDetailsModel {
   private int runtime;
   private String title;
   private boolean video;
+  @Builder.Default
   @JsonDeserialize(using = StringToMediaTypeDeserializer.class)
   @JsonSerialize(using = MediaTypeToStringSerializer.class)
   private MediaType media_type = MediaType.MOVIE;
