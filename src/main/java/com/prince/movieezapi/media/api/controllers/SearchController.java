@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/media/v1/search")
+@RequestMapping("/media/search")
 public class SearchController {
 
   private final SearchRequestsService searchRequestsService;

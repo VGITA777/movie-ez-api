@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/media/v1/tv-series")
+@RequestMapping("/media/tv-series")
 public class TvSeriesController {
 
   private final TvSeriesRequestsService tvSeriesRequestsService;
