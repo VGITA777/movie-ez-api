@@ -2,6 +2,14 @@ package com.prince.movieezapi.media.api.controllers;
 
 import com.prince.movieezapi.media.api.models.enums.Country;
 import com.prince.movieezapi.media.api.models.enums.Language;
+import com.prince.movieezapi.media.api.models.movies.MovieAlternativeTitlesModel;
+import com.prince.movieezapi.media.api.models.movies.MovieDetailsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieKeywordsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieRecommendationsModel;
+import com.prince.movieezapi.media.api.models.movies.MovieSimilarModel;
+import com.prince.movieezapi.media.api.models.shared.CreditsModel;
+import com.prince.movieezapi.media.api.models.shared.ImagesModel;
+import com.prince.movieezapi.media.api.models.shared.VideosModel;
 import com.prince.movieezapi.media.api.tmdb.services.MovieRequestsService;
 import com.prince.movieezapi.media.api.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,61 +32,61 @@ public class MovieController {
   }
 
   @GetMapping("/{movieId}/alternative-titles")
-  public ResponseEntity<?> getMovieAlternativeTitles(
+  public ResponseEntity<MovieAlternativeTitlesModel> getMovieAlternativeTitles(
       @PathVariable
       long movieId,
       @RequestParam(required = false)
       Country country
   ) {
-    return ResponseEntityUtils.okPrivateOneWeek()
-                              .body(movieRequestsService.getMovieAlternativeTitles(
-                                  movieId,
-                                  (country == null) ? "" : country.getIsoCode()
-                              ));
+    return ResponseEntityUtils
+        .okPrivateOneWeek()
+        .body(movieRequestsService.getMovieAlternativeTitles(movieId, (country == null) ? "" : country.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/credits")
-  public ResponseEntity<?> getMovieCredits(
+  public ResponseEntity<CreditsModel> getMovieCredits(
       @PathVariable
       long movieId,
       @RequestParam(defaultValue = "en", required = false)
       Language language
   ) {
-    return ResponseEntityUtils.okPrivateOneWeek()
-                              .body(movieRequestsService.getMovieCredits(movieId, language.getIsoCode()));
+    return ResponseEntityUtils
+        .okPrivateOneWeek()
+        .body(movieRequestsService.getMovieCredits(movieId, language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/details")
-  public ResponseEntity<?> getMovieDetails(
+  public ResponseEntity<MovieDetailsModel> getMovieDetails(
       @PathVariable
       long movieId,
       @RequestParam(defaultValue = "en", required = false)
       Language language
   ) {
-    return ResponseEntityUtils.okPrivateOneWeek()
-                              .body(movieRequestsService.getMovieDetails(movieId, language.getIsoCode()));
+    return ResponseEntityUtils
+        .okPrivateOneWeek()
+        .body(movieRequestsService.getMovieDetails(movieId, language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/images")
-  public ResponseEntity<?> getMovieImages(
+  public ResponseEntity<ImagesModel> getMovieImages(
       @PathVariable
       long movieId,
       @RequestParam(required = false)
       Language language
   ) {
-    return ResponseEntityUtils.okPrivateOneWeek()
-                              .body(movieRequestsService.getMovieImages(
-                                  movieId,
-                                  (language == null) ? "" : language.getIsoCode()
-                              ));
+    return ResponseEntityUtils
+        .okPrivateOneWeek()
+        .body(movieRequestsService.getMovieImages(movieId, (language == null) ? "" : language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/keywords")
-  public ResponseEntity<?> getMovieKeywords(
+  public ResponseEntity<MovieKeywordsModel> getMovieKeywords(
       @PathVariable
       long movieId
   ) {
-    return ResponseEntityUtils.okPrivateOneWeek().body(movieRequestsService.getMovieKeywords(movieId));
+    return ResponseEntityUtils
+        .okPrivateOneWeek()
+        .body(movieRequestsService.getMovieKeywords(movieId));
   }
 
   @GetMapping("/latest")
@@ -87,7 +95,7 @@ public class MovieController {
   }
 
   @GetMapping("/{movieId}/recommendations")
-  public ResponseEntity<?> getMovieRecommendations(
+  public ResponseEntity<MovieRecommendationsModel> getMovieRecommendations(
       @PathVariable
       long movieId,
       @RequestParam(defaultValue = "en", required = false)
@@ -95,12 +103,13 @@ public class MovieController {
       @RequestParam(defaultValue = "1", required = false)
       int page
   ) {
-    return ResponseEntityUtils.okPrivateOneDay()
-                              .body(movieRequestsService.getMovieRecommendations(movieId, language.getIsoCode(), page));
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(movieRequestsService.getMovieRecommendations(movieId, language.getIsoCode(), page));
   }
 
   @GetMapping("/{movieId}/similar")
-  public ResponseEntity<?> getMovieSimilar(
+  public ResponseEntity<MovieSimilarModel> getMovieSimilar(
       @PathVariable
       long movieId,
       @RequestParam(defaultValue = "en", required = false)
@@ -108,21 +117,20 @@ public class MovieController {
       @RequestParam(defaultValue = "1", required = false)
       int page
   ) {
-    return ResponseEntityUtils.okPrivateOneDay()
-                              .body(movieRequestsService.getMovieSimilar(movieId, language.getIsoCode(), page));
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(movieRequestsService.getMovieSimilar(movieId, language.getIsoCode(), page));
   }
 
   @GetMapping("/{movieId}/videos")
-  public ResponseEntity<?> getMovieVideos(
+  public ResponseEntity<VideosModel> getMovieVideos(
       @PathVariable
       long movieId,
       @RequestParam(required = false)
       Language language
   ) {
-    return ResponseEntityUtils.okPrivateOneDay()
-                              .body(movieRequestsService.getMovieVideos(
-                                  movieId,
-                                  (language == null) ? "" : language.getIsoCode()
-                              ));
+    return ResponseEntityUtils
+        .okPrivateOneDay()
+        .body(movieRequestsService.getMovieVideos(movieId, (language == null) ? "" : language.getIsoCode()));
   }
 }

@@ -3,6 +3,9 @@ package com.prince.movieezapi.media.api.controllers;
 import com.prince.movieezapi.media.api.models.inputs.SearchMovieInput;
 import com.prince.movieezapi.media.api.models.inputs.SearchMultiInput;
 import com.prince.movieezapi.media.api.models.inputs.SearchTvInput;
+import com.prince.movieezapi.media.api.models.search.SearchMovieResultsModel;
+import com.prince.movieezapi.media.api.models.search.SearchMultiResultsModel;
+import com.prince.movieezapi.media.api.models.search.SearchTvSeriesResultsModel;
 import com.prince.movieezapi.media.api.tmdb.services.SearchRequestsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,7 @@ public class SearchController {
   }
 
   @GetMapping("/movie")
-  public ResponseEntity<?> searchMovie(
+  public ResponseEntity<SearchMovieResultsModel> searchMovie(
       @ModelAttribute
       SearchMovieInput input
   ) {
@@ -31,7 +34,7 @@ public class SearchController {
   }
 
   @GetMapping("/tv")
-  public ResponseEntity<?> searchTvSeries(
+  public ResponseEntity<SearchTvSeriesResultsModel> searchTvSeries(
       @ModelAttribute
       SearchTvInput input
   ) {
@@ -39,7 +42,7 @@ public class SearchController {
   }
 
   @GetMapping("/multi")
-  public ResponseEntity<?> searchMulti(
+  public ResponseEntity<SearchMultiResultsModel> searchMulti(
       @ModelAttribute
       SearchMultiInput input
   ) {

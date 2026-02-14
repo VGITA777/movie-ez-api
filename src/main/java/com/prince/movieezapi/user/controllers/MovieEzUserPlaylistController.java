@@ -43,7 +43,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<?> getAllPlaylists(
+  public ResponseEntity<ServerGenericResponse> getAllPlaylists(
       JwtAuthenticationToken token
   ) {
     var uuid = UUID.fromString(token.getName());
@@ -58,7 +58,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @GetMapping("/{playlistName}")
-  public ResponseEntity<?> getPlaylistByName(
+  public ResponseEntity<ServerGenericResponse> getPlaylistByName(
       @PathVariable
       String playlistName, JwtAuthenticationToken token
   ) {
@@ -73,7 +73,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @PostMapping("/{playlistName}")
-  public ResponseEntity<?> createPlaylist(
+  public ResponseEntity<ServerGenericResponse> createPlaylist(
       @Alphanumeric
       @PathVariable
       @Valid
@@ -86,7 +86,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @PatchMapping("/{playlistName}/add")
-  public ResponseEntity<?> addAllToPlaylistByName(
+  public ResponseEntity<ServerGenericResponse> addAllToPlaylistByName(
       @Alphanumeric
       @Valid
       @PathVariable
@@ -107,7 +107,7 @@ public class MovieEzUserPlaylistController {
 
 
   @PatchMapping("/{playlistName}/add/{trackId}")
-  public ResponseEntity<?> addToPlaylistByName(
+  public ResponseEntity<ServerGenericResponse> addToPlaylistByName(
       @Alphanumeric
       @Valid
       @PathVariable
@@ -128,7 +128,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @DeleteMapping("/{playlistName}/remove")
-  public ResponseEntity<?> removeAllToPlaylistByName(
+  public ResponseEntity<ServerGenericResponse> removeAllToPlaylistByName(
       @Alphanumeric
       @Valid
       @PathVariable
@@ -148,7 +148,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @DeleteMapping("/{playlistName}/remove/{trackId}")
-  public ResponseEntity<?> removeFromPlaylistByName(
+  public ResponseEntity<ServerGenericResponse> removeFromPlaylistByName(
       @Alphanumeric
       @Valid
       @PathVariable
@@ -169,7 +169,7 @@ public class MovieEzUserPlaylistController {
   }
 
   @DeleteMapping("/{playlistName}")
-  public ResponseEntity<?> deletePlaylist(
+  public ResponseEntity<ServerGenericResponse> deletePlaylist(
       @PathVariable
       String playlistName, JwtAuthenticationToken token
   ) {
