@@ -19,7 +19,7 @@ public class DiscoverTvInput {
   @Builder.Default
   private Language language = Language.ENGLISH;
 
-  @Min(1)
+  @Min(value = 1, message = "{constraint.Page.message}")
   @Builder.Default
   private int page = 1;
 
