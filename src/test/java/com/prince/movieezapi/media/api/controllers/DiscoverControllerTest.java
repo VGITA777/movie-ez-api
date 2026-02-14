@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class DiscoverControllerTest {
@@ -27,25 +28,27 @@ class DiscoverControllerTest {
 
   @Test
   void testDiscoverMoviesReturnsPageOfDiscoverMovies() {
-    Page<DiscoverMovieModel> pageObj = new Page<>();
+    var pageObj = new Page<DiscoverMovieModel>();
+    var expected = ResponseEntity.ok(pageObj);
 
     when(discoverRequestsService.discoverMovies(Mockito.any())).thenReturn(pageObj);
-    Page<DiscoverMovieModel> discoverMovieModelPage = discoverController.discoverMovies(Mockito.any());
+    var discoverMovieModelPage = discoverController.discoverMovies(Mockito.any());
 
     verify(discoverRequestsService).discoverMovies(Mockito.any());
     assertNotNull(discoverMovieModelPage);
-    assertEquals(pageObj, discoverMovieModelPage);
+    assertEquals(expected, discoverMovieModelPage);
   }
 
   @Test
   void testDiscoverTvReturnsPageOfDiscoverTv() {
-    Page<DiscoverTvModel> pageObj = new Page<>();
+    var pageObj = new Page<DiscoverTvModel>();
+    ResponseEntity<Page<DiscoverTvModel>> expected = ResponseEntity.ok(pageObj);
 
     when(discoverRequestsService.discoverTv(Mockito.any())).thenReturn(pageObj);
-    Page<DiscoverTvModel> discoverTvModelPage = discoverController.discoverTv(Mockito.any());
+    ResponseEntity<Page<DiscoverTvModel>> discoverTvModelPage = discoverController.discoverTv(Mockito.any());
 
     verify(discoverRequestsService).discoverTv(Mockito.any());
     assertNotNull(discoverTvModelPage);
-    assertEquals(pageObj, discoverTvModelPage);
+    assertEquals(expected, discoverTvModelPage);
   }
 }

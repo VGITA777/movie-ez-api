@@ -6,6 +6,7 @@ import com.prince.movieezapi.media.api.models.inputs.DiscoverMoviesInput;
 import com.prince.movieezapi.media.api.models.inputs.DiscoverTvInput;
 import com.prince.movieezapi.media.api.models.shared.Page;
 import com.prince.movieezapi.media.api.tmdb.services.DiscoverRequestsService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,18 +25,18 @@ public class DiscoverController {
   }
 
   @GetMapping("/movies")
-  public Page<DiscoverMovieModel> discoverMovies(
+  public ResponseEntity<Page<DiscoverMovieModel>> discoverMovies(
       @ModelAttribute
       DiscoverMoviesInput input
   ) {
-    return discoverRequestsService.discoverMovies(input);
+    return ResponseEntity.ok(discoverRequestsService.discoverMovies(input));
   }
 
   @GetMapping("/tv")
-  public Page<DiscoverTvModel> discoverTv(
+  public ResponseEntity<Page<DiscoverTvModel>> discoverTv(
       @ModelAttribute
       DiscoverTvInput input
   ) {
-    return discoverRequestsService.discoverTv(input);
+    return ResponseEntity.ok(discoverRequestsService.discoverTv(input));
   }
 }
