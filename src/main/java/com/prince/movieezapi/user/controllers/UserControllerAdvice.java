@@ -9,6 +9,7 @@ import com.prince.movieezapi.user.exceptions.NotFoundException;
 import com.prince.movieezapi.user.exceptions.ResourceAlreadyExistsException;
 import com.prince.movieezapi.user.exceptions.UserNotFoundException;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
 import javax.security.auth.login.CredentialException;
@@ -42,34 +43,6 @@ public class UserControllerAdvice {
     String base = msg("auth.userNotFound.message", "No matching user account found.");
     String message = appendDetail(base, e.getMessage());
     return createErrorResponse(title, message, HttpStatus.NOT_FOUND);
-  }
-
-  private String msg(String key, String defaultMessage) {
-    return msg(key, defaultMessage, new Object[]{});
-  }
-
-  private String appendDetail(String base, String detail) {
-    if (detail == null || detail.isBlank()) {
-      return base;
-    }
-    String trimmed = detail.trim();
-    // avoid duplicating detail if already included
-    if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) {
-      return base;
-    }
-    return base + " (" + trimmed + ")";
-  }
-
-  private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
-    var error = new ErrorModel(message);
-    var response = new ServerErrorResponse(title, error);
-    return ResponseEntity
-        .status(status)
-        .body(response);
-  }
-
-  private String msg(String key, String defaultMessage, Object... args) {
-    return messageSource.getMessage(key, args, defaultMessage, LocaleContextHolder.getLocale());
   }
 
   @ExceptionHandler(BadCredentialsException.class)
@@ -231,11 +204,45 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e) {
+    String title = msg("validation.invalid.title", "Invalid Input");
+    return createErrorResponse(title, e.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> handleException(Exception e) {
     String title = msg("error.internal.unknown.title", "Internal Server Error");
     String base = msg("error.internal.unknown.message", "An unexpected error occurred.");
     String message = appendDetail(base, e.getMessage());
     return createErrorResponse(title, message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  private String msg(String key, String defaultMessage) {
+    return msg(key, defaultMessage, new Object[]{});
+  }
+
+  private String appendDetail(String base, String detail) {
+    if (detail == null || detail.isBlank()) {
+      return base;
+    }
+    String trimmed = detail.trim();
+    // avoid duplicating detail if already included
+    if (base.endsWith(trimmed) || base.contains("(" + trimmed + ")")) {
+      return base;
+    }
+    return base + " (" + trimmed + ")";
+  }
+
+  private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
+    var error = new ErrorModel(message);
+    var response = new ServerErrorResponse(title, error);
+    return ResponseEntity
+        .status(status)
+        .body(response);
+  }
+
+  private String msg(String key, String defaultMessage, Object... args) {
+    return messageSource.getMessage(key, args, defaultMessage, LocaleContextHolder.getLocale());
   }
 }
