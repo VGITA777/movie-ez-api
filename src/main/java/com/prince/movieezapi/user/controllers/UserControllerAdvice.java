@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -204,7 +205,7 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
+  @ExceptionHandler({ ConstraintViolationException.class, HandlerMethodValidationException.class })
   public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e) {
     String title = msg("validation.invalid.title", "Invalid Input");
     return createErrorResponse(title, e.getMessage(), HttpStatus.BAD_REQUEST);
