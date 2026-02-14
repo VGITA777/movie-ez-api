@@ -189,11 +189,9 @@ public enum Language {
   MANDARIN("zh"),
   NO_LANGUAGE("xx");
 
-  public static final Map<String, Language> ISO_TO_LANGUAGE_MAP = Arrays.stream(Language.values())
-                                                                        .collect(Collectors.toMap(
-                                                                            Language::getIsoCode,
-                                                                            language -> language
-                                                                        ));
+  public static final Map<String, Language> ISO_TO_LANGUAGE_MAP = Arrays
+      .stream(Language.values())
+      .collect(Collectors.toMap(Language::getIsoCode, language -> language));
 
   private final String isoCode;
 
@@ -213,7 +211,7 @@ public enum Language {
     try {
       return Language.valueOf(value.toUpperCase());
     } catch (Exception e) {
-      return Language.NO_LANGUAGE;
+      throw new IllegalArgumentException("Invalid language value: " + value);
     }
   }
 
