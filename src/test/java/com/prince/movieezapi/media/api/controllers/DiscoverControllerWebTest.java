@@ -6,7 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.media.api.models.discover.DiscoverMovieModel;
+import com.prince.movieezapi.media.api.models.discover.DiscoverTvModel;
 import com.prince.movieezapi.media.api.models.shared.Page;
 import com.prince.movieezapi.media.api.tmdb.services.DiscoverRequestsService;
 import com.prince.movieezapi.security.configs.SecurityConfigs;
@@ -32,6 +34,8 @@ class DiscoverControllerWebTest {
   @Autowired
   private MockMvc mockMvc;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   @MockitoBean
   private DiscoverRequestsService discoverRequestsService;
 
@@ -43,7 +47,6 @@ class DiscoverControllerWebTest {
 
   @MockitoBean
   private BasicUtils basicUtils;
-
 
   @BeforeEach
   void setUp() {
@@ -63,7 +66,8 @@ class DiscoverControllerWebTest {
     mockMvc
         .perform(get("/media/discover/movies"))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expect)));
   }
 
   @Test
@@ -71,6 +75,14 @@ class DiscoverControllerWebTest {
     var year = "abc";
     mockMvc
         .perform(get("/media/discover/movies?includeAdult=%s".formatted(year)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverMovies_BadLanguage_ExpectBadRequest() throws Exception {
+    var language = "abc";
+    mockMvc
+        .perform(get("/media/discover/movies?language=%s".formatted(language)))
         .andExpect(status().isBadRequest());
   }
 
@@ -99,10 +111,72 @@ class DiscoverControllerWebTest {
   }
 
   @Test
-  void testDiscoverMovies_BadYearString_ExpectBadRequest() throws Exception {
+  void testDiscoverMovies_BadPrimaryReleaseYear_ExpectBadRequest() throws Exception {
+    var year = "abc";
+    mockMvc
+        .perform(get("/media/discover/movies?primaryReleaseYear=%s".formatted(year)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverMovies_BadYear_ExpectBadRequest() throws Exception {
     var year = "abc";
     mockMvc
         .perform(get("/media/discover/movies?year=%s".formatted(year)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverTv_ExpectSuccess() throws Exception {
+    var expect = new Page<DiscoverTvModel>();
+
+    when(discoverRequestsService.discoverTv(any())).thenReturn(expect);
+
+    mockMvc
+        .perform(get("/media/discover/tv"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expect)));
+  }
+
+
+  @Test
+  void testDiscoverTv_BadIncludeAdultString_ExpectBadRequest() throws Exception {
+    var year = "abc";
+    mockMvc
+        .perform(get("/media/discover/tv?includeAdult=%s".formatted(year)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverTv_BadLanguage_ExpectBadRequest() throws Exception {
+    var language = "abc";
+    mockMvc
+        .perform(get("/media/discover/tv?language=%s".formatted(language)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverTv_BadPageString_ExpectBadRequest() throws Exception {
+    var page = "abc";
+    mockMvc
+        .perform(get("/media/discover/tv?page=%s".formatted(page)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverTv_BadPageNegativeNumber_ExpectBadRequest() throws Exception {
+    var page = -1;
+    mockMvc
+        .perform(get("/media/discover/tv?page=%s".formatted(page)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testDiscoverTv_BadFirstAirDateYear_ExpectBadRequest() throws Exception {
+    var year = "abc";
+    mockMvc
+        .perform(get("/media/discover/tv?firstAirDateYear=%s".formatted(year)))
         .andExpect(status().isBadRequest());
   }
 }
