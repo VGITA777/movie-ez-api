@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
@@ -62,7 +63,9 @@ public class UserControllerAdvice {
   private ResponseEntity<ServerErrorResponse> createErrorResponse(String title, String message, HttpStatus status) {
     var error = new ErrorModel(message);
     var response = new ServerErrorResponse(title, error);
-    return ResponseEntity.status(status).body(response);
+    return ResponseEntity
+        .status(status)
+        .body(response);
   }
 
   private String msg(String key, String defaultMessage, Object... args) {
@@ -161,14 +164,15 @@ public class UserControllerAdvice {
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
-    List<ErrorModel> errors = e.getBindingResult()
-                               .getAllErrors()
-                               .stream()
-                               .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                               .filter(message -> message != null && !message.isBlank())
-                               .distinct()
-                               .map(ErrorModel::new)
-                               .toList();
+    List<ErrorModel> errors = e
+        .getBindingResult()
+        .getAllErrors()
+        .stream()
+        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        .filter(message -> message != null && !message.isBlank())
+        .distinct()
+        .map(ErrorModel::new)
+        .toList();
     String title = msg("validation.invalid.title", "Invalid Input");
     return createErrorResponse(title, errors, HttpStatus.BAD_REQUEST);
   }
@@ -179,7 +183,9 @@ public class UserControllerAdvice {
       HttpStatus status
   ) {
     var response = new ServerErrorResponse(title, errors);
-    return ResponseEntity.status(status).body(response);
+    return ResponseEntity
+        .status(status)
+        .body(response);
   }
 
   /**
@@ -217,6 +223,14 @@ public class UserControllerAdvice {
     return createErrorResponse(title, message, HttpStatus.CONFLICT);
   }
 
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    String title = msg("error.invalidInput.title", "Invalid Input");
+    String base = msg("error.invalidInput.message", "Request contains invalid parameters.");
+    String message = appendDetail(base, e.getMessage());
+    return createErrorResponse(title, message, HttpStatus.BAD_REQUEST);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> handleException(Exception e) {
     String title = msg("error.internal.unknown.title", "Internal Server Error");
@@ -224,5 +238,4 @@ public class UserControllerAdvice {
     String message = appendDetail(base, e.getMessage());
     return createErrorResponse(title, message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
-
 }
