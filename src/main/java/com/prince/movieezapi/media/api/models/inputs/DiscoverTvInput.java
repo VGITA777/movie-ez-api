@@ -1,5 +1,6 @@
 package com.prince.movieezapi.media.api.models.inputs;
 
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class DiscoverTvInput {
   @Builder.Default
   private boolean includeAdult = true;
   private String language;
+  @Min(1)
   @Builder.Default
   private int page = 1;
 }

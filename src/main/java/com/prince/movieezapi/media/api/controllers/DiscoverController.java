@@ -6,6 +6,7 @@ import com.prince.movieezapi.media.api.models.inputs.DiscoverMoviesInput;
 import com.prince.movieezapi.media.api.models.inputs.DiscoverTvInput;
 import com.prince.movieezapi.media.api.models.shared.Page;
 import com.prince.movieezapi.media.api.tmdb.services.DiscoverRequestsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/media/discover")
+@Validated
 public class DiscoverController {
 
   private final DiscoverRequestsService discoverRequestsService;
