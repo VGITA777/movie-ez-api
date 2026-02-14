@@ -1,37 +1,37 @@
 ### Get latest movie
-GET http://localhost:8080/media/v1/movie/latest
+GET http://localhost:4000/media/movie/latest
 
 ###
 @movieId = 157336
 @language = en
 @page = 1
-GET http://localhost:8080/media/v1/movie/{{movieId}}/alternative-titles
+GET http://localhost:4000/media/movie/{{movieId}}/alternative-titles
 
 ### Get credits of a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/credits?
+GET http://localhost:4000/media/movie/{{movieId}}/credits?
     language={{language}}
 
 ### Get details of a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/details?
+GET http://localhost:4000/media/movie/{{movieId}}/details?
     language={{language}}
 
 ### Get images of a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/images?
+GET http://localhost:4000/media/movie/{{movieId}}/images?
     language={{language}}
 
 ### Get keywords of a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/keywords
+GET http://localhost:4000/media/movie/{{movieId}}/keywords
 
 ### Get recommendations based on a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/recommendations?
+GET http://localhost:4000/media/movie/{{movieId}}/recommendations?
     language={{language}}&
     page={{page}}
 
 ### Get similar movies based on a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/similar?
+GET http://localhost:4000/media/movie/{{movieId}}/similar?
     language={{language}}&
     page={{page}}
 
 ### Get videos of a movie
-GET http://localhost:8080/media/v1/movie/{{movieId}}/videos?
+GET http://localhost:4000/media/movie/{{movieId}}/videos?
     language={{language}}
