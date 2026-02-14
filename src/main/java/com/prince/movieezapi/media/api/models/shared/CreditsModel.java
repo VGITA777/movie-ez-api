@@ -1,7 +1,9 @@
 package com.prince.movieezapi.media.api.models.shared;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response model for The Movie Database (TMDB) API's credits endpoints. Contains a list of cast and crew members for a
@@ -11,6 +13,8 @@ import lombok.Data;
  * @see <a href="https://developer.themoviedb.org/reference/tv-series-credits">TV Series Credits API Reference</a>
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreditsModel {
 
   private long id;

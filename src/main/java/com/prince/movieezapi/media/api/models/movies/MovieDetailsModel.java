@@ -4,8 +4,11 @@ import com.prince.movieezapi.media.api.json.deserializers.StringToMediaTypeDeser
 import com.prince.movieezapi.media.api.json.serailizers.MediaTypeToStringSerializer;
 import com.prince.movieezapi.media.api.models.enums.MediaType;
 import com.prince.movieezapi.media.api.models.shared.MediaDetailsModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
@@ -17,6 +20,9 @@ import tools.jackson.databind.annotation.JsonSerialize;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MovieDetailsModel extends MediaDetailsModel {
 
   private BelongsToCollection belongs_to_collection;

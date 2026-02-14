@@ -1,7 +1,9 @@
 package com.prince.movieezapi.media.api.models.movies;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response model for The Movie Database (TMDB) API's alternative titles endpoint. Contains a list of alternative titles
@@ -11,6 +13,8 @@ import lombok.Data;
  * Reference</a>
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MovieAlternativeTitlesModel {
 
   private long id;

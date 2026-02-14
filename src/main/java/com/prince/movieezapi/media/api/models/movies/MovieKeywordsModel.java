@@ -1,6 +1,8 @@
 package com.prince.movieezapi.media.api.models.movies;
 
+import com.prince.movieezapi.media.api.models.shared.Keyword;
 import com.prince.movieezapi.media.api.models.shared.Keywords;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,4 +15,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MovieKeywordsModel extends Keywords {
 
+  public MovieKeywordsModel() {
+    super();
+  }
+
+  public MovieKeywordsModel(long id, List<Keyword> keywords) {
+    super(id, keywords);
+  }
 }
