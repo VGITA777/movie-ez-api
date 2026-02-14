@@ -12,8 +12,10 @@ import com.prince.movieezapi.media.api.models.shared.ImagesModel;
 import com.prince.movieezapi.media.api.models.shared.VideosModel;
 import com.prince.movieezapi.media.api.tmdb.services.MovieRequestsService;
 import com.prince.movieezapi.media.api.utils.ResponseEntityUtils;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/media/movie")
+@Validated
 public class MovieController {
 
   private final MovieRequestsService movieRequestsService;
@@ -71,12 +74,12 @@ public class MovieController {
   public ResponseEntity<ImagesModel> getMovieImages(
       @PathVariable
       long movieId,
-      @RequestParam(required = false)
+      @RequestParam(defaultValue = "en", required = false)
       Language language
   ) {
     return ResponseEntityUtils
         .okPrivateOneWeek()
-        .body(movieRequestsService.getMovieImages(movieId, (language == null) ? "" : language.getIsoCode()));
+        .body(movieRequestsService.getMovieImages(movieId, language.getIsoCode()));
   }
 
   @GetMapping("/{movieId}/keywords")
@@ -101,6 +104,7 @@ public class MovieController {
       @RequestParam(defaultValue = "en", required = false)
       Language language,
       @RequestParam(defaultValue = "1", required = false)
+      @Min(1)
       int page
   ) {
     return ResponseEntityUtils
@@ -115,6 +119,7 @@ public class MovieController {
       @RequestParam(defaultValue = "en", required = false)
       Language language,
       @RequestParam(defaultValue = "1", required = false)
+      @Min(1)
       int page
   ) {
     return ResponseEntityUtils
