@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import org.jspecify.annotations.Nullable;
 
 @Getter
 public enum Language {
@@ -200,19 +201,45 @@ public enum Language {
   }
 
   public static Language fromValue(String value) {
-    if (value == null) {
-      return Language.NO_LANGUAGE;
-    }
+    var language = convertToLanguage(value);
 
-    if (value.length() == 2) {
-      return fromIsoCode(value);
+    if (language != null) {
+      return language;
     }
 
     try {
       return Language.valueOf(value.toUpperCase());
     } catch (Exception e) {
-      throw new IllegalArgumentException("Invalid language value: " + value);
+      return Language.NO_LANGUAGE;
     }
+  }
+
+  public static Language fromValue(String value, Language defaultLanguage) {
+
+    var language = convertToLanguage(value);
+
+    if (language != null) {
+      return language;
+    }
+
+    try {
+      return Language.valueOf(value.toUpperCase());
+    } catch (Exception e) {
+      return defaultLanguage;
+    }
+  }
+
+  @Nullable
+  private static Language convertToLanguage(@Nullable String language) {
+    if (language == null) {
+      return Language.NO_LANGUAGE;
+    }
+
+    if (language.length() == 2) {
+      return fromIsoCode(language);
+    }
+
+    return null;
   }
 
   public static Language fromIsoCode(String isoCode) {
