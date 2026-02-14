@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prince.movieezapi.media.api.models.enums.Language;
 import com.prince.movieezapi.media.api.models.movies.MovieAlternativeTitlesModel;
 import com.prince.movieezapi.media.api.models.movies.MovieDetailsModel;
@@ -44,6 +45,8 @@ class MovieControllerWebTest {
   @Autowired
   private MockMvc mockMvc;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   @MockitoBean
   private MovieRequestsService movieRequestsService;
 
@@ -77,8 +80,7 @@ class MovieControllerWebTest {
         .perform(get("/media/movie/%s/alternative-titles".formatted(id)))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(1L))
-        .andExpect(jsonPath("$.titles").isArray());
+        .andExpect(content().json(objectMapper.writeValueAsString(expectedAlternativeTitlesModel)));
   }
 
   @Test
@@ -100,9 +102,7 @@ class MovieControllerWebTest {
         .perform(get("/media/movie/%s/credits".formatted(id)))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(id))
-        .andExpect(jsonPath("$.cast").isArray())
-        .andExpect(jsonPath("$.crew").isArray());
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -118,7 +118,8 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/%s/details".formatted(id)))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -140,7 +141,8 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/%s/images".formatted(id)))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -161,7 +163,8 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/%s/keywords".formatted(id)))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -181,7 +184,8 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/latest"))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -195,7 +199,9 @@ class MovieControllerWebTest {
 
     mockMvc
         .perform(get("/media/movie/%s/recommendations?page=%s".formatted(id, page)))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -237,7 +243,8 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/%s/similar?page=%s".formatted(id, page)))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 
   @Test
@@ -283,6 +290,7 @@ class MovieControllerWebTest {
     mockMvc
         .perform(get("/media/movie/%s/videos?language=%s".formatted(id, language)))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
   }
 }
