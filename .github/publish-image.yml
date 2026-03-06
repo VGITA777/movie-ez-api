@@ -1,32 +1,38 @@
 name: Build, Push and Deploy a Docker Image
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main]
-
-permissions:
-  contents: read
-  packages: write
-
-env:
-  REGISTRY: registry.digitalocean.com/horizon-free-registry
+    branches: [ main ]
 
 jobs:
-  build-push-deploy-image:
+  build-push-image:
+    environment: production
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
+        id: checkout
         uses: actions/checkout@v4
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3.3.0
+
+      - name: Install doctl
+        id: install-doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DO_USERNAME }}
-          password: ${{ secrets.DO_REGISTRY_TOKEN }}
+          token: ${{ secrets.DO_REGISTRY_TOKEN }}
+
+      - name: Login to DigitalOcean Container Registry
+        id: login-registry
+        run: doctl registry login --expiry-seconds 3600
+
       - name: Build and push Docker image
         id: push
-        uses: docker/build-push-action@v6.5.0
-        with:
-          context: .
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        env:
+          REGISTRY: ${{ vars.DO_REGISTRY }}
+          IMAGE_NAME: ${{ github.repository }}
+          SHA_TAG: ${{ github.sha }}
+        run: |
+          IMAGE="$REGISTRY/$IMAGE_NAME"
+          docker build . -t "$IMAGE:$SHA_TAG"
+          docker push $IMAGE
