@@ -30,7 +30,7 @@ jobs:
         id: push
         env:
           REGISTRY: ${{ vars.DO_REGISTRY }}
-          IMAGE_NAME: ${{ github.repository }}
+          IMAGE_NAME: ${{ github.event.repository.name }}
           SHA_TAG: ${{ github.sha }}
         run: |
           IMAGE="$REGISTRY/$IMAGE_NAME"
