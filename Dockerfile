@@ -2,9 +2,9 @@ FROM gradle:jdk25-alpine AS builder
 WORKDIR /app
 COPY gradlew gradlew.bat settings.gradle build.gradle ./
 COPY gradle gradle
-RUN chmod +x gradlew
 RUN ./gradlew dependencies
 COPY . .
+RUN chmod +x gradlew
 RUN ./gradlew bootJar -x test --no-daemon
 
 FROM eclipse-temurin:25-jre-alpine
