@@ -34,5 +34,6 @@ jobs:
           SHA_TAG: ${{ github.sha }}
         run: |
           IMAGE="$REGISTRY/$IMAGE_NAME"
-          docker build . -t "$IMAGE:$SHA_TAG"
+          docker build . -t "$IMAGE:$SHA_TAG" -t "$IMAGE:latest"
           docker push "$IMAGE:$SHA_TAG"
+          docker push "$IMAGE:latest"
