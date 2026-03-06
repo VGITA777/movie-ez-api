@@ -2,6 +2,7 @@ FROM gradle:jdk25-alpine AS builder
 WORKDIR /app
 COPY gradlew gradlew.bat settings.gradle build.gradle ./
 COPY gradle gradle
+RUN chmod +x gradlew
 RUN ./gradlew dependencies
 COPY . .
 RUN ./gradlew bootJar -x test --no-daemon
