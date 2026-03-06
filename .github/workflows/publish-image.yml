@@ -35,4 +35,4 @@ jobs:
         run: |
           IMAGE="$REGISTRY/$IMAGE_NAME"
           docker build . -t "$IMAGE:$SHA_TAG"
-          docker push $IMAGE
+          docker push "$IMAGE:$SHA_TAG"
