@@ -15,11 +15,5 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 RUN chmod +x app.jar && chown appuser:appgroup app.jar
 USER appuser
 
-ENV TMDB_API_KEY="your_api_key_here"
-ENV DB_USERNAME="root"
-ENV DB_PASSWORD="root"
-ENV DB_URL="jdbc:mysql://localhost:3306/movie-ez"
-ENV SECURITY_HEADER_VALUE="SomeSecurityHeader"
-
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
