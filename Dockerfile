@@ -15,5 +15,5 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 RUN chmod +x app.jar && chown appuser:appgroup app.jar
 USER appuser
 
-EXPOSE 8080
+EXPOSE 4000
 ENTRYPOINT ["java", "-jar", "app.jar"]
