@@ -13,10 +13,12 @@ public class KeycloakMovieEzAdminProvider {
 
   private final Keycloak keycloak;
 
-  public KeycloakMovieEzAdminProvider(KeycloakAdminConfigurationProperties properties) {
+  public KeycloakMovieEzAdminProvider(
+      KeycloakAdminConfigurationProperties properties
+  ) {
     this.keycloak = KeycloakBuilder
         .builder()
-        .clientId("movie-ez-api")
+        .clientId(properties.getClientId())
         .grantType("client_credentials")
         .clientSecret(properties.getSecret())
         .serverUrl(properties.getServerUrl())

@@ -1,0 +1,62 @@
+name: movie-ez-api-test
+
+services:
+
+  keycloak_db:
+    image: postgres:18-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/postgresql/18/docker
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.2
+    command:
+      - "start-dev"
+    ports:
+      - "8080:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: password
+      KC_FEATURES: docker
+    volumes:
+      - ./keycloak-example.conf:/opt/keycloak/conf/keycloak.conf:ro
+    depends_on:
+      - keycloak_db
+
+  movie-ez-db:
+    image: mysql:9.4.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: app
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  movie-ez-api:
+    image: movie-ez-api
+    ports:
+      - "4000:4000"
+    env_file:
+      - path: .env
+        required: true
+    depends_on:
+      movie-ez-db:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+
+volumes:
+  db-data:
+    name: movie-ez-api-db-data
+    driver: local
